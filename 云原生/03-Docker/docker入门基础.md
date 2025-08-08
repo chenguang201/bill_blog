@@ -505,8 +505,14 @@ EXPOSE可以一次性指定多个端口，例如： EXPOSE 80/tcp 80/udp
 用来给镜像定义所需要的环境变量，并且可以被Dockerfile文件中位于其后的其他指令(如ENV、ADD、COPY等)所调用，调用格式：
 
 $$
+
+$$
+
  variable_name或者 
 $$
+
+$$
+
 {variable_name}  
 语法：
 
@@ -617,8 +623,14 @@ ENV CATALINA_HOME=/usr/local/apache-tomcat-7.0.92
 ENV PATH 
 
 $$
+
+$$
+
 PATH:$JAVA_HOME/bin:
 $$
+
+$$
+
 CATALINA_HOME/bin
 
 WORKDIR $CATALINA_HOME
@@ -749,8 +761,14 @@ pip uninstall docker-compose
 curl -L "https://github.com/docker/compose/releases/download/1.23.2/docker-compose-
 
 $$
+
+$$
+
 (uname -s)-
 $$
+
+$$
+
 (uname -m)" -o /usr/local/bin/docker-compose
 
 #2.给二进制下载文件可执行的权限

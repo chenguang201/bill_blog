@@ -347,8 +347,14 @@ __consumer_offsets 主题里面采用 key 和 value 的方式存储数据。key 
 [atguigu@hadoop102 kafka]
 
 $$
+
+$$
+
  bin/kafka-console-consumer.sh --topic __consumer_offsets --bootstrap-server hadoop102:9092 --consumer.config config/consumer.properties --formatter "kafka.coordinator.group.GroupMetadataManager\
 $$
+
+$$
+
 OffsetsMessageForm atter" --from-beginning
 
 

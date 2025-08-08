@@ -230,8 +230,19 @@ Nashorn, JavaScript 引擎 − Java 8提供了一个新的Nashorn javascript引�
 ● JEP322，基于时间定义的发布版本，即上述提到的发布周期。版本号为 
 
 $$
-FEATURE.$INTERIM.$UPDATE.
+
 $$
+
+FEATURE.
+
+$$
+INTERIM.
+$$
+UPDATE.
+$$
+
+$$
+
 PATCH，分别是大版本，中间版本，升级包和补丁版本。
 ```
 

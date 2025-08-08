@@ -74,8 +74,14 @@ export NGINX_HOME=/usr/local/openresty/nginx
 export PATH=
 
 $$
+
+$$
+
 {NGINX_HOME}/sbin:
 $$
+
+$$
+
 PATH
 ```
 

@@ -797,8 +797,14 @@ Caused by: java.lang.RuntimeException: error...
 	at com.itcast.oio.DefaultPromiseTest2.lambda
 
 $$
+
+$$
+
 main
 $$
+
+$$
+
 0(DefaultPromiseTest2.java:27)
 	at io.netty.channel.DefaultEventLoop.run(DefaultEventLoop.java:54)
 	at io.netty.util.concurrent.SingleThreadEventExecutor$5.run(SingleThreadEventExecutor.java:918)
@@ -921,8 +927,14 @@ io.netty.util.concurrent.BlockingOperationException: DefaultPromise@47499c2a(inc
 	at com.itcast.oio.DefaultPromiseTest.lambda
 
 $$
+
+$$
+
 main
 $$
+
+$$
+
 0(DefaultPromiseTest.java:27)
 	at io.netty.util.concurrent.PromiseTask$RunnableAdapter.call(PromiseTask.java:38)
 	at io.netty.util.concurrent.PromiseTask.run(PromiseTask.java:73)
@@ -937,8 +949,14 @@ io.netty.util.concurrent.BlockingOperationException: DefaultPromise@47499c2a(inc
 	at com.itcast.oio.DefaultPromiseTest.lambda
 
 $$
+
+$$
+
 main
 $$
+
+$$
+
 1(DefaultPromiseTest.java:36)
 	at io.netty.util.concurrent.PromiseTask$RunnableAdapter.call(PromiseTask.java:38)
 	at io.netty.util.concurrent.PromiseTask.run(PromiseTask.java:73)

@@ -79,8 +79,14 @@ data:
   #
 
 $$
+
+$$
+
 myDict是声明变量的格式,后面会讲解.这里是将字典赋值给$myDict变量(相当于映射),下面
 $$
+
+$$
+
 myDict是调用变量输出
   #data2: 使用get函数来获取定义字典myDict的值,获取key是name1的值,结果是:value1
   #data3: 使用set函数用于向已有的字典中添加新的键值对,也可修改原来键值对的值
@@ -123,14 +129,26 @@ data:
   data1: {{ keys 
 
 $$
+
+$$
+
 myDict1 $myDict2 
 $$
+
+$$
+
 myDict3 | quote }}
   data2: {{ keys 
 
 $$
+
+$$
+
 myDict1 $myDict2 
 $$
+
+$$
+
 myDict3 | sortAlpha | uniq | quote }}
   #上面定义3个字典,下面使用keys函数获取多个字典中所有的key名,key名相同也获取,因为返回的是列表可能会报错,用quote函数加上双引号
   #data2是在上面基础上用sortAlpha函数排序,再用uniq去重
@@ -203,14 +221,26 @@ data:
   data1: {{ pluck "name1" 
 
 $$
+
+$$
+
 myDict1 
 $$
+
+$$
+
 myDict2 | quote }}
   data2: {{ pluck "name4" 
 
 $$
+
+$$
+
 myDict1 
 $$
+
+$$
+
 myDict2 | quote }}
   #上面两行是定义两个字典
   #下面两行是用pluck函数根据一个key在多个字典中时获得所有匹配的value,并返回一个value组成的列表
@@ -235,8 +265,14 @@ helm install myconfigmap1 ./mychart/ --debug --dry-run #不真正执行，只是
 <font style="color:#000000;">merge 函数的使用格式如下：</font>`<font style="color:#000000;">merge 
 
 $$
+
+$$
+
 destDict $sourceDict1 
 $$
+
+$$
+
 sourceDict2</font>`<font style="color:#000000;"></font>
 
 + `<font style="color:#000000;">$destDict</font>`<font style="color:#000000;"> 是目标字典，把后面的所有字典都合并到第一个字典中</font>
@@ -261,14 +297,26 @@ data:
   data1: {{ merge 
 
 $$
+
+$$
+
 myDict1 $myDict2 
 $$
+
+$$
+
 myDict3 }}
   data1: {{ mustMerge 
 
 $$
+
+$$
+
 myDict1 $myDict2 
 $$
+
+$$
+
 myDict3 }}
   #上面两行是定义三个字典,下面是使用merge函数或mustMerge函数合并字典,第一个是目标字典,把后面的所有字典都合并到第一个字典中
 ```
@@ -303,14 +351,26 @@ data:
   data1: {{ mergeOverwrite 
 
 $$
+
+$$
+
 myDict1 $myDict2 
 $$
+
+$$
+
 myDict3 }}
   data1: {{ mustMergeOverwrite 
 
 $$
+
+$$
+
 myDict1 $myDict2 
 $$
+
+$$
+
 myDict3 }}
   #上面两行是定义三个字典,下面是使用mergeOverwrite函数或mustMergeOverwrite函数合并字典,第一个是目标字典,把后面的所有字典都合并到第一个字典中
 ```

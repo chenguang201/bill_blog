@@ -127,14 +127,26 @@ java.lang.InterruptedException
 	at com.ali.bingfa.TestLockInterrupt.lambda
 
 $$
+
+$$
+
 main
 $$
+
+$$
+
 0(TestLockInterrupt.java:12)
 	at com.ali.bingfa.TestLockInterrupt
 
 $$
+
+$$
+
 $Lambda
 $$
+
+$$
+
 1/1534030866.run(Unknown Source)
 	at java.lang.Thread.run(Thread.java:745)
 18:02:41.532 [t1] c.TestInterrupt - 等锁的过程中被打断

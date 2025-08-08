@@ -302,26 +302,50 @@ mvn package –D skipTests
 | Maven内置属性 | 
 
 $$
+
+$$
+
 {属性名}，如
 $$
+
+$$
+
 {version} |
 | 项目环境属性 | 
 
 $$
+
+$$
+
 {setting.属性名}，如
 $$
+
+$$
+
 {settings.localRepository} |
 | Java环境变量 | 
 
 $$
+
+$$
+
 {xxx.属性名}，如
 $$
+
+$$
+
 {java.class.path} |
 | 系统环境变量 | 
 
 $$
+
+$$
+
 {env.属性名}，如
 $$
+
+$$
+
 {env.USERNAME} |
 
 

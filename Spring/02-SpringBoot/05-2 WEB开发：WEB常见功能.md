@@ -958,8 +958,14 @@ public class CustomerHandlerExceptionResolver implements HandlerExceptionResolve
 @RequestMapping("
 
 $$
+
+$$
+
 {server.error.path:
 $$
+
+$$
+
 {error.path:/error}}")
 public class BasicErrorController extends AbstractErrorController {
 
@@ -1232,8 +1238,14 @@ public class DefaultErrorAttributes implements ErrorAttributes, HandlerException
 @RequestMapping("
 
 $$
+
+$$
+
 {server.error.path:
 $$
+
+$$
+
 {error.path:/error}}")
 public class BasicErrorController extends AbstractErrorController {
 

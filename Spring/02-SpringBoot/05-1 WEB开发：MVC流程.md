@@ -3716,8 +3716,14 @@ View是一个接口，然后有一个抽象方法render。接下来我们可以�
 <tr th:each="prod,iterStat : 
 
 $$
+
+$$
+
 {prods}" th:class="
 $$
+
+$$
+
 {iterStat.odd}? 'odd'">
     <td th:text="${prod.name}">Onions</td>
     <td th:text="${prod.price}">2.41</td>

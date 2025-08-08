@@ -691,8 +691,14 @@ spring:
 # 40. 
 
 $$
+
+$$
+
 {spring.application.name}-${spring.profile.active}.
 $$
+
+$$
+
 {spring.cloud.nacos.config.file-extension}
 # 41. nacos-config-client-dev.yaml
 
@@ -775,8 +781,14 @@ public class ConfigClientController
 <font style="color:#0000ff;">最后公式：</font>`<font style="color:#0000ff;">
 
 $$
+
+$$
+
 {spring.application.name}-${spring.profiles.active}.
 $$
+
+$$
+
 {spring.cloud.nacos.config.file-extension}</font>`
 
 <font style="color:#000000;">操作步骤：</font>
@@ -793,8 +805,14 @@ $$
 <font style="color:#282828;">公式：</font>`<font style="color:#117CEE;">
 
 $$
+
+$$
+
 {spring.application.name}-${spring.profiles.active}.
 $$
+
+$$
+
 {spring.cloud.nacos.config.file-extension}</font>`
 
 + <font style="color:#282828;">prefix 默认为 spring.application.name 的值</font>

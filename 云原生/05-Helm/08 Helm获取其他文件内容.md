@@ -104,8 +104,14 @@ data:
   {{- range 
 
 $$
+
+$$
+
 path, 
 $$
+
+$$
+
 _ := .Files.Glob "**.conf" }}
   path: {{ $path }}
   {{- end }}
@@ -114,8 +120,14 @@ _ := .Files.Glob "**.conf" }}
 #上面:声明了两个变量
 
 $$
+
+$$
+
 path和$_, 将.Files对象中的Glob方法匹配到的文件名赋值给前面变量
 $$
+
+$$
+
 path, **代表匹配任意字符
 #$_是一个占位符,必须要存在,但是会获取一个空
 #中间:将Files对象中使用Glob方法匹配的文件名,使用AsConfig方法显示文件内容(以configmap形式显示) 缩进2字符
@@ -157,15 +169,27 @@ data:
 {{- range 
 
 $$
+
+$$
+
 index, 
 $$
+
+$$
+
 line := .Files.Lines "config/test.txt" }}
   {{- if $line }}
   {{ 
 
 $$
+
+$$
+
 index }}: {{ 
 $$
+
+$$
+
 line | quote }}
   {{- end }}
 {{- end }}

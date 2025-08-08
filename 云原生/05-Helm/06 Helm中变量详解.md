@@ -92,14 +92,26 @@ data:
     {{- range 
 
 $$
+
+$$
+
 index, 
 $$
+
+$$
+
 add := .Values.address }} #将遍历的列表元素赋值给两个变量,一个是索引号，一个是元素值,并且通过range语句循环遍历出来
     {{ 
 
 $$
+
+$$
+
 index }}: {{ 
 $$
+
+$$
+
 add }}
     {{- end }}
 ```
@@ -147,14 +159,26 @@ data:
     {{- range 
 
 $$
+
+$$
+
 key, 
 $$
+
+$$
+
 value := .Values.person.info }} 
     {{ 
 
 $$
+
+$$
+
 key }}: {{ 
 $$
+
+$$
+
 value }}  
     {{- end }}
 ```
@@ -269,14 +293,26 @@ data:
     {{- range 
 
 $$
+
+$$
+
 index, 
 $$
+
+$$
+
 add := .Values.address }} #range遍历对象,将后面遍历到的对象赋值给前面两个变量,分别得到索引号和对应的值
     {{ 
 
 $$
+
+$$
+
 index }}: {{ 
 $$
+
+$$
+
 add }} #依次输出索引号和对应的值
     {{- end }}
 ```
@@ -337,14 +373,26 @@ data:
     {{- range 
 
 $$
+
+$$
+
 key, 
 $$
+
+$$
+
 value := .Values.person.info }} #range遍历,将后面遍历出来的字典对象的值赋值给前面两个变量,分别对应key和value
     {{ 
 
 $$
+
+$$
+
 key }}: {{ 
 $$
+
+$$
+
 value }} #将两个变量的值进行依次输出（key和value)
     {{- end }}
 ```

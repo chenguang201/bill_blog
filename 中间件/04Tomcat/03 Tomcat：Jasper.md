@@ -22,8 +22,14 @@
 		<title>
 
 $$
+
+$$
+
 Title
 $$
+
+$$
+
 </title> 
 	</head> 
 	<body> 
@@ -226,8 +232,14 @@ public final class index_jsp extends org.apache.jasper.runtime.HttpJspBase imple
                 out.write(" <title>
 
 $$
+
+$$
+
 Title
 $$
+
+$$
+
 </title>
 ");
                 out.write(" </head>

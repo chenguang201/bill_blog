@@ -473,8 +473,14 @@ public static void createTopic(){
     AdminUtils.createTopic(zkUtils, "t1", 1, 1, new Properties(), AdminUtils.createTopic
 
 $$
+
+$$
+
 default
 $$
+
+$$
+
 6());
     zkUtils.close();
 }

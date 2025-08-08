@@ -549,8 +549,14 @@ public class A21 {
                 @Value("
 
 $$
+
+$$
+
 {JAVA_HOME}") String home2, // spring 获取数据  
 $$
+
+$$
+
 {} #{}
                 HttpServletRequest request,          // request, response, session ...
                 @ModelAttribute("abc") User user1,   // name=zhang&age=18

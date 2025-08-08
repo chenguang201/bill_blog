@@ -81,15 +81,27 @@ helm install myconfigmap1 ./mychart/ --debug --dry-run #不真正执行，只是
     - <font style="color:#000000;">格式：</font>`<font style="color:#000000;">
 
 $$
+
+$$
+
 newList = append 
 $$
+
+$$
+
 列表变量 要追加的内容</font>`<font style="color:#000000;"> </font>
 + <font style="color:#000000;">prepend函数：用于在列表的最前面加入一个新值，并返回一个新的列表，原列表内容不变。</font>
     - <font style="color:#000000;">格式：</font>`<font style="color:#000000;">
 
 $$
+
+$$
+
 newList = prepend 
 $$
+
+$$
+
 列表变量 最前面加的值</font>`<font style="color:#000000;"> </font>
 + <font style="color:#000000;">concat函数： 用于将任意数量的列表合并成一个新的列表，原列表内容保持不变。</font>
     - <font style="color:#000000;">格式：</font>`<font style="color:#000000;">concat $原列表名 新列表1 新列表2 ...</font>`

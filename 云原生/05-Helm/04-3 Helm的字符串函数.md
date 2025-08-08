@@ -147,8 +147,14 @@ helm install myconfigmap1 ./mychart/ --debug --dry-run #不真正执行，只是
 + <font style="color:#000000;">trimAll函数： 用于移除字符串中指定的字符，示例：</font>`<font style="color:#000000;">trimAll "
 
 $$
+
+$$
+
 " "
 $$
+
+$$
+
 5.00"</font>`
 + <font style="color:#000000;">trimPrefix 和 trimSuffix 函数： 分别用于移除字符串中指定的前缀和后缀</font>
     - <font style="color:#000000;">示例1：</font>`<font style="color:#000000;">trimPrefix "-" "-hello"</font>`<font style="color:#000000;"> </font>
