@@ -255,3 +255,24 @@ SLF4J不依赖于任何特殊的类装载。实际上，每个SLF4J绑定 都是
 
 任何级别的日志都没打印出来
 
+## 3.2 slf4j-simple默认实现
+```xml
+<!-- slf4j 日志门面 -->
+<dependency>
+    <groupId>org.slf4j</groupId>
+    slf4j-api</artifactId>
+    <version>1.7.26</version>
+</dependency>
+
+<!-- slf4j 内置的简单实现-->
+<dependency>
+    <groupId>org.slf4j</groupId>
+    slf4j-simple</artifactId>
+    <version>1.7.21</version>
+</dependency>
+```
+
+输出
+
+![](images/24.png)
+
