@@ -276,3 +276,26 @@ SLF4J不依赖于任何特殊的类装载。实际上，每个SLF4J绑定 都是
 
 ![](images/24.png)
 
+## 3.3 logback
+```xml
+<!-- slf4j 日志门面 -->
+<dependency>
+    <groupId>org.slf4j</groupId>
+    slf4j-api</artifactId>
+    <version>1.7.26</version>
+</dependency>
+
+<!--logback 日志实现-->
+<dependency>
+    <groupId>ch.qos.logback</groupId>
+    logback-classic</artifactId>
+    <version>1.2.3</version>
+</dependency>
+```
+
+![](images/25.png)
+
+logback-classic包中包含logback-core包，所以不需要再倒入logback-core
+
+![](images/26.png)
+
