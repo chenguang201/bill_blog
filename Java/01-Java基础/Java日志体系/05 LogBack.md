@@ -1,13 +1,10 @@
-**<font style="color:#DF2A3F;">笔记来源：</font>**[**<font style="color:#DF2A3F;">黑马程序员java日志框架教程，全面深入学习多种java日志框架</font>**](https://www.bilibili.com/video/BV1iJ411H74S/?p=10&spm_id_from=pageDriver&vd_source=e8046ccbdc793e09a75eb61fe8e84a30)
+**笔记来源：**[**黑马程序员java日志框架教程，全面深入学习多种java日志框架**](https://www.bilibili.com/video/BV1iJ411H74S/?p=10&spm_id_from=pageDriver&vd_source=e8046ccbdc793e09a75eb61fe8e84a30)
 
+------
 
+前言：Logback是由log4j创始人设计的另一个开源日志组件，性能比log4j要好。  
 
-前言
-
-Logback是由log4j创始人设计的另一个开源日志组件，性能比log4j要好。  
-官方网站：
-
-[Logback Home](https://logback.qos.ch/index.html)
+官方网站：[Logback Home](https://logback.qos.ch/index.html)
 
 Logback主要分为三个模块：
 
@@ -85,8 +82,6 @@ logback会依次读取以下类型配置文件：
 
 如果均不存在会采用默认配置
 
-
-
 **logback组件之间的关系**
 
 1. Logger：日志的记录器，把它关联到应用的对应的context上后，主要用于存放日志对象，也 可以定义日志类型、级别。
@@ -146,12 +141,10 @@ logback会依次读取以下类型配置文件：
     <root level="ALL">
         
     </root>
-</configuration>
+</configuration>	 		
 ```
 
- 	 	 		
-
-**<font style="color:rgb(20.000000%, 20.000000%, 20.000000%);">FileAppender配置</font>**
+**FileAppender配置**
 
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
@@ -215,9 +208,7 @@ logback会依次读取以下类型配置文件：
 </configuration>
 ```
 
-<font style="color:rgb(20.000000%, 20.000000%, 20.000000%);"></font>
-
-**<font style="color:rgb(20.000000%, 20.000000%, 20.000000%);">RollingFileAppender配置</font>**** **
+**RollingFileAppender配置**
 
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
@@ -397,9 +388,7 @@ logback-access模块与Servlet容器(如Tomcat和Jetty)集成，以提供HTTP访
 </configuration>
 ```
 
-4. 官方配置: 
-
-[Logback-access](https://logback.qos.ch/access.html#configuration)
+4. 官方配置: [Logback-access](https://logback.qos.ch/access.html#configuration)
 
 # 4 案例讲解
 ```java
@@ -796,7 +785,7 @@ roll_logback.log文件内容如下：
 
 ![](images/42.png)
 
-我们发现，三个文件都是空的，因为我们配置的logger对象是com.itheima，而且只在console上打印。且日志级别是info以上。
+我们发现，三个文件都是空的，因为我们配置的logger对象是com.itheima，而且只在console上打印。且日志级别是info以上。 
 
 看下控制台，没有trace和debug级别的日志。
 

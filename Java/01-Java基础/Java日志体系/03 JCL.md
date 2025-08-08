@@ -1,5 +1,7 @@
 笔记来源：[黑马程序员java日志框架教程，全面深入学习多种java日志框架](https://www.bilibili.com/video/BV1iJ411H74S/?p=10&spm_id_from=pageDriver&vd_source=e8046ccbdc793e09a75eb61fe8e84a30)
 
+------
+
 前言：全称为Jakarta Commons Logging，是Apache提供的一个通用日志API。  
 
 它是为所有的Java日志实现提供一个统一的接口，它自身也提供一个日志的实现，但是功能非常常弱 (SimpleLog)。所以一般不会单独使用它。他允许开发人员使用不同的具体日志实现工具: Log4J，Jdk 自带的日志(JUL)  
