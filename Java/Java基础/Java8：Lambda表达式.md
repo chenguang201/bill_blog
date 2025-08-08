@@ -1,22 +1,26 @@
-
 # 1 Lambda入门
-
 ## 1.1 介绍
 Lambda是一个匿名函数，我们可以把Lambda表达式理解为是一段可以传递的代码（将代码像数据一样进行传递）。可以写出更简洁、更灵活的代码。作为一种更紧凑的代码风格，使Java的语言表达能力得到了提升。
 
 ## 1.2 语法
 基础语法：
+
 ```java
 Java8引入了一个新的操作符：->，该操作符称为箭头操作符或Lambda操作符，箭头操作符将Lambda表达式拆分为2部分
 左侧：Lambda表达式的形参列表，其实就是接口中抽象方法的形参列表
 右侧：Lambda表达式中所执行的功能，即Lambda体
 ```
+
 Lambda表达式的本质：作为函数式接口的实例
 
+
+
 语法格式1：无参数，无返回值：
+
 ```java
 () -> System.out.println( "hello world" );
 ```
+
 ```java
 public class test {
     public static void main(String[] args) {
@@ -35,7 +39,9 @@ public class test {
     }
 }
 ```
+
 语法格式2：有一个参数，并且无返回值，小括号可省略不写，：
+
 ```java
 public class test {
     public static void main(String[] args) {
@@ -46,7 +52,9 @@ public class test {
     }
 }
 ```
+
 语法格式3：有2个以上的参数，有返回值，并且Lambda体中有多条返回值
+
 ```java
 public class test {
     public static void main(String[] args) {
@@ -57,7 +65,9 @@ public class test {
     }
 }
 ```
+
 语法格式4：若Lambda体中只有一条语句，return和大括号都可省略不写
+
 ```java
 public class test {
     public static void main(String[] args) {
@@ -65,7 +75,9 @@ public class test {
     }
 }
 ```
+
 语法格式5：Lambda表达式的参数列表的数据类型可以省略不写，因为JVM编译器通过上下文推断出数据类型，即“类型推断”
+
 ```java
 package cn.itcast.jvm.t3.bytecode;
 
@@ -88,34 +100,42 @@ public class TestDemo {
 }
 
 ```
+
 总结：
 
-- 左边：lambda表达式形参列表类型可以省略（类型推断），如果形参列表只有一个参数，其一对括号也可省略
-- 右边：lambda体使用一对{ }包裹，如果lambda体只有一条执行语句（可能是return语句），可以省略这一对{ }和return关键字
++ 左边：lambda表达式形参列表类型可以省略（类型推断），如果形参列表只有一个参数，其一对括号也可省略
++ 右边：lambda体使用一对`{}`包裹，如果lambda体只有一条执行语句（可能是return语句），可以省略这一对`{}`和`return`关键字
 
-注意：Lambda表达式需要函数式接口的支持！
-
+注意：Lambda 表达式需要函数式接口的支持！
 
 # 2 函数式接口
 **函数式接口**：接口中只有一个抽象方法的接口，称为函数式接口，可以使用`@FunctionalInterface`修饰
 
-如何理解函数式接口？
-> Java从诞生之日起，就是一直倡导“一切皆对象”，在Java里面面向对象（OOP）编程时一切，但是随着python、scala等语言的兴起和新技术的挑战，Java不得不作出调整以便支持更加广泛的技术要求，即Java不但可以支持OOP，也可以支持OOF（面向函数编程）
-> 在函数式编程语言当中，函数被当作一等公民对待，在将函数作为一等公民的编程语言中，Lambda表达式的类型时函数，但是在Java8中，有所不同，在Java8中，Lambda表达式是对象，而不是函数，他们必须依附于一类特别的对象类型，即函数式接口
-> 简单的说，在Java8中，Lambda表达式就是一个函数式接口的实例，这就是Lambda表达式和函数式接口的关系，也就是说，只要一个对象是函数式接口的实例，那么该对象就可以用Lambda表达式来表示。
 
+
+如何理解函数式接口？
+
+> Java从诞生之日起，就是一直倡导“一切皆对象”，在Java里面面向对象（OOP）编程时一切，但是随着python、scala等语言的兴起和新技术的挑战，Java不得不作出调整以便支持更加广泛的技术要求，即Java不但可以支持OOP，也可以支持OOF（面向函数编程）
+>
+> 在函数式编程语言当中，函数被当作一等公民对待，在将函数作为一等公民的编程语言中，Lambda表达式的类型时函数，但是在Java8中，有所不同，在Java8中，Lambda表达式是对象，而不是函数，他们必须依附于一类特别的对象类型，即函数式接口
+>
+> 简单的说，在Java8中，Lambda表达式就是一个函数式接口的实例，这就是Lambda表达式和函数式接口的关系，也就是说，只要一个对象是函数式接口的实例，那么该对象就可以用Lambda表达式来表示。
+>
 
 ## 2.1 案例
-1）案例1：简单运算
+案例1：简单运算
 
 函数式运算接口
+
 ```java
 @FunctionalInterface  
 public interface MyFun {
     Integer getValue(Integer num);
 }
 ```
+
 测试类
+
 ```java
 public class test {
     public static void main(String[] args) {
@@ -131,7 +151,11 @@ public class test {
     }
 }
 ```
-2）案例2：定制排序比较两个Employee，先按年龄比，年龄相同再按姓名比，使用Lambda作为参数传递
+
+
+
+案例2：定制排序比较两个Employee，先按年龄比，年龄相同再按姓名比，使用Lambda作为参数传递
+
 ```java
 @Data  
 @AllArgsConstructor  
@@ -142,7 +166,9 @@ public class Employee {
 	private Double salary;
 }
 ```
+
 测试类
+
 ```java
 public class test {
     public static void main(String[] args) {
@@ -176,7 +202,9 @@ public class test {
 | Function(T,R)    函数型接口 | T | R | 对类型为T的对象应用操作，并返回结果是R类型的对象，包含方法：`R apply(T t);` |
 | Predicate<T>    断言型接口 | T | boolean | 确定类型为T的对象是否满足某种约束，并返回boolean值，包含方法：`boolean test(T t);` |
 
-1）Consumer：消费型接口
+
+Consumer：消费型接口
+
 ```java
 @Test  
 public void test(){
@@ -189,7 +217,11 @@ public void happy(double money, Consumer con){
     con.accept(money);
 }
 ```
-2）Supplier：供给型接口
+
+
+
+Supplier：供给型接口
+
 ```java
 @Test  
 public void test(){
@@ -208,7 +240,11 @@ public List getNumList(int num, Supplier sup){
     return list;
 }
 ```
-3）Function(T,R)：函数型接口
+
+
+
+Function(T,R)：函数型接口
+
 ```java
 @Test 
 public void test(){
@@ -220,7 +256,11 @@ public String handler(String str, Function<String,String> fun){
 	return fun.apply(str);
 }
 ```
-4）Predicate：断言型接口
+
+
+
+Predicate：断言型接口
+
 ```java
 @Test  
 public void test(){
@@ -242,12 +282,12 @@ public List filterStr(List list, Predicate pre){
 	return stringList;
 }
 ```
+
 其他接口
 
-![image.png](images/20.png)
+![](images/20.png)
 
 # 3 方法引用与构造器引用
-
 ## 3.1 方法引用
 若 Lambda 体中的内容有方法已经实现了，我们可以使用方法引用，可以理解为方法引用是Lambda表达式的另外一种表现形式。
 
@@ -258,12 +298,15 @@ public List filterStr(List list, Predicate pre){
 格式：使用操作法`::`将类或者对象与方法名隔开来
 
 主要有三种语法格式：
+
 ```java
 对象::实例方法名
 类::静态方法名
 类::实例方法名
 ```
+
 例子
+
 ```java
 //对象::实例方法
 @Test
@@ -293,13 +336,15 @@ public void test(){
     BiPredicate<String,String> bp2 = String::equals;
 }
 ```
+
 注意：
 
-- Lambda体中调用方法的参数列表与返回值类型，要与函数式接口中抽象方法的函数列表和返回值类型保持一致！
-- 若Lambda参数列表中的第一参数是实例方法的调用者，第二个参数是实例方法的参数时，可以使用`ClassName::method`，就是上面的`类::实例方法名`
++ Lambda体中调用方法的参数列表与返回值类型，要与函数式接口中抽象方法的函数列表和返回值类型保持一致！
++ 若Lambda参数列表中的第一参数是实例方法的调用者，第二个参数是实例方法的参数时，可以使用`ClassName::method`，就是上面的`类::实例方法名`
 
 ## 3.2 构造器引用
 和方法引用类似，需要调用的构造器的参数列表要与函数式接口中抽象方法的参数列表保持一致，抽象方法的返回值类型即为构造器所属的类的类型
+
 ```java
 @Test
 public void test(){
@@ -313,6 +358,7 @@ public void test(){
 
 ## 3.3 数组引用
 可以把数组看作是一个特殊的类，则写法和构造器引用一样
+
 ```java
 @Test
 public void test(){
@@ -321,5 +367,8 @@ public void test(){
     Function<Integer,String[]> fun2 = String[]::new;
 }
 ```
+
+
+
 
 

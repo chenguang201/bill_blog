@@ -4,34 +4,45 @@
 
 Java10一共定义了109个新特性，其中包含12个JEP（对于程序员来说，真正的新特性其实就一个），还有一些新API和JVM规范以及JAVA语言规范上的改动。	 		
 
- ![image.png](images/6.png)
+ ![](images/6.png)
 
 # 1 局部变量类型推断
 产生背景：开发者经常抱怨Java中引用代码的程度。局部变量的现实类型声明，常常被认为是不必须的，给一个好听的名字经常可以很清楚的表达出下面应该怎样继续。
 
+
+
 优点：减少了啰嗦和形式的代码，避免了信息冗余，而且对齐了变量名，更容易阅读
+
+
 
 场景一：类实例化时
 
 作为Java开发者，在声明一个变量时，我们总是习惯了敲打两次变量类型，第一次用于声明变量类型，第二次用于构造器
+
 ```java
 ArrayList<String> list = new ArrayList<>();
 ```
+
 场景二：返回值类型含复杂泛型结构
 
 变量的声明类型书写复杂且较长，尤其是加上泛型的使用
+
 ```java
  Iterator<Map<Integer, String>> iterator = set.iterator();
 ```
+
 场景三：我们也经常声明一种变量，它只会被使用一次，而且是用在下一行代码中，比如：
+
 ```java
 URL url = new URL("www.baidu.com");
 URLConnection urlConnection = url.openConnection();
 Reader reader = new BufferedReader(new InputStreamReader(urlConnection.getInputStream()));
 ```
+
 尽管IDEA可以帮我们自动完成这些代码，但当变量总是跳来跳去的时候，可读性还是会受到影响，因为变量类型的名称由各种不同长度的字符组成。而且，有时候开发人员会尽力避免声明中间变量，因为太多的类型声明只会分散注意力，不会带来额外的好处。
 
 可以用类型推断的情况
+
 ```java
 package com.bean;
 
@@ -62,7 +73,9 @@ public class Test6 {
 }
 
 ```
+
 不可用类型推断的情况
+
 ```java
 package com.bean;
 
@@ -113,14 +126,18 @@ public class Test6 {
 }
 
 ```
+
 工作原理：在处理var时候，编译器先是查看表达式右边部分，并根据右边变量值的类型进行推断，作为左边变量的类型，然后将该类型写入字节码当中。
+
+
 
 注意：
 
-- var不是一个关键字：你不需要担心变量名或者方法名会与var发生冲突，因为var实际上并不是一个关键字，而是一个类型名，只有在编译器需要知道类型的地方才需要用到它，除此之外，它就是一个普通合法的标识符，也就是说，除了不能用它当作类名，其他的都可以，但是极少人会用它作为类名
-- 这不是JavaScript：首先要说明的是，var并不会改变Java是一门静态类型语言的事实，编译器负责推断出类型，并把结果写入字节码文件，就好像是开发人员自己敲入类型一样，下面使用IDEA反编译器编译出来的代码
++ var不是一个关键字：你不需要担心变量名或者方法名会与var发生冲突，因为var实际上并不是一个关键字，而是一个类型名，只有在编译器需要知道类型的地方才需要用到它，除此之外，它就是一个普通合法的标识符，也就是说，除了不能用它当作类名，其他的都可以，但是极少人会用它作为类名
++ 这不是JavaScript：首先要说明的是，var并不会改变Java是一门静态类型语言的事实，编译器负责推断出类型，并把结果写入字节码文件，就好像是开发人员自己敲入类型一样，下面使用IDEA反编译器编译出来的代码
 
 源码
+
 ```java
 package com.bean;
 
@@ -139,7 +156,9 @@ public class Test7 {
 }
 
 ```
+
 字节码反编译出来的代码
+
 ```java
 //
 // Source code recreated from a .class file by IntelliJ IDEA
@@ -169,6 +188,7 @@ public class Test7 {
 
 # 2 集合新增copyof方法
 自Java9开始，JDK里面为集合（List/Set/Map）都添加了of（jdk9新增）和copyOf（jdk10新增）方法，他们都用来创建不可变的集合，来看他们的使用和区别
+
 ```java
 package com.bean;
 
@@ -187,4 +207,6 @@ public class Test8 {
     }
 }
 ```
+
 第一个是true的原因是因为原来的list就是一个不可变的，所以两个是公用一个；第二个是false的原因，是因为`new ArrayList<String>()`是一个可变，而copyOf之后是一个不可变的，所以会创建一个新的不可变集合，所以两个不是一样的。
+

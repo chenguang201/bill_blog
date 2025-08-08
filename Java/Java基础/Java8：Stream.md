@@ -1,39 +1,41 @@
-
 # 1 介绍
 Java8中有两大最为重要的改变。第一个是 Lambda 表达式；另外一个则是`Stream API(java.util.stream)`。Stream是 Java8中处理集合的关键抽象概念，它可以指定你希望对集合进行的操作，可以执行非常复杂的查找、过滤和映射数据等操作。使用Stream API 对集合数据进行操作，就类似于使用 SQL执行的数据库查询。也可以使用Stream API来并行执行操作简而言之，Stream API提供了一种高效且易于使用的处理数据的方式。
 
-为什么要用Stream API？
-
-实际开发中，项目中多数数据都来自于mysql，oracle等，但现在数据源更多了，有mongdb，redis等，而这些nosql的数据就需要Java层面去处理了
+为什么要用Stream API？实际开发中，项目中多数数据都来自于mysql，oracle等，但现在数据源更多了，有mongdb，redis等，而这些nosql的数据就需要Java层面去处理了
 
 Stream和Collection集合的区别：Collection是一种静态的内存数据结构，而Stream是有关计算的，前者是主要面向内存，存储在内存中，后者主要是面向CPU，通过CPU实现计算。
 
-流(Stream)到底是什么呢?
+流(Stream)到底是什么呢？是数据渠道，用于操作数据源（集合、数组等）所生成的元素序列。集合讲的是数据，Stream讲的是计算。
 
-是数据渠道，用于操作数据源（集合、数组等）所生成的元素序列。集合讲的是数据，Stream讲的是计算。
-
+  
 注意：
 
-- Stream 自己不会存储元素。
-- Stream不会改变源对象。相反，他们会返回一个持有结果的新Stream
-- Stream操作是延迟执行的。这意味着他们会等到需要结果的时候才执行。
++ Stream 自己不会存储元素。
++ Stream不会改变源对象。相反，他们会返回一个持有结果的新Stream
++ Stream操作是延迟执行的。这意味着他们会等到需要结果的时候才执行。
+
+
 
 Stream操作的三个步骤
 
 1. 创建Stream
-   - 一个数据源（如集合、数组）获取一个流
+    - 一个数据源（如集合、数组）获取一个流
 2. 中间操作
-   - 一个中间操作链，对数据源的数据进行处理
+    - 一个中间操作链，对数据源的数据进行处理
 3. 终止操作
-   - 一旦执行终止操作，就执行中间操作链，并产生结果，之后不会再被使用
+    - 一旦执行终止操作，<font style="color:#E8323C;">就执行中间操作链</font>，并产生结果，之后不会再被使用
+
+
 
 流程图：
 
-![](images/21.jpeg)
+![画板](images/21.jpeg)
+
 
 
 # 2 创建
 Stream的创建
+
 ```java
 @Test
 public void test(){
@@ -59,6 +61,7 @@ public void test(){
 ```
 
 
+
 # 3 中间操作
 多个中间操作可以连接起来形成一个流水线，除非流水线上触发终止操作，否则中间操作不会执行任何的处理，而在终止操作时一次性全部处理，称为**惰性求值**。
 
@@ -70,7 +73,9 @@ public void test(){
 | limit(long maxSize) | 截断流，使其元素不超过给定元素 |
 | skip(long n) | 跳过元素，返回一个扔掉了前n个元素的流，若流中元素不足n个，则返回一个空流，与limit(n)互补 |
 
+
 1）filter：接收Lambda，从流中排除某些元素
+
 ```java
 public class test {
     
@@ -92,17 +97,23 @@ public class test {
         stream.forEach(System.out::println);
     }
 ```
+
 2）limit：截断流，使其元素不超过给定数量
+
 ```java
 //中间操作
 people.stream().filter(person -> person.getScore() > 5000).limit(1).forEach(System.out::println);
 ```
+
 3）skip(n)：跳过元素，返回一个扔掉了前n个元素的流，若流中元素不足n个，则返回一个空流，与limit互补
+
 ```java
 //中间操作
 people.stream().skip(2).forEach(System.out::println);
 ```
+
 4）distinct：筛选，通过流所生成元素的hashcode（）和equals（）去除重复元素，要想实现成功，必须实体类实现重写这两个方法！
+
 ```java
 //中间操作
 people.stream().distinct().forEach(System.out::println);
@@ -117,7 +128,9 @@ people.stream().distinct().forEach(System.out::println);
 | mapToLong(ToLongFunction f) | 接受一个函数作为参数，该函数会被应用到每个元素上，产生一个新的LongStream |
 | flatMap(Function f) | 接受一个函数作为参数，将流中的每个值都换成另一个流，然后把所有的流连接成一个流 |
 
+
 1）map：接收Lambda ,将元素转换成其他形式或提取信息。接收一个函数作为参数，该函数会被应用到每个元素上，并将其映射成一个新的元素。
+
 ```java
 @Test  
 public void test() {
@@ -125,7 +138,9 @@ public void test() {
     list.stream().map(str -> str.toUpperCase(Locale.ROOT)).forEach(System.out::println);
 }
 ```
+
 2）flatMap：接收一个函数作为参数，将流中的每个值都换成另一个流，然后把所有流连接成一个流
+
 ```java
 public class test {
     
@@ -144,6 +159,7 @@ public class test {
     }
 }
 ```
+
 map和flatMap的区别有点类似于List里面的add方法和addAll方法。
 
 ## 3.3 排序
@@ -151,6 +167,7 @@ map和flatMap的区别有点类似于List里面的add方法和addAll方法。
 | --- | --- |
 | sorted() | 产生一个新流，其中按自然顺序排序 |
 | sorted(Comparator com) | 产生一个新流，其中按比较器顺序排序 |
+
 
 ```java
 public class test {
@@ -193,6 +210,7 @@ public class test {
 | noneMatch(Predicate p) | 检查是否没有匹配所有元素 |
 | findFirst() | 返回第一个元素 |
 | findAny() | 返回当前流中的任意元素 |
+
 
 ```java
 public class test {
@@ -255,7 +273,9 @@ public class test {
 | reduce(T  iden, BinaryOperator b) | 可以将流中的元素反复结合起来，得到一个值，返回T |
 | reduce(BinaryOperator b) | 可以将流中的元素反复结合起来，得到一个值，返回Optional<T> |
 
+
 备注：map和reduce的连接通常称为map-reduce模式，因Google用它来进行网络搜索而出名。
+
 ```java
 public class test {
     @Test  
@@ -286,13 +306,15 @@ public class test {
 | --- | --- |
 | collect(Collector c) | 将流转换为其他形式，接受一个Collector接口的实现，用于给Stream中元素做汇总的方法 |
 
+
 Collector接口中方法的实现决定了如何对流进行收集的操作（如收集到List、Set、Map）。
 
 另外，Collector实用类提供了很多静态方法，可以方便的创建常见收集器实例，具体方法和实例如下表：
 
-![image.png](images/22.png)
+![](images/22.png)
 
-![image.png](images/23.png)
+![](images/23.png)
+
 ```java
 public class test {
     
@@ -338,7 +360,9 @@ public class test {
     }
 }
 ```
+
 分组
+
 ```java
 public class test {
     @Test  
@@ -379,7 +403,9 @@ public class test {
     }
 }
 ```
+
 其他api
+
 ```java
 public class test {
     @Test  
@@ -412,15 +438,12 @@ public class test {
 ```
 
 # 5 并行流与串行流
-并行流就是把一个内容分成多个数据块，并用不同的线程分别处理每个数据块的流。Java 8 中将并行进行了优化，我们可以很容易的对数据进行并行操作。Stream API可以声明性地通过parallel() 与sequential()在并行流与顺序流之间进行切换。
-
-Fork/Join框架：就是在必要的情况下，将一个大任务，进行拆分(fork)成若干个小任务（拆到不可再拆时），再将一个个的小任务运算的结果进行 join 汇总。
-
-Fork/Join框架与传统线程池的区别：采用工作窃取模式(work-stealing）
-
-当执行新的任务时它可以将其拆分分成更小的任务执行，并将小任务加到线程队列中，然后再从一个随机线程的队列中偷一个并把它放在自己的队列中。
-
+并行流就是把一个内容分成多个数据块，并用不同的线程分别处理每个数据块的流。Java 8 中将并行进行了优化，我们可以很容易的对数据进行并行操作。Stream API可以声明性地通过parallel() 与sequential()在并行流与顺序流之间进行切换。  
+Fork/Join框架：就是在必要的情况下，将一个大任务，进行拆分(fork)成若干个小任务（拆到不可再拆时），再将一个个的小任务运算的结果进行 join 汇总。  
+Fork/Join框架与传统线程池的区别：采用工作窃取模式(work-stealing）  
+当执行新的任务时它可以将其拆分分成更小的任务执行，并将小任务加到线程队列中，然后再从一个随机线程的队列中偷一个并把它放在自己的队列中。  
 相对于一般的线程池实现， fork/join框架的优势体现仕对其中包含的任务的处理方式上。在一般的线程池中，如果一个线程正在执行的任务由于某些原因无法继续运行，那么该线程会处于等待状态.而在fork/join框架实现中，如果某个子问题由于等待另外一个子问题的完成而无法继续运行。那么处理该子问题的线程会主动寻找其他尚未运行的子问题来执行，这种方式减少了线程的等待时间，提高了性能。
+
 ```java
 public class ForkJoinCalculate extends RecursiveTask {
     
@@ -456,7 +479,9 @@ public class ForkJoinCalculate extends RecursiveTask {
     }
 }
 ```
+
 测试：
+
 ```java
 public class test {
     
@@ -504,6 +529,7 @@ public class test {
     }
 }
 ```
+
 还是java8并行流快！
 
 # 6 Optional容器
@@ -511,9 +537,10 @@ public class test {
 
 Optional<T>类(`java.util.Optional`)是一个容器类，它可以保存类型T的值，代码这个值存在，或者仅仅保存null，表示这个值不存在。原来用null表示一个值不存在，现在Optinal可以更好的表达这个概念，并且可以避免空指针异常。
 
-![image.png](images/24.png)
+![](images/24.png)
 
 这里只介绍基本的API，应用举例不展开，有兴趣的请查阅其它资料
+
 ```java
 public class test {
     @Test
@@ -581,4 +608,6 @@ public class test {
     }
 }
 ```
+
+
 

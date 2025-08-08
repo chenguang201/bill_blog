@@ -1,23 +1,23 @@
 2018年9月26日，Oracle官方宣布Java 11正式发布，这是Java大版本周期变化后的第一个长期支持版本，非常值得关注。从官网即可下载，最新发布的Java 11将带来ZGC和Http Client等重要特性，一共包含17个JEP（JDK Enhancement Proposals，JDK增强提案），其实总共更新不止17个，只是我们更关注如下的17个JEP更新。
 
-![image.png](images/7.png)
+![](images/7.png)
 
 JDK 11将是一个企业不可忽视的版本，从时间节点来看，JDK11的发布正好处在JDK8免费更新到期的前夕，同时JDK9、10也陆续成为历史版本，下面是Oracle支持路线图：
 
-![image.png](images/8.png)
+![](images/8.png)
 
 JDK 11是一个长期支持版本（LTS，Long-Term-Support）
 
-- 对于企业来说，选择11将意味着长期的，可靠的，可预测的技术路线图。其中免费的OpenJDK11确定将得到OpenJDK社区的长期支持，LTS版本将是可以放心选择的版本。
-- 从JVM GC的角度，JDK11引入了两种新的GC，其中包括也许是划时代意义的ZGC，虽然目前还是实验特性，但是从能力上来看，这个JDK的一个巨大突破，为特定生产环境的苛刻需求提供了一个可能的选择。例如，对部分企业核心存储等产品，如果能够保证不超过10ms的GC暂停，可靠性会上一个大的台阶，这是过去我们进行GC调优几乎做不到的，是能与不能的问题。
++ 对于企业来说，选择11将意味着长期的，可靠的，可预测的技术路线图。其中免费的OpenJDK11确定将得到OpenJDK社区的长期支持，LTS版本将是可以放心选择的版本。
++ 从JVM GC的角度，JDK11引入了两种新的GC，其中包括也许是划时代意义的ZGC，虽然目前还是实验特性，但是从能力上来看，这个JDK的一个巨大突破，为特定生产环境的苛刻需求提供了一个可能的选择。例如，对部分企业核心存储等产品，如果能够保证不超过10ms的GC暂停，可靠性会上一个大的台阶，这是过去我们进行GC调优几乎做不到的，是能与不能的问题。
 
 按照官方的说法，新的发布周期会严格遵循时间点，将于每年的3月份和9月份发布，所以Java11的版本号是18.9（LTS）
 
 不过与Java9和Java10这两个被称为“功能性的版本”不同，这两者只提供半年的技术支持，而Java11不仅提供了长期支持的服务，还将作为Java平台的参考实现。Oracle直到2023年9月都会为Java11提供技术支持，而布丁和安全警告等扩展支持将持续到2026年。
 
-![image.png](images/9.png)
+![](images/9.png)
 
-![image.png](images/10.png)
+![](images/10.png)
 
 # 1 新增字符串处理方法
 | 方法 | 描述 |
@@ -28,6 +28,7 @@ JDK 11是一个长期支持版本（LTS，Long-Term-Support）
 | `stripLeading()` | 去除首部空格 |
 | `repeat(int i)` | 复制字符串 |
 | `lines().count()` | 行数统计 |
+
 
 ```java
 package com.bean.java1;
@@ -69,7 +70,8 @@ defg";
 # 2 Optinal加强
 Optional也增加了几个非常酷的方法，现在可以很方便的将一个Optional转换为一个Stream，或者当一个空Optional时给它一个替代的。
 
-![image.png](images/11.png)
+![](images/11.png)
+
 ```java
 package com.bean.java1;
 
@@ -97,6 +99,7 @@ public class Test2 {
 
 # 3 局部变量类型推断升级
 在var上添加注解的语法格式，在jdk10中是不能实现的，在jdk11中加入了这样的语法。
+
 ```java
 package com.bean.java1;
 
@@ -125,6 +128,7 @@ HTTP/1.1和HTTP2的主要区别是如何在客户端和服务器之间构建和�
 这个Java9开始引入的一个处理HTTP请求的HTTP Client API，该API支持同步和异步，而在Java11中已经为正式可用状态，可以在`java.net`包中找到这个API。
 
 它将替代仅使用于blocking模式的HttpURLConnection（HttpURLConnection是在HTTP 1.0的时代创建的，并使用了协议无关的方法），并提供对WebSocket和HTTP/2的支持。
+
 ```java
 package com.bean.java1;
 
@@ -164,22 +168,27 @@ public class Test4 {
 
 # 5 更简化的编译运行程序
 在过去如果我们需要运行一个Java程序，需要以下步骤
+
 ```java
 javac Hello.java	//编译
 java Hello			//运行
 ```
+
 在我们的认知里面，运行一个Java源码必须要先编译，在运行两步执行动作，而在未来的Java 11版本中，通过一个java命令就直接搞定了，如下所示：
+
 ```java
 java Hello.java
 ```
-![image.png](images/12.png)
+
+![](images/12.png)
 
 一个命令编译运行源代码的注意点：
 
-- 执行源文件的第一个类，第一个类必须包含主方法
-- 并且不可以使用其他源文件中的自定义类，本文件中的自定义类是可以使用的
++ 执行源文件的第一个类，第一个类必须包含主方法
++ 并且不可以使用其他源文件中的自定义类，本文件中的自定义类是可以使用的
 
 如下：
+
 ```java
 package com.bean.java1;
 
@@ -198,5 +207,8 @@ class Test{
 }
 
 ```
-![image.png](images/13.png)
+
+![](images/13.png)
+
+
 

@@ -1,12 +1,14 @@
-
 # 1 获取Class对象
 获取一个类对应的Class对象，有以下三种方式
 
-- 使用Class的forName方法，该方法需要一个字符串参数，该字符串是该类的全限定名
-- 调用该类的class属性来获取该类对应的Class对象
-- 调用该类某个对象的getClass()方法，该类是Object类的方法，所有的java对象都是可以调用的
++ 使用Class的forName方法，该方法需要一个字符串参数，该字符串是该类的全限定名
++ 调用该类的class属性来获取该类对应的Class对象
++ 调用该类某个对象的getClass()方法，该类是Object类的方法，所有的java对象都是可以调用的
+
+
 
 具体的代码如下：
+
 ```java
 public class Hello {
 
@@ -23,33 +25,34 @@ public class Hello {
 ```
 
 
-# 2 从Class类中获取信息
 
+# 2 从Class类中获取信息
 从类对应的Class对象可以获取哪些信息呢？主要如下：
 
-- 类所包含的构造方法
-- 类所包含的普通方法
-- 类上用到的annotation
-- 类所包含的内部类
-- 类所在的外部类
-- 类所实现的接口
-- 类所继承的父类
-- 类的修饰符、所在包、类名等基本信息
-- 判断该类是否为接口、枚举、注解等类型
++ 类所包含的构造方法
++ 类所包含的普通方法
++ 类上用到的annotation
++ 类所包含的内部类
++ 类所在的外部类
++ 类所实现的接口
++ 类所继承的父类
++ 类的修饰符、所在包、类名等基本信息
++ 判断该类是否为接口、枚举、注解等类型
+
 
 
 # 3 使用反射创建对象并操作对象
-
-
 ## 3.1 创建对象
-
 使用Class对象来生成类的对象一般需要以下三步：
 
 1. 获取该类的Class对象
 2. 利用Class对象的getConstructor方法类获取指定的构造器
 3. 利用Constructor的newIntance方法来创建一个类的对象
 
+
+
 代码如下：
+
 ```java
 public class Hello {
     public static void main(String[] args) throws {
@@ -61,9 +64,7 @@ public class Hello {
 }
 ```
 
-
 ## 3.2  操作对象调用方法
-
 使用Class对象来调用类里面对象的方法一般需要以下几步：
 
 1. 获取该类的Class对象
@@ -71,6 +72,7 @@ public class Hello {
 3. 调用Method对象的invoke(Object obj,Object... args)方法，invoke方法的第一个参数obj是该方法的主调，后面的arg是执行方法所需要的实参
 
 具体代码如下：
+
 ```java
 public class Hello {
 
@@ -87,9 +89,7 @@ public class Hello {
 }
 ```
 
-
 ## 3.3 访问成员变量
-
 使用Class对象给类对象里面的成员变量设置一般需要如下几步：
 
 1. 获取类对象的Class对象
@@ -98,6 +98,7 @@ public class Hello {
 4. 调用get(Object obj)或者set(Object obj，xxx val)方法，get方法的意义是获取obj对象的该成员变量的值，set方法的意义是将obj对象的该成员变量设置为val
 
 具体代码如下：
+
 ```java
 public class Hello {
 
@@ -115,21 +116,24 @@ public class Hello {
 ```
 
 
-## 3.4 利用反射生成JDK动态代理
 
+## 3.4 利用反射生成JDK动态代理
 java主要利用reflect包下的Proxy类和InvocationHandler接口来生成jdk动态代理类或动态代理对象
 
 Proxy提供了两个方法来创建动态代理类和动态代理对象：
 
--  getProxyClass 创建一个动态代理类所对应的Class对象， 
-   - 该代理类将实现第二个参数interfaces指定的多个接口。
-   - 第一个参数ClassLoader指定生成动态代理类的类加载器
--  newProxyInstance 
-   - 直接生成一个动态代理类对象
-   - 该代理类将实现第二个参数interfaces指定的多个接口。
-   - 指定代理对象里面的每一个方法时都会被替换执行InvacationHandler对象的invoke方法，也就是说代理对象里面有多少个方法，invoke方法就会被执行多少遍。
++  getProxyClass 创建一个动态代理类所对应的Class对象， 
+    - 该代理类将实现第二个参数interfaces指定的多个接口。
+    - 第一个参数ClassLoader指定生成动态代理类的类加载器
++  newProxyInstance 
+    - 直接生成一个动态代理类对象
+    - 该代理类将实现第二个参数interfaces指定的多个接口。
+    - 指定代理对象里面的每一个方法时都会被替换执行InvacationHandler对象的invoke方法，也就是说代理对象里面有多少个方法，invoke方法就会被执行多少遍。
+
+
 
 代码如下：
+
 ```java
 //定义一个接口，接口里面有两个方法
 public interface Persion {
@@ -169,7 +173,7 @@ public class ProxyTest {
         InvocationHandler invocationHandler=new MyInvokationHandler();
 		//使用指定的InvocationHandler来生成一个动态代理对象
         Persion persion =(Persion) Proxy.newProxyInstance(Persion.class.getClassLoader(), new Class[]{Persion.class}, invocationHandler);
-		调用动态代理对象里面的waik方法和sayHello方法
+		调用动态代理对象里面的walk方法和sayHello方法
         persion.walk();
         persion.sayHello("hello java");
     }
@@ -190,12 +194,12 @@ hello java
 
 */
 ```
+
 从上面的打印可以看出，不管是执行代理对象的walk方法，还是执行代理对象的sayHello方法，实际上都是执行MyInvokationHandler对象的invoke方法。
 
-
 ## 3.5 动态代理和AOP
-
 代码如下：
+
 ```java
 //定义一个接口
 public interface Dog {
@@ -267,3 +271,4 @@ public class Test {
 
 */
 ```
+
