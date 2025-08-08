@@ -1,4 +1,4 @@
-笔记来源：[黑马程序员java日志框架教程，全面深入学习多种java日志框架](https://www.bilibili.com/video/BV1iJ411H74S/?p=10&spm_id_from=pageDriver&vd_source=e8046ccbdc793e09a75eb61fe8e84a30)
+**笔记来源**：[黑马程序员java日志框架教程，全面深入学习多种java日志框架](https://www.bilibili.com/video/BV1iJ411H74S/?p=10&spm_id_from=pageDriver&vd_source=e8046ccbdc793e09a75eb61fe8e84a30)
 
 **前言**：Log4j是Apache下的一款开源的日志框架，通过在项目中使用 Log4J，我们可以控制日志信息输出到控 制台、文件、甚至是数据库中。我们可以控制每一条日志的输出格式，通过定义日志的输出级别，可以 更灵活的控制日志的输出过程。方便项目的调试。  
 
@@ -61,7 +61,7 @@ public class Log4jTest {
 
 注：一般只使用4个级别，优先级从高到低为 ERROR > WARN > INFO > DEBUG 
 
-# 61.  2 Log4j组件
+# 2 Log4j组件
 Log4J 主要由 Loggers (日志记录器)、Appenders(输出端)和 Layout(日志格式化器)组成。其中 
 
 + Loggers 控制日志的输出级别与日志是否输出;
@@ -80,17 +80,17 @@ Log4J中有一个特殊的logger叫做“root”，他是所有logger的根，�
 ## 2.2 Appenders
 Appender 用来指定日志输出到哪个地方，可以同时指定日志的输出目的地。Log4j 常用的输出目的地 有以下几种:
 
-| <font style="color:#000000;"> 输出端类型</font> | <font style="color:#000000;">作用</font>   |
-| ---------------------------------------- | ---------------------------------------- |
-| ConsoleAppender                          | 将日志输出到控制台                                |
-| FileAppender                             | 将日志输出到文件中                                |
-| DailyRollingFileAppender                 | 将日志输出到一个日志文件，并且每天输出到一个新的文件               |
-| RollingFileAppender                      | 将日志信息输出到一个日志文件，并且指定文件的尺寸，当文件大小达到指定尺寸时，会自动把文件改名，同时产生一个新的文件 |
-| JDBCAppender                             | 把日志信息保存到数据库中                             |
+| 输出端类型                    | 作用                                       |
+| ------------------------ | ---------------------------------------- |
+| ConsoleAppender          | 将日志输出到控制台                                |
+| FileAppender             | 将日志输出到文件中                                |
+| DailyRollingFileAppender | 将日志输出到一个日志文件，并且每天输出到一个新的文件               |
+| RollingFileAppender      | 将日志信息输出到一个日志文件，并且指定文件的尺寸，当文件大小达到指定尺寸时，会自动把文件改名，同时产生一个新的文件 |
+| JDBCAppender             | 把日志信息保存到数据库中                             |
 
 
 ## 2.3 Layouts
-布局器 Layouts用于控制日志输出内容的格式，让我们可以使用各种需要的格式输出日志。Log4j常用的Layouts：
+布局器 Layouts用于控制日志输出内容的格式，让我们可以使用各种需要的格式输出日志。Log4j常用Layouts：
 
 | 格式化器类型        | 作用                                       |
 | ------------- | ---------------------------------------- |
