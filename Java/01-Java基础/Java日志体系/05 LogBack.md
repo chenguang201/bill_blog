@@ -764,13 +764,3 @@ roll_logback.log文件内容如下：
 </configuration>
 ```
 
-此时生成三个文件：
-
-![](images/42.png)
-
-我们发现，三个文件都是空的，因为我们配置的logger对象是com.itheima，而且只在console上打印。且日志级别是info以上。 
-
-看下控制台，没有trace和debug级别的日志。
-
-![](images/43.png)
-
