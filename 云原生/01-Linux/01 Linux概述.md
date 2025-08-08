@@ -1,0 +1,27 @@
+**<font style="color:#DF2A3F;">笔记来源：</font>**[**<font style="color:#DF2A3F;">3天搞定Linux，1天搞定Shell，清华学神带你通关</font>**](https://www.bilibili.com/video/BV1WY4y1H7d3?p=9&vd_source=e8046ccbdc793e09a75eb61fe8e84a30)
+
+**<font style="color:#DF2A3F;"></font>**
+
+# 530. <font style="color:rgb(0,0,0);">1 介绍</font>
+Linux内核最初只是由芬兰人<font style="color:#DF2A3F;">林纳斯·托瓦兹（LinusTorvalds）</font>在赫尔辛基大学上学时出于个人爱好而编写的。
+
+Linux是一套免费使用和自由传播的类Unix操作系统，是一个基于POSIX和UNIX的多用户、多任务、支持多线程和多CPU的操作系统。Limux能运行主要的UNIX工具软件、应用程序和网络协议。它支持32位和64位硬件。Linux继承了Unix以网络为核心的设计思想，是一个性能稳定的多用户网络操作系统
+
+自前市面上较知名的发行版有：Ubuntu、RedHat、Centos、Debain、Fedora、SuSE、OpenSUSE
+
+# 531. <font style="color:rgb(0,0,0);">2 Linux 和 Windows 区别 </font>
+| **<font style="background-color:#01B2BC;">比较</font>** | **<font style="background-color:#01B2BC;">Window</font>** | **<font style="background-color:#01B2BC;">Linux</font>** |
+| --- | --- | --- |
+| 免费与收费 | 收费且很贵 | Limux免费或少许费用。 |
+| 软件与支持 | 数量和质量的优势，不过大部分为收费软件；由微软官方提供支持和服务 | 开源自由软件，用户可以修改定制和再发布，由于基本免费没有资金支持，部分软件质量和体验欠缺：有全球所有的Liux开发者和自由软件社区提供支持。 |
+| 安全性 | 三天两头打补丁安装系统安全更新，还是会中病毒木马： | 要说Limux没有安全问题，那当然是不可能的，这一点仁者见仁智者见智，相对来说背定比Widows平台要更加安全 |
+| 使用习惯 | 普通用户基本都是纯图形界面下操作使用，依靠鼠标和键盘完成一切操作，用户上手容易入门简单 | 兼具图形界面操作和完全的命令行操作，可以只申键盘完成一切操作，新手入门较困难，需要一些学习和指导，一旦熟练之后效率极高 |
+| 可定制性 | 封闭的，系统可定制性很差 | 开源，可定制化非常强 |
+| 应用场景 | 桌面操作系统主要使用的是window。 | 支撑百度，谷歌，淘宝等应用软件和服务的，是后台成千上方的Liux服务器主机。世界上大部分软件和服务都是运行在Liux之上的。 |
+
+
+# 532. <font style="color:rgb(0,0,0);">3 CentOS 下载地址 </font>
+网易镜像：[http://mirrors.163.com/centos/7/isos/](http://mirrors.163.com/centos/7/isos/)
+
+搜狐镜像：[https://mirrors.sohu.com/centos/7/isos/](https://mirrors.sohu.com/centos/7/isos/)
+
