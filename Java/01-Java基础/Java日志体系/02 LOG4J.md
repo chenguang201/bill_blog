@@ -26,7 +26,7 @@
 </dependency>
 ```
 
-1. Java代码
+3. Java代码
 
 ```java
 public class Log4jTest {
@@ -52,7 +52,8 @@ public class Log4jTest {
 }
 ```
 
-1. 日志的级别：每个Logger都被了一个日志级别(log level)，用来控制日志信息的输出。日志级别从高到低分为:
+4. 日志的级别：每个Logger都被了一个日志级别(log level)，用来控制日志信息的输出。日志级别从高到低分为:
+
    - **fatal** 指出每个严重的错误事件将会导致应用程序的退出。
    - **error** 指出虽然发生错误事件，但仍然不影响系统的继续运行。
    - **warn** 表明会出现潜在的错误情形。
@@ -62,7 +63,7 @@ public class Log4jTest {
    - **OFF**，可用来关闭日志记录。
    - **ALL**，启用所有消息的日志记录。
 
-注：一般只使用4个级别，优先级从高到低为 ERROR > WARN > INFO > DEBUG 
+   注：一般只使用4个级别，优先级从高到低为 ERROR > WARN > INFO > DEBUG 
 
 # 2 Log4j组件
 
