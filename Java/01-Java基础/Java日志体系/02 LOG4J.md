@@ -1,12 +1,8 @@
-**<font style="color:#DF2A3F;">笔记来源：</font>**[**<font style="color:#DF2A3F;">黑马程序员java日志框架教程，全面深入学习多种java日志框架</font>**](https://www.bilibili.com/video/BV1iJ411H74S/?p=10&spm_id_from=pageDriver&vd_source=e8046ccbdc793e09a75eb61fe8e84a30)
+**笔记来源：**[**黑马程序员java日志框架教程，全面深入学习多种java日志框架**](https://www.bilibili.com/video/BV1iJ411H74S/?p=10&spm_id_from=pageDriver&vd_source=e8046ccbdc793e09a75eb61fe8e84a30)
 
-**<font style="color:#DF2A3F;"></font>**
+**前言**：Log4j是Apache下的一款开源的日志框架，通过在项目中使用 Log4J，我们可以控制日志信息输出到控 制台、文件、甚至是数据库中。我们可以控制每一条日志的输出格式，通过定义日志的输出级别，可以 更灵活的控制日志的输出过程。方便项目的调试。  
 
-<font style="color:#2F8EF4;">前言</font>  
-Log4j是Apache下的一款开源的日志框架，通过在项目中使用 Log4J，我们可以控制日志信息输出到控 制台、文件、甚至是数据库中。我们可以控制每一条日志的输出格式，通过定义日志的输出级别，可以 更灵活的控制日志的输出过程。方便项目的调试。  
-官方网站
-
-[Log4J官网](https://logging.apache.org/log4j/1.2/)
+官方网站：[Log4J官网](https://logging.apache.org/log4j/1.2/)
 
 # 1 Log4J入门
 1. 建立maven工程 
@@ -53,24 +49,15 @@ public class Log4jTest {
 }
 ```
 
-4. 日志的级别
-
-:::color1
-每个Logger都被了一个日志级别(log level)，用来控制日志信息的输出。日志级别从高到低分为:
-
-+ **fatal** 指出每个严重的错误事件将会导致应用程序的退出。
-+ **error** 指出虽然发生错误事件，但仍然不影响系统的继续运行。
-+ **warn** 表明会出现潜在的错误情形。
-+ **info** 一般和在粗粒度级别上，强调应用程序的运行全程。
-+ **debug** 一般用于细粒度级别上，对调试应用程序非常有帮助。
-+ **trace** 是程序追踪，可以用于输出程序运行中的变量，显示执行的流程。
-
-还有两个特殊的级别: 
-
-+ **OFF**，可用来关闭日志记录。
-+ **ALL**，启用所有消息的日志记录。
-
-:::
+4. 日志的级别：每个Logger都被了一个日志级别(log level)，用来控制日志信息的输出。日志级别从高到低分为:
+   - **fatal** 指出每个严重的错误事件将会导致应用程序的退出。
+   - **error** 指出虽然发生错误事件，但仍然不影响系统的继续运行。
+   - **warn** 表明会出现潜在的错误情形。
+   - **info** 一般和在粗粒度级别上，强调应用程序的运行全程。
+   - **debug** 一般用于细粒度级别上，对调试应用程序非常有帮助。
+   - **trace** 是程序追踪，可以用于输出程序运行中的变量，显示执行的流程。
+   - **OFF**，可用来关闭日志记录。
+   - **ALL**，启用所有消息的日志记录。
 
 注：一般只使用4个级别，优先级从高到低为 ERROR > WARN > INFO > DEBUG 
 
@@ -93,52 +80,47 @@ Log4J中有一个特殊的logger叫做“root”，他是所有logger的根，�
 ## 2.2 Appenders
 Appender 用来指定日志输出到哪个地方，可以同时指定日志的输出目的地。Log4j 常用的输出目的地 有以下几种:
 
-| <font style="color:#000000;"> 输出端类型</font> | <font style="color:#000000;">作用</font> |
-| --- | --- |
-| ConsoleAppender | 将日志输出到控制台 |
-| FileAppender | 将日志输出到文件中 |
-| DailyRollingFileAppender | 将日志输出到一个日志文件，并且每天输出到一个新的文件 |
-| RollingFileAppender | 将日志信息输出到一个日志文件，并且指定文件的尺寸，当文件大小达到指定尺寸时，会自动把文件改名，同时产生一个新的文件 |
-| JDBCAppender | 把日志信息保存到数据库中 |
+| <font style="color:#000000;"> 输出端类型</font> | <font style="color:#000000;">作用</font>   |
+| ---------------------------------------- | ---------------------------------------- |
+| ConsoleAppender                          | 将日志输出到控制台                                |
+| FileAppender                             | 将日志输出到文件中                                |
+| DailyRollingFileAppender                 | 将日志输出到一个日志文件，并且每天输出到一个新的文件               |
+| RollingFileAppender                      | 将日志信息输出到一个日志文件，并且指定文件的尺寸，当文件大小达到指定尺寸时，会自动把文件改名，同时产生一个新的文件 |
+| JDBCAppender                             | 把日志信息保存到数据库中                             |
 
 
 ## 2.3 Layouts
 布局器 Layouts用于控制日志输出内容的格式，让我们可以使用各种需要的格式输出日志。Log4j常用的Layouts：
 
-| 格式化器类型 | 作用 |
-| --- | --- |
-| HTMLLayout | 格式化日志输出为HTML表格形式 |
-| SimpleLayout | 简单的日志输出格式化，打印的日志格式为(info - message) |
+| 格式化器类型        | 作用                                       |
+| ------------- | ---------------------------------------- |
+| HTMLLayout    | 格式化日志输出为HTML表格形式                         |
+| SimpleLayout  | 简单的日志输出格式化，打印的日志格式为(info - message)      |
 | PatternLayout | 最强大的格式化期，可以根据自定义格式输出日志，如果没有指定转换格式，就是用默认的转换格式 |
 
 
 # 3 Layout的格式
 在 log4j.properties 配置文件中，我们定义了日志输出级别与输出端，在输出端中分别配置日志的输出格式。
 
-:::color1
 log4j 采用类似 C 语言的 printf 函数的打印格式格式化日志信息，具体的占位符及其含义如下:
 
 + **%m**	输出代码中指定的日志信息
-+ **%p** 	输出优先级，及 DEBUG、INFO 等
-+ **%n **	换行符(Windows平台的换行符为 "
-"，Unix 平台为 "
-")
-+ **%r** 	输出自应用启动到输出该 log 信息耗费的毫秒数
-+ **%c **	输出打印语句所属的类的全名
-+ **%t **	输出产生该日志的线程全名
-+ **%d** 	输出服务器当前时间，默认为 ISO8601，也可以指定格式，如:%d{yyyy年MM月dd日HH:mm:ss}
-+ **%l** 	输出日志时间发生的位置，包括类名、线程、及在代码中的行数。如:Test.main(Test.java:10)
-+ **%F** 	输出日志消息产生时所在的文件名称
-+ **%L** 	输出代码中的行号 %% 输出一个 "%" 字符 
+  + **%p** 输出优先级，及 DEBUG、INFO 等
+  + **%n **换行符(Windows平台的换行符为 "\n"，Unix 平台为 "\n")
+  + **%r** 输出自应用启动到输出该 log 信息耗费的毫秒数
+  + **%c **输出打印语句所属的类的全名
+  + **%t **输出产生该日志的线程全名
+  + **%d** 输出服务器当前时间，默认为 ISO8601，也可以指定格式，如:%d{yyyy年MM月dd日HH:mm:ss}
+  + **%l** 输出日志时间发生的位置，包括类名、线程、及在代码中的行数。如:Test.main(Test.java:10)
+  + **%F** 输出日志消息产生时所在的文件名称
+  + **%L** 输出代码中的行号 %% 输出一个 "%" 字符 
 
 可以在 % 与字符之间加上修饰符来控制最小宽度、最大宽度和文本的对其方式。如:
 
-+ **%5c	  **	输出category名称，最小宽度是5，category<5，默认的情况下右对齐
-+ **%-5c** 	输出category名称，最小宽度是5，category<5，"-"号指定左对齐,会有空格
-+ **%.5c ** 	输出category名称，最大宽度是5，category>5，就会将左边多出的字符截掉，<5不会有空格
-+ **%20.30c 	**category名称<20补空格，并且右对齐，>30字符，就从左边交远销出的字符截掉
-
-:::
++ **%5c**          输出category名称，最小宽度是5，category<5，默认的情况下右对齐
++ **%-5c**         输出category名称，最小宽度是5，category<5，"-"号指定左对齐,会有空格
++ **%.5c **        输出category名称，最大宽度是5，category>5，就会将左边多出的字符截掉，<5不会有空
++ **%20.30c ** category名称<20补空格，并且右对齐，>30字符，就从左边交远销出的字符截掉
 
 # 4 Appender的输出 
 控制台 文件 数据库
@@ -158,9 +140,7 @@ log4j.appender.console.layout.conversionPattern = [%-10p]%r  %l %d{yyyy-MM-dd HH
 
 # 67. %m   输出代码中指定的日志信息
 # 68. %p   输出优先级，及 DEBUG、INFO 等
-# 69. %n   换行符（Windows平台的换行符为 "
-"，Unix 平台为 "
-"）
+# 69. %n   换行符（Windows平台的换行符为 "\n"，Unix 平台为 "\n"）
 # 70. %r   输出自应用启动到输出该 log 信息耗费的毫秒数
 # 71. %c   输出打印语句所属的类的全名
 # 72. %t   输出产生该日志的线程全名
@@ -245,9 +225,7 @@ log4j.appender.console.layout.conversionPattern = [%-10p]%r  %l %d{yyyy-MM-dd HH
 
 # 103. %m   输出代码中指定的日志信息
 # 104. %p   输出优先级，及 DEBUG、INFO 等
-# 105. %n   换行符（Windows平台的换行符为 "
-"，Unix 平台为 "
-"）
+# 105. %n   换行符（Windows平台的换行符为 "\n"，Unix 平台为 "\n"）
 # 106. %r   输出自应用启动到输出该 log 信息耗费的毫秒数
 # 107. %c   输出打印语句所属的类的全名
 # 108. %t   输出产生该日志的线程全名
@@ -310,7 +288,7 @@ log4j.appender.logDB.Password=root
 log4j.appender.logDB.Sql=INSERT INTO log(project_name,create_date,level,category,file_name,thread_name,line,all_category,message) values('itcast','%d{yyyy-MM-dd HH:mm:ss}','%p','%c','%F','%t','%L','%l','%m')
 ```
 
-JAVA代码
+Java代码
 
 ```java
 package com.itheima;
@@ -391,9 +369,7 @@ POM.xml
 </dependencies>
 ```
 
-输出
-
-控制台
+控制台输出
 
 ![](images/7.png)
 

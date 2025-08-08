@@ -800,10 +800,46 @@ $$
 
 $$
 
+
+$$
+
+$$
+
+
+
+$$
+
+$$
+
+
+$$
+
+$$
+
+
+
 main
 $$
 
 $$
+
+
+$$
+
+$$
+
+
+
+$$
+
+$$
+
+
+$$
+
+$$
+
+
 
 0(DefaultPromiseTest2.java:27)
 	at io.netty.channel.DefaultEventLoop.run(DefaultEventLoop.java:54)
@@ -930,10 +966,46 @@ $$
 
 $$
 
+
+$$
+
+$$
+
+
+
+$$
+
+$$
+
+
+$$
+
+$$
+
+
+
 main
 $$
 
 $$
+
+
+$$
+
+$$
+
+
+
+$$
+
+$$
+
+
+$$
+
+$$
+
+
 
 0(DefaultPromiseTest.java:27)
 	at io.netty.util.concurrent.PromiseTask$RunnableAdapter.call(PromiseTask.java:38)
@@ -952,10 +1024,46 @@ $$
 
 $$
 
+
+$$
+
+$$
+
+
+
+$$
+
+$$
+
+
+$$
+
+$$
+
+
+
 main
 $$
 
 $$
+
+
+$$
+
+$$
+
+
+
+$$
+
+$$
+
+
+$$
+
+$$
+
+
 
 1(DefaultPromiseTest.java:36)
 	at io.netty.util.concurrent.PromiseTask$RunnableAdapter.call(PromiseTask.java:38)

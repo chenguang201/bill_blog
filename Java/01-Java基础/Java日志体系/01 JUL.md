@@ -34,7 +34,7 @@
 
 1. 控制日志输出的内容和格式 
 2. 控制日志输出的位置 
-3. 日志优化:异步日志，日志文件的归档和压
+3. 日志优化：异步日志，日志文件的归档和压
 4. 日志系统的维护 
 5. 面向接口开发 -- 日志的门面
 
@@ -98,8 +98,7 @@ public class JULTest {
 ## 3.2 日志的级别 
 JUL中定义的日志级别
 
-:::color2
-+ **java.util.logging.Level**中定义了日志的级别: 
++ **java.util.logging.Level** 中定义了日志的级别: 
     - SEVERE(最高值) 
     - WARNING
     - INFO (默认级别) 
@@ -109,7 +108,7 @@ JUL中定义的日志级别
     - FINEST(最低值) 
 + 还有两个特殊的级别: 
     - OFF，可用来关闭日志记录。 
-      - ALL，启用所有消息的日志记录。  
+    - ALL，启用所有消息的日志记录。  
 
 ```java
 /*
@@ -329,7 +328,7 @@ public void testLogLevel() throws Exception {
 自定义日志级别配置
 
 ```java
-	// 自定义日志级别
+   // 自定义日志级别
     @Test
     public void testLogConfig()throws Exception{
         // 1.获取日志记录器对象
@@ -497,20 +496,7 @@ java.util.logging.ConsoleHandler.formatter = java.util.logging.SimpleFormatter
 java.util.logging.ConsoleHandler.encoding = UTF-8
 
 # 60. 指定日志消息格式
-java.util.logging.SimpleFormatter.format = %4
-
-$$
-
-$$
-
-s: %5$s [%1
-$$
-
-$$
-
-tc]%n
-
-
+java.util.logging.SimpleFormatter.format = %4$s: %5$s [%1$tc]%n
 ```
 
 输出
