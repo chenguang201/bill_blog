@@ -238,3 +238,317 @@ SLF4J不依赖于任何特殊的类装载。实际上，每个SLF4J绑定 都是
 3. 在绑定具体实现的时候，通过类加载器，加载org/slf4j/impl/StaticLoggerBinder.class
 4. 所以，只要是一个日志实现框架，在org.slf4j.impl包中提供一个自己的StaticLoggerBinder类，在其中提供具体日志实现的LoggerFactory就可以被SLF4J所加载
 
+# 3 具体案例
+## 3.1 只加slf4j日志门面
+```xml
+ <!-- slf4j 日志门面 -->
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            slf4j-api</artifactId>
+            <version>1.7.26</version>
+        </dependency>
+```
+
+输出
+
+![](images/23.png)
+
+任何级别的日志都没打印出来
+
+## 3.2 slf4j-simple 默认实现
+```xml
+<!-- slf4j 日志门面 -->
+<dependency>
+    <groupId>org.slf4j</groupId>
+    slf4j-api</artifactId>
+    <version>1.7.26</version>
+</dependency>
+
+<!-- slf4j 内置的简单实现-->
+<dependency>
+    <groupId>org.slf4j</groupId>
+    slf4j-simple</artifactId>
+    <version>1.7.21</version>
+</dependency>
+```
+
+输出
+
+![](images/24.png)
+
+## 3.3 logback 
+```xml
+<!-- slf4j 日志门面 -->
+<dependency>
+    <groupId>org.slf4j</groupId>
+    slf4j-api</artifactId>
+    <version>1.7.26</version>
+</dependency>
+
+<!--logback 日志实现-->
+<dependency>
+    <groupId>ch.qos.logback</groupId>
+    logback-classic</artifactId>
+    <version>1.2.3</version>
+</dependency>
+```
+
+![](images/25.png)
+
+logback-classic包中包含logback-core包，所以不需要再倒入logback-core
+
+![](images/26.png)
+
+## 3.4 nop
+```xml
+<!--nop 日志开关-->
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            slf4j-nop</artifactId>
+            <version>1.7.25</version>
+        </dependency>
+```
+
+输出
+
+![](images/27.png)
+
+## 3.5 JUL实现
+```xml
+<!-- slf4j 日志门面 -->
+<dependency>
+    <groupId>org.slf4j</groupId>
+    slf4j-api</artifactId>
+    <version>1.7.26</version>
+</dependency>
+
+<!--绑定 jul 日志实现，需要导入适配器 -->
+<dependency>
+    <groupId>org.slf4j</groupId>
+    slf4j-jdk14</artifactId>
+    <version>1.7.25</version>
+</dependency>
+```
+
+输出
+
+![](images/28.png)
+
+## 3.6 Log4J
+```xml
+<!-- slf4j 日志门面 -->
+<dependency>
+    	<groupId>org.slf4j</groupId>
+      slf4j-api</artifactId>
+      <version>1.7.26</version>
+</dependency>
+
+
+<!--绑定 log4j 日志实现，需要导入适配器-->
+<dependency>
+      <groupId>org.slf4j</groupId>
+      slf4j-log4j12</artifactId>
+      <version>1.7.12</version>
+</dependency>
+
+<dependency>
+       <groupId>log4j</groupId>
+       log4j</artifactId>
+       <version>1.2.17</version>
+</dependency>
+```
+
+log4j.properties
+
+```properties
+# 141. 指定 RootLogger 顶级父元素默认配置信息
+# 142. 指定日志级别=trace，使用的 apeender 为=console
+log4j.rootLogger = trace,console
+
+# 143. 自定义 logger 对象设置
+log4j.logger.com.itheima = info,rollingFile
+log4j.logger.org.apache = error
+
+# 144. 指定控制台日志输出的 appender
+log4j.appender.console = org.apache.log4j.ConsoleAppender
+# 145. 指定消息格式 layout
+log4j.appender.console.layout = org.apache.log4j.PatternLayout
+# 146. 指定消息格式的内容
+log4j.appender.console.layout.conversionPattern = [%-10p]%r  %l %d{yyyy-MM-dd HH:mm:ss.SSS} %m%n
+
+
+# 147. %m   输出代码中指定的日志信息
+# 148. %p   输出优先级，及 DEBUG、INFO 等
+# 149. %n   换行符（Windows平台的换行符为 "
+"，Unix 平台为 "
+"）
+# 150. %r   输出自应用启动到输出该 log 信息耗费的毫秒数
+# 151. %c   输出打印语句所属的类的全名
+# 152. %t   输出产生该日志的线程全名
+# 153. %d   输出服务器当前时间，默认为 ISO8601，也可以指定格式，如：%d{yyyy年MM月dd日 HH:mm:ss}
+# 154. %l   输出日志时间发生的位置，包括类名、线程、及在代码中的行数。如：Test.main(Test.java:10)
+# 155. %F   输出日志消息产生时所在的文件名称
+# 156. %L   输出代码中的行号
+# 157. %%   输出一个 "%" 字符
+
+# 158. 日志文件输出的 appender 对象
+log4j.appender.file = org.apache.log4j.FileAppender
+# 159. 指定消息格式 layout
+log4j.appender.file.layout = org.apache.log4j.PatternLayout
+# 160. 指定消息格式的内容
+log4j.appender.file.layout.conversionPattern = [%-10p]%r  %l %d{yyyy-MM-dd HH:mm:ss.SSS} %m%n
+# 161. 指定日志文件保存路径
+log4j.appender.file.file = /Users/admin/logs/log4j.log
+# 162. 指定日志文件的字符集
+log4j.appender.file.encoding = UTF-8
+
+
+# 163. 按照文件大小拆分的 appender 对象
+# 164. 日志文件输出的 appender 对象
+log4j.appender.rollingFile = org.apache.log4j.RollingFileAppender
+# 165. 指定消息格式 layout
+log4j.appender.rollingFile.layout = org.apache.log4j.PatternLayout
+# 166. 指定消息格式的内容
+log4j.appender.rollingFile.layout.conversionPattern = [%-10p]%r  %l %d{yyyy-MM-dd HH:mm:ss.SSS} %m%n
+# 167. 指定日志文件保存路径
+log4j.appender.rollingFile.file = /Users/admin/logs/log4j.log
+# 168. 指定日志文件的字符集
+log4j.appender.rollingFile.encoding = UTF-8
+# 169. 指定日志文件内容的大小
+log4j.appender.rollingFile.maxFileSize = 1MB 
+# 170. 指定日志文件的数量
+log4j.appender.rollingFile.maxBackupIndex = 10
+
+
+# 171. 按照时间规则拆分的 appender 对象
+log4j.appender.dailyFile = org.apache.log4j.DailyRollingFileAppender
+# 172. 指定消息格式 layout
+log4j.appender.dailyFile.layout = org.apache.log4j.PatternLayout
+# 173. 指定消息格式的内容
+log4j.appender.dailyFile.layout.conversionPattern = [%-10p]%r  %l %d{yyyy-MM-dd HH:mm:ss.SSS} %m%n
+# 174. 指定日志文件保存路径
+log4j.appender.dailyFile.file = /Users/admin/logs/log4j.log
+# 175. 指定日志文件的字符集
+log4j.appender.dailyFile.encoding = UTF-8
+# 176. 指定日期拆分规则
+log4j.appender.dailyFile.datePattern = '.'yyyy-MM-dd-HH-mm-ss
+
+
+#mysql
+log4j.appender.logDB=org.apache.log4j.jdbc.JDBCAppender
+log4j.appender.logDB.layout=org.apache.log4j.PatternLayout
+log4j.appender.logDB.Driver=com.mysql.jdbc.Driver
+log4j.appender.logDB.URL=jdbc:mysql://localhost:3306/test
+log4j.appender.logDB.User=root
+log4j.appender.logDB.Password=root
+log4j.appender.logDB.Sql=INSERT INTO log(project_name,create_date,level,category,file_name,thread_name,line,all_category,message) values('itcast','%d{yyyy-MM-dd HH:mm:ss}','%p','%c','%F','%t','%L','%l','%m')
+```
+
+输出
+
+![](images/29.png)
+
+## 3.7 桥接器的使用
+原本项目使用的是log4j，现在打算使用Slf4j和logback，则
+
+```xml
+<dependencies>
+    <!-- slf4j 日志门面 -->
+    <dependency>
+        <groupId>org.slf4j</groupId>
+        slf4j-api</artifactId>
+        <version>1.7.26</version>
+    </dependency>
+
+
+    <!--logback 日志实现，引入logback的具体实现-->
+    <dependency>
+        <groupId>ch.qos.logback</groupId>
+        logback-classic</artifactId>
+        <version>1.2.3</version>
+    </dependency>
+
+
+    <!--配置 log4j 的桥接器，引入log4j的桥接器-->
+    <dependency>
+        <groupId>org.slf4j</groupId>
+        log4j-over-slf4j</artifactId>
+        <version>1.7.25</version>
+    </dependency>
+
+	
+    <!-- 原本的log4j的适配器和log4j具体实现注释掉
+    <dependency>
+        <groupId>org.slf4j</groupId>
+        slf4j-log4j12</artifactId>
+        <version>1.7.12</version>
+    </dependency>
+
+    <dependency>
+        <groupId>log4j</groupId>
+        log4j</artifactId>
+        <version>1.2.17</version>
+    </dependency>
+    -->
+
+</dependencies>
+```
+
+代码不需要做任何改动
+
+输出
+
+![](images/30.png)
+
+日志已经改为logback的输出了
+
+## 3.8 同时引入桥接器和适配器引发的问题
+```xml
+<dependencies>
+        <!-- slf4j 日志门面 -->
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            slf4j-api</artifactId>
+            <version>1.7.26</version>
+        </dependency>
+
+
+        <!--配置 log4j 的桥接器-->
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            log4j-over-slf4j</artifactId>
+            <version>1.7.25</version>
+        </dependency>
+
+        
+        <!--绑定 log4j 日志实现，需要导入适配器-->
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            slf4j-log4j12</artifactId>
+            <version>1.7.12</version>
+        </dependency>
+
+        <dependency>
+            <groupId>log4j</groupId>
+            log4j</artifactId>
+            <version>1.2.17</version>
+        </dependency>
+
+
+        <!-- junit 单元测试-->
+        <dependency>
+            <groupId>junit</groupId>
+            junit</artifactId>
+            <version>4.12</version>
+        </dependency>
+    </dependencies>
+```
+
+现象：
+
+![](images/31.png)
+
+原因分析：
+
+![](images/32.jpeg)
+
