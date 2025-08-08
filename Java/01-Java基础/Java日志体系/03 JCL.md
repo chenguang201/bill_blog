@@ -89,3 +89,27 @@ log4j.appender.console.layout.conversionPattern = [%-10p]%r  %l %d{yyyy-MM-dd HH
 3. 统一API，方便开发者学习和使用 
 4. 统一配置便于项目日志的管理 
 
+# 2 JCL原理 
+1. 通过LogFactory动态加载Log实现类 
+
+![](images/12.png)
+
+![](images/13.png)
+
+2.  日志门面支持的日志实现数组 
+
+    a. 获取接口Log具体的实现类
+
+![](images/14.png)
+
+​	b. 创建具体的实现类
+
+
+![](images/15.png)
+
+​	c. 发现有哪些可以创建的实现类
+
+
+![](images/16.png)
+
+​	
