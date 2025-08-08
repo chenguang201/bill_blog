@@ -121,8 +121,7 @@ log4j.appender.console.layout.conversionPattern = [%-10p]%r  %l %d{yyyy-MM-dd HH
 
 ​	e. 利用反射去创建Log的对象
 
-
 ![](images/18.png)
 
-
+获取具体的日志实现：我们发现JCL只支持JUL和Log4J，那么如果是其他的日志实现类，比如LogBack，那么该怎么办？我们继续往下看
 
