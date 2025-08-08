@@ -350,3 +350,429 @@ logback会依次读取以下类型配置文件：
 
 [log4j.properties Translator](https://logback.qos.ch/translator/)
 
+# 3 logback-access的使用 
+logback-access模块与Servlet容器(如Tomcat和Jetty)集成，以提供HTTP访问日志功能。我们可以使  
+用logback-access模块来替换tomcat的访问日志。
+
+1. 将logback-access.jar与logback-core.jar复制到$TOMCAT_HOME/lib/目录下
+2. 修改$TOMCAT_HOME/conf/server.xml中的Host元素中添加：
+
+```xml
+<Valve className="ch.qos.logback.access.tomcat.LogbackValve" />
+```
+
+3. logback默认会在$TOMCAT_HOME/conf下查找文件 logback-access.xml
+
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <!-- always a good activate OnConsoleStatusListener -->
+    <statusListener
+        class="ch.qos.logback.core.status.OnConsoleStatusListener"/>
+    
+    <property name="LOG_DIR" value="${catalina.base}/logs"/>
+    
+    
+        <file>${LOG_DIR}/access.log</file>
+        <rollingPolicy
+            class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>access.%d{yyyy-MM-dd}.log.zip</fileNamePattern>
+        </rollingPolicy>
+        <encoder>
+            <!-- 访问日志的格式 --> 
+            <pattern>combined</pattern>
+        </encoder>
+    </appender>
+    
+    
+</configuration>
+```
+
+4. 官方配置: [Logback-access](https://logback.qos.ch/access.html#configuration)
+
+# 4 案例讲解
+```java
+package com.itheima;
+
+import org.junit.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+public class LogbackTest {
+    public static final Logger LOGGER = LoggerFactory.getLogger(LogbackTest.class);
+
+    // 快速入门
+    @Test
+    public void testQuick()throws Exception{
+        for (int i = 0; i < 10000; i++) {
+            // 日志输出
+            LOGGER.error("error");
+            LOGGER.warn("wring");
+            LOGGER.info("info");
+            LOGGER.debug("debug");// 默认级别
+            LOGGER.trace("trace");
+        }
+
+    }
+}
+```
+
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+
+    <!--
+        配置集中管理属性
+        我们可以直接改属性的 value 值
+        格式：${name}
+    -->
+    <property name="pattern" value="[%-5level] %d{yyyy-MM-dd HH:mm:ss.SSS} %c %M %L [%thread] %m%n"></property>
+    <!--
+    日志输出格式：
+        %-5level
+        %d{yyyy-MM-dd HH:mm:ss.SSS}日期
+        %c类的完整名称
+        %M为method
+        %L为行号
+        %thread线程名称
+        %m或者%msg为信息
+        %n换行
+      -->
+    <!--定义日志文件保存路径属性-->
+    <property name="log_dir" value="/Users/admin/logs/logback"></property>
+
+
+    <!--控制台日志输出的 appender-->
+    
+        <!--控制输出流对象 默认 System.out 改为 System.err-->
+        <target>System.err</target>
+        <!--日志消息格式配置-->
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <pattern>${pattern}</pattern>
+        </encoder>
+    </appender>
+
+    <!--日志文件输出的 appender-->
+    
+        <!--日志文件保存路径-->
+        <file>${log_dir}/logback.log</file>
+        <!--日志消息格式配置-->
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <pattern>${pattern}</pattern>
+        </encoder>
+    </appender>
+
+    <!--html 格式日志文件输出 appender-->
+    
+        <!--日志文件保存路径-->
+        <file>${log_dir}/logback.html</file>
+        <!--html 消息格式配置-->
+        <encoder class="ch.qos.logback.core.encoder.LayoutWrappingEncoder">
+            <layout class="ch.qos.logback.classic.html.HTMLLayout">
+                <pattern>%-5level%d{yyyy-MM-dd HH:mm:ss.SSS}%c%M%L%thread%m</pattern>
+            </layout>
+        </encoder>
+    </appender>
+
+
+    <!--日志拆分和归档压缩的 appender 对象-->
+    
+        <!--日志文件保存路径-->
+        <file>${log_dir}/roll_logback.log</file>
+        <!--日志消息格式配置-->
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <pattern>${pattern}</pattern>
+        </encoder>
+        <!--指定拆分规则-->
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <!--按照时间和压缩格式声明拆分的文件名-->
+            <fileNamePattern>${log_dir}/rolling.%d{yyyy-MM-dd}.log%i.log</fileNamePattern>
+            <!--按照文件大小拆分-->
+            <maxFileSize>1MB</maxFileSize>
+        </rollingPolicy>
+        <!--日志级别过滤器-->
+<!--        <filter class="ch.qos.logback.classic.filter.LevelFilter">-->
+<!--            &lt;!&ndash;日志过滤规则&ndash;&gt;-->
+<!--            <level>ERROR</level>-->
+<!--            <onMatch>ACCEPT</onMatch>-->
+<!--            <onMismatch>DENY</onMismatch>-->
+<!--        </filter>-->
+    </appender>
+
+    <!--异步日志-->
+    
+        <!--指定某个具体的 appender-->
+        
+    </appender>
+
+
+    <!--root logger 配置-->
+    <root level="ALL">
+        
+        
+    </root>
+
+    <!--自定义 looger 对象
+        additivity="false" 自定义 logger 对象是否继承 rootLogger
+     -->
+<!--    <logger name="com.itheima" level="info" additivity="false">-->
+<!--        -->
+<!--    </logger>-->
+</configuration>
+```
+
+生成的文件
+
+![](images/34.png)
+
+其中logback.log文件为空，是因为我们在root里面没有引用name为file的appender
+
+logback.html也为空，因为我们在root里面也没有引用name为htmlFile的appender，logback.html的内容为
+
+![](images/35.png)
+
+roll_logback.log文件内容如下：
+
+![](images/36.png)
+
+这个是rollFile这个appender生成的，其中还拆分出了以下三个文件
+
+![](images/37.png)
+
+现在将配置文件改为
+
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+
+    <!--
+        配置集中管理属性
+        我们可以直接改属性的 value 值
+        格式：${name}
+    -->
+    <property name="pattern" value="[%-5level] %d{yyyy-MM-dd HH:mm:ss.SSS} %c %M %L [%thread] %m%n"></property>
+    <!--
+    日志输出格式：
+        %-5level
+        %d{yyyy-MM-dd HH:mm:ss.SSS}日期
+        %c类的完整名称
+        %M为method
+        %L为行号
+        %thread线程名称
+        %m或者%msg为信息
+        %n换行
+      -->
+    <!--定义日志文件保存路径属性-->
+    <property name="log_dir" value="/Users/admin/logs/logback"></property>
+
+
+    <!--控制台日志输出的 appender-->
+    
+        <!--控制输出流对象 默认 System.out 改为 System.err-->
+        <target>System.err</target>
+        <!--日志消息格式配置-->
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <pattern>${pattern}</pattern>
+        </encoder>
+    </appender>
+
+    <!--日志文件输出的 appender-->
+    
+        <!--日志文件保存路径-->
+        <file>${log_dir}/logback.log</file>
+        <!--日志消息格式配置-->
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <pattern>${pattern}</pattern>
+        </encoder>
+    </appender>
+
+    <!--html 格式日志文件输出 appender-->
+    
+        <!--日志文件保存路径-->
+        <file>${log_dir}/logback.html</file>
+        <!--html 消息格式配置-->
+        <encoder class="ch.qos.logback.core.encoder.LayoutWrappingEncoder">
+            <layout class="ch.qos.logback.classic.html.HTMLLayout">
+                <pattern>%-5level%d{yyyy-MM-dd HH:mm:ss.SSS}%c%M%L%thread%m</pattern>
+            </layout>
+        </encoder>
+    </appender>
+
+
+    <!--日志拆分和归档压缩的 appender 对象-->
+    
+        <!--日志文件保存路径-->
+        <file>${log_dir}/roll_logback.log</file>
+        <!--日志消息格式配置-->
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <pattern>${pattern}</pattern>
+        </encoder>
+        <!--指定拆分规则-->
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <!--按照时间和压缩格式声明拆分的文件名-->
+            <fileNamePattern>${log_dir}/rolling.%d{yyyy-MM-dd}.log%i.log</fileNamePattern>
+            <!--按照文件大小拆分-->
+            <maxFileSize>1MB</maxFileSize>
+        </rollingPolicy>
+        <!--日志级别过滤器-->
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <!--日志过滤规则-->
+            <level>ERROR</level>
+            <onMatch>ACCEPT</onMatch>
+            <onMismatch>DENY</onMismatch>
+        </filter>
+    </appender>
+
+    <!--异步日志-->
+    
+        <!--指定某个具体的 appender-->
+    </appender>
+
+    <!--root logger 配置-->
+    <root level="ALL">
+       
+    </root>
+
+    <!--自定义 looger 对象
+        additivity="false" 自定义 logger 对象是否继承 rootLogger
+     -->
+<!--    <logger name="com.itheima" level="info" additivity="false">-->
+<!--        -->
+<!--    </logger>-->
+</configuration>
+```
+
+输出文件为：
+
+![](images/38.png)
+
+先来看看logback.html文件
+
+![](images/39.png)
+
+再来看看logback.log
+
+![](images/40.png)
+
+刚好有5万行日志
+
+最后我们来看看roll_logback.log 
+
+![](images/41.png)
+
+由于我们配置了过滤器，所以此文件中只有error级别以上的日志，其他级别的都是没有的。
+
+最后，我们再来看看自定义looger对象 
+
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+
+    <!--
+        配置集中管理属性
+        我们可以直接改属性的 value 值
+        格式：${name}
+    -->
+    <property name="pattern" value="[%-5level] %d{yyyy-MM-dd HH:mm:ss.SSS} %c %M %L [%thread] %m%n"></property>
+    <!--
+    日志输出格式：
+        %-5level
+        %d{yyyy-MM-dd HH:mm:ss.SSS}日期
+        %c类的完整名称
+        %M为method
+        %L为行号
+        %thread线程名称
+        %m或者%msg为信息
+        %n换行
+      -->
+    <!--定义日志文件保存路径属性-->
+    <property name="log_dir" value="/Users/admin/logs/logback"></property>
+
+
+    <!--控制台日志输出的 appender-->
+    
+        <!--控制输出流对象 默认 System.out 改为 System.err-->
+        <target>System.err</target>
+        <!--日志消息格式配置-->
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <pattern>${pattern}</pattern>
+        </encoder>
+    </appender>
+
+    <!--日志文件输出的 appender-->
+    
+        <!--日志文件保存路径-->
+        <file>${log_dir}/logback.log</file>
+        <!--日志消息格式配置-->
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <pattern>${pattern}</pattern>
+        </encoder>
+    </appender>
+
+    <!--html 格式日志文件输出 appender-->
+    
+        <!--日志文件保存路径-->
+        <file>${log_dir}/logback.html</file>
+        <!--html 消息格式配置-->
+        <encoder class="ch.qos.logback.core.encoder.LayoutWrappingEncoder">
+            <layout class="ch.qos.logback.classic.html.HTMLLayout">
+                <pattern>%-5level%d{yyyy-MM-dd HH:mm:ss.SSS}%c%M%L%thread%m</pattern>
+            </layout>
+        </encoder>
+    </appender>
+
+
+    <!--日志拆分和归档压缩的 appender 对象-->
+    
+        <!--日志文件保存路径-->
+        <file>${log_dir}/roll_logback.log</file>
+        <!--日志消息格式配置-->
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <pattern>${pattern}</pattern>
+        </encoder>
+        <!--指定拆分规则-->
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <!--按照时间和压缩格式声明拆分的文件名-->
+            <fileNamePattern>${log_dir}/rolling.%d{yyyy-MM-dd}.log%i.log</fileNamePattern>
+            <!--按照文件大小拆分-->
+            <maxFileSize>1MB</maxFileSize>
+        </rollingPolicy>
+        <!--日志级别过滤器-->
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <!--日志过滤规则-->
+            <level>ERROR</level>
+            <onMatch>ACCEPT</onMatch>
+            <onMismatch>DENY</onMismatch>
+        </filter>
+    </appender>
+
+    <!--异步日志-->
+    
+        <!--指定某个具体的 appender-->
+        
+    </appender>
+
+
+    <!--root logger 配置-->
+    <root level="ALL">
+    </root>
+
+    <!--自定义 looger 对象
+        additivity="false" 自定义 logger 对象是否继承 rootLogger
+     -->
+    <logger name="com.itheima" level="info" additivity="false">
+        
+    </logger>
+</configuration>
+```
+
+此时生成三个文件：
+
+![](images/42.png)
+
+我们发现，三个文件都是空的，因为我们配置的logger对象是com.itheima，而且只在console上打印。且日志级别是info以上。 
+
+看下控制台，没有trace和debug级别的日志。
+
+![](images/43.png)
+
