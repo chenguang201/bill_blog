@@ -567,7 +567,7 @@ roll_logback.log文件内容如下：
 
 
     <!--控制台日志输出的 appender-->
-    
+    <appender name="console" class="ch.qos.logback.core.ConsoleAppender">
         <!--控制输出流对象 默认 System.out 改为 System.err-->
         <target>System.err</target>
         <!--日志消息格式配置-->
@@ -577,7 +577,7 @@ roll_logback.log文件内容如下：
     </appender>
 
     <!--日志文件输出的 appender-->
-    
+    <appender name="file" class="ch.qos.logback.core.FileAppender">
         <!--日志文件保存路径-->
         <file>${log_dir}/logback.log</file>
         <!--日志消息格式配置-->
@@ -587,7 +587,7 @@ roll_logback.log文件内容如下：
     </appender>
 
     <!--html 格式日志文件输出 appender-->
-    
+    <appender name="htmlFile" class="ch.qos.logback.core.FileAppender">
         <!--日志文件保存路径-->
         <file>${log_dir}/logback.html</file>
         <!--html 消息格式配置-->
@@ -600,7 +600,7 @@ roll_logback.log文件内容如下：
 
 
     <!--日志拆分和归档压缩的 appender 对象-->
-    
+    <appender name="rollFile" class="ch.qos.logback.core.rolling.RollingFileAppender">
         <!--日志文件保存路径-->
         <file>${log_dir}/roll_logback.log</file>
         <!--日志消息格式配置-->
@@ -624,20 +624,25 @@ roll_logback.log文件内容如下：
     </appender>
 
     <!--异步日志-->
-    
+    <appender name="async" class="ch.qos.logback.classic.AsyncAppender">
         <!--指定某个具体的 appender-->
+        <appender-ref ref="rollFile"/>
     </appender>
+
 
     <!--root logger 配置-->
     <root level="ALL">
-       
+        <appender-ref ref="console"/>
+        <appender-ref ref="async"/>
+        <appender-ref ref="htmlFile"/>
+        <appender-ref ref="file"/>
     </root>
 
     <!--自定义 looger 对象
         additivity="false" 自定义 logger 对象是否继承 rootLogger
      -->
 <!--    <logger name="com.itheima" level="info" additivity="false">-->
-<!--        -->
+<!--        <appender-ref ref="console"/>-->
 <!--    </logger>-->
 </configuration>
 ```
@@ -660,7 +665,7 @@ roll_logback.log文件内容如下：
 
 由于我们配置了过滤器，所以此文件中只有error级别以上的日志，其他级别的都是没有的。
 
-最后，我们再来看看自定义looger对象 
+最后，我们再来看看自定义looger对象
 
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
@@ -688,7 +693,7 @@ roll_logback.log文件内容如下：
 
 
     <!--控制台日志输出的 appender-->
-    
+    <appender name="console" class="ch.qos.logback.core.ConsoleAppender">
         <!--控制输出流对象 默认 System.out 改为 System.err-->
         <target>System.err</target>
         <!--日志消息格式配置-->
@@ -698,7 +703,7 @@ roll_logback.log文件内容如下：
     </appender>
 
     <!--日志文件输出的 appender-->
-    
+    <appender name="file" class="ch.qos.logback.core.FileAppender">
         <!--日志文件保存路径-->
         <file>${log_dir}/logback.log</file>
         <!--日志消息格式配置-->
@@ -708,7 +713,7 @@ roll_logback.log文件内容如下：
     </appender>
 
     <!--html 格式日志文件输出 appender-->
-    
+    <appender name="htmlFile" class="ch.qos.logback.core.FileAppender">
         <!--日志文件保存路径-->
         <file>${log_dir}/logback.html</file>
         <!--html 消息格式配置-->
@@ -721,7 +726,7 @@ roll_logback.log文件内容如下：
 
 
     <!--日志拆分和归档压缩的 appender 对象-->
-    
+    <appender name="rollFile" class="ch.qos.logback.core.rolling.RollingFileAppender">
         <!--日志文件保存路径-->
         <file>${log_dir}/roll_logback.log</file>
         <!--日志消息格式配置-->
@@ -745,22 +750,36 @@ roll_logback.log文件内容如下：
     </appender>
 
     <!--异步日志-->
-    
+    <appender name="async" class="ch.qos.logback.classic.AsyncAppender">
         <!--指定某个具体的 appender-->
-        
+        <appender-ref ref="rollFile"/>
     </appender>
 
 
     <!--root logger 配置-->
     <root level="ALL">
+        <appender-ref ref="console"/>
+        <appender-ref ref="async"/>
+        <appender-ref ref="htmlFile"/>
+        <appender-ref ref="file"/>
     </root>
 
     <!--自定义 looger 对象
         additivity="false" 自定义 logger 对象是否继承 rootLogger
      -->
     <logger name="com.itheima" level="info" additivity="false">
-        
+        <appender-ref ref="console"/>
     </logger>
 </configuration>
 ```
+
+此时生成三个文件：
+
+![](images/42.png)
+
+我们发现，三个文件都是空的，因为我们配置的logger对象是com.itheima，而且只在console上打印。且日志级别是info以上。 
+
+看下控制台，没有trace和debug级别的日志。
+
+![](images/43.png)
 
