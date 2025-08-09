@@ -1,4 +1,8 @@
-**<font style="color:#DF2A3F;">笔记来源：</font>**[**<font style="color:#DF2A3F;">黑马程序员java日志框架教程，全面深入学习多种java日志框架</font>**](https://www.bilibili.com/video/BV1iJ411H74S/?p=10&spm_id_from=pageDriver&vd_source=e8046ccbdc793e09a75eb61fe8e84a30)
+**笔记来源：**[**黑马程序员java日志框架教程，全面深入学习多种java日志框架**](https://www.bilibili.com/video/BV1iJ411H74S/?p=10&spm_id_from=pageDriver&vd_source=e8046ccbdc793e09a75eb61fe8e84a30)
+
+------
+
+
 
 # 1 SpringBoot中的日志设计
 springboot框架在企业中的使用越来越普遍，springboot日志也是开发中常用的日志系统。springboot默认就是使用SLF4J作为日志门面，logback作为日志实现来记录日志。 
@@ -66,11 +70,11 @@ logging.pattern.file=%d{yyyy-MM-dd} [%thread] %-5level %logger{50} - %msg%n
 
 指定配置：给类路径下放上每个日志框架自己的配置文件；SpringBoot就不使用默认配置的了
 
-| 日志框架  | 配置文件 |
-| --- | --- |
+| 日志框架    | 配置文件                             |
+| ------- | -------------------------------- |
 | Logback | `logback-spring.xm``logback.xml` |
-| Log4j2 | `log4j2-spring.xml``log4j2.xml` |
-| JUL | `logging.properties` |
+| Log4j2  | `log4j2-spring.xml``log4j2.xml`  |
+| JUL     | `logging.properties`             |
 
 
 logback.xml:直接就被日志框架识别了 
@@ -90,7 +94,7 @@ logback-spring.xml：由SpringBoot解析日志配置
 </encoder>
 ```
 
- <font style="color:rgb(20.000000%, 20.000000%, 20.000000%);">application.properties </font>
+application.properties
 
 ```properties
 spring.profiles.active=dev

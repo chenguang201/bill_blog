@@ -40,7 +40,6 @@ System.out.println(localDate.isLeapYear());				//  false
 除了LocalDate之外，还有MonthDay、YearMonth、Year等类可以描述部分日期，如下：
 
 ```java
-
 MonthDay monthDay = MonthDay.of(12, 12);
 System.out.println(monthDay);         				//   --12-12
 System.out.println(monthDay.getMonth());			//   DECEMBER

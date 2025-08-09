@@ -29,6 +29,7 @@ System.out.println(StringUtils.isNotEmpty("aaa"));	//true
 ```
 
 判断逻辑为字符串为null，或者字符串的长度为0，源码如下：  
+
 ![](images/40.png)
 
 
