@@ -1,4 +1,8 @@
-**<font style="color:#DF2A3F;">笔记来源：</font>**[**<font style="color:#DF2A3F;">黑马程序员深入学习Java并发编程，JUC并发编程全套教程</font>**](https://www.bilibili.com/video/BV16J411h7Rd/?spm_id_from=333.337.search-card.all.click&vd_source=e8046ccbdc793e09a75eb61fe8e84a30)
+**笔记来源：**[**黑马程序员深入学习Java并发编程，JUC并发编程全套教程**](https://www.bilibili.com/video/BV16J411h7Rd/?spm_id_from=333.337.search-card.all.click&vd_source=e8046ccbdc793e09a75eb61fe8e84a30)
+
+------
+
+
 
 ## 1 基本使用
 它们是 LockSupport 类中的方法
@@ -13,7 +17,7 @@ LockSupport.unpark(暂停线程对象)
 
 ****
 
-**先 park 再 unpark**
+**先 park 再 unpark** 
 
 ```java
 Thread t1 = new Thread(() -> {
@@ -42,7 +46,7 @@ LockSupport.unpark(t1);
 
 
 
-**先 unpark 再 park**
+**先 unpark 再 park** 
 
 ```java
 Thread t1 = new Thread(() -> {
@@ -69,7 +73,7 @@ LockSupport.unpark(t1);
 18:43:52.769 c.TestParkUnpark [t1] - resume...
 ```
 
-**<font style="color:#E8323C;">特点</font>**：与 Object 的 wait & notify 相比
+**特点**： 与 Object 的 wait & notify 相比
 
 + wait 与 notify 和 notifyAll 必须配合 Object Monitor 一起使用，而 park，unpark 不必
 + park & unpark 是以线程为单位来【阻塞】和【唤醒】线程。而 notify 只能随机唤醒一个等待线程，notifyAll 是唤醒所有等待线程，就不那么【精确】
@@ -86,7 +90,7 @@ LockSupport.unpark(t1);
     - 如果这时线程还在帐篷，就唤醒让他继续前进
     - 如果这时线程还在运行，那么下次他调用 park 时，仅是消耗掉备用干粮，不需停留继续前进 
         * 因为背包空间有限，多次调用 unpark 仅会补充一份备用干粮  
-![](images/28.png)
+          ![](images/28.png)
 
 
 
