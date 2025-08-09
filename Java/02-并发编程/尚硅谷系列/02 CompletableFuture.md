@@ -1132,7 +1132,7 @@ public class CompletableFutureWithThreadPoolDemo
 null
 ```
 
-**源码分析： ** 
+**源码分析：** 
 
 ![](images/12.png)
 
