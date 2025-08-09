@@ -17,3 +17,65 @@ Future是Java5新加的一个接口，他提供了一种异步并行计算的功
 
 三个特点：多线程/有返回/异步任务（班长作为老师去买水作为新启动的异步多线程任务且买到水有结果返回）
 
+# 2 FutureTask
+## 2.1 FutureTask的架构
+FutureTask的架构图如下，不仅是实现了Future接口，还实现了FutureTask的接口。
+
+所以说上面提到的三个特点：多线程/有返回/异步任务，此时FutureTask已经满足了两个：多线程，异步任务。那么如何实现有返回呢？
+
+![](images/2.png)
+
+我们来看看FutureTask里面的方法吧
+
+![](images/3.png)
+
+这里面的两个构造方法，其中有一个是Callable接口，我们来看看Callable接口，它是满足我们有返回这个需求的。
+
+![](images/4.png)
+
+所以说，FutureTask这个实现类可以满足上面说的三个特点：多线程/有返回/异步任务
+
+我们再来看看，既然FutureTask作为Runable接口的实现类，那么将来异步任务必然是在其run方法里面执行的，我们来看看其run方法
+
+![](images/5.png)
+
+我们发现，在其run方法里面，是调用Callable接口的call方法的，所以我们的异步任务其实是写在call方法里面的
+
+FutureTask的初步使用
+
+```java
+package com.bilibili.juc.cf;
+
+import java.util.concurrent.*;
+
+public class CompletableFutureDemo
+{
+    public static void main(String[] args) throws ExecutionException, InterruptedException
+    {
+        FutureTask<String> futureTask = new FutureTask<>(new MyThread());
+
+        Thread t1 = new Thread(futureTask,"t1");
+        t1.start();
+
+        System.out.println(futureTask.get());
+    }
+}
+
+class MyThread implements Callable<String>
+{
+    @Override
+    public String call() throws Exception
+    {
+        System.out.println("-----come in call() " );
+        return "hello Callable";
+    }
+}
+```
+
+打印出
+
+```java
+-----come in call() 
+hello Callable
+```
+
