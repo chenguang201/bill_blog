@@ -206,3 +206,29 @@ public class FutureAPIDemo
 
 针对于上述的特殊需求，使用Future之前提供的那点API就囊中羞涩，处理起来不够优雅，这时候还是让CompletableFuture以声明式的方式优雅的处理这些需求，Future能干的，CompletableFuture都能干。
 
+# 3 CompletableFuture
+## 3.1 CompletableFuture结构
+CompletableFuture为什么出现呢？  
+
+Future的get方法在计算完成之前会一直处在阻塞状态下，isDone方法容易耗费CPU资源，对于真正的异步处理我们是希望可以通过传入回调函数，在Future结束时候自动调用该回调函数，这样我们就不用等待结果。  
+
+阻塞的方式和异步编程的设计理念想违背，而轮询的方式会消耗无谓的CPU资源，因此JDK8设计出CompletableFuture。
+
+CompletableFuture提供了一种观察者模式类似的机制，可以让任务执行完成后通知监听的一方。
+
+CompletableFuture类架构图    
+
+![](images/6.png)
+
+先来看看这个CompletionStage  
+
+![](images/7.png)
+
+有这么多的方法，要远远的比Future复杂的多。那么CompletionStage是什么呢？  ![](images/8.png)
+
+代表异步计算过程中的某一个阶段，一个阶段完成以后可能会触发另外一个阶段，有些类似Linux系统的管道分隔符传参数。  
+
+CompletableFuture
+
+![](images/9.png)
+
