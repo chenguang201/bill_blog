@@ -212,7 +212,7 @@ Gitlab用户在组里面有5种不同权限：
 3. 填写远程的仓库地址![](images/26.png)
 
 
-4. 点击OK，发现需要个Token![](images/27.png)
+4. 点击OK，发现需要个Token  ![](images/27.png)
 
 
 5. 生成token
