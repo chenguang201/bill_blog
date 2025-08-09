@@ -487,7 +487,7 @@ private static void sendBreakfast() {
 ### 6.1 固定顺序运行
 目标：实现必须先 2 后 1 打印
 
-**方式一：wait notify版** 
+**方式一：wait notify版**   
 
 ```java
 // 用来同步的对象 
@@ -525,7 +525,7 @@ public static void main(String[] args) {
 } 
 ```
 
-**方式二： Park Unpark版 **  
+**方式二： Park Unpark版 **    
 
 可以看到，实现上很麻烦： 
 
@@ -562,7 +562,7 @@ park 和 unpark 方法比较灵活，他俩谁先调用，谁后调用无所谓�
 ### 6.2 交替输出 
 线程 1 输出 a 5 次，线程 2 输出 b 5 次，线程 3 输出 c 5 次。现在要求输出 abcabcabcabcabc 怎么实现
 
-**方式一：wait notify 版 ** 
+**方式一：wait notify 版 **   
 
 ```java
 class SyncWaitNotify { 
@@ -605,7 +605,7 @@ new Thread(() -> {
 }).start(); 
 ```
 
-**方式二：Lock 条件变量版**  
+**方式二：Lock 条件变量版**    
 
 ```java
 class AwaitSignal extends ReentrantLock { 
@@ -665,7 +665,7 @@ as.start(aWaitSet);
 
 >  **注意** ：该实现没有考虑 a，b，c 线程都就绪再开始
 
-**方式三：Park Unpark 版** 
+**方式三：Park Unpark 版**   
 
 ```java
 class SyncPark { 
