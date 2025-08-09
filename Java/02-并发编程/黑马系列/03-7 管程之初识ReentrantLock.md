@@ -525,7 +525,7 @@ public static void main(String[] args) {
 } 
 ```
 
-**方式二： Park Unpark版 ** 
+**方式二： Park Unpark版 **  
 
 可以看到，实现上很麻烦： 
 
@@ -605,7 +605,7 @@ new Thread(() -> {
 }).start(); 
 ```
 
-**方式二：Lock 条件变量版** 
+**方式二：Lock 条件变量版**  
 
 ```java
 class AwaitSignal extends ReentrantLock { 
