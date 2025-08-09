@@ -224,11 +224,11 @@ Java Virtual Machine Stacks （Java 虚拟机栈）
 | setName(String)  |        | 修改线程名                             |                                          |
 | getPriority()    |        | 获取线程优先级                           |                                          |
 | setPriority(int) |        | 修改线程优先级                           | java中规定线程优先级是1~10 的整数，较大的优先级能提高该线程被 CPU 调度的机率 |
-| getState()       |        | 获取线程状态                            | Java中线程状态是用 6 个 enum 表示，分别为：`<font style="color:#E8323C;">NEW</font>`<font style="color:#E8323C;">, </font>`<font style="color:#E8323C;">RUNNABLE</font>`<font style="color:#E8323C;">, </font>`<font style="color:#E8323C;">BLOCKED</font>`<font style="color:#E8323C;">, </font>`<font style="color:#E8323C;">WAITING</font>`<font style="color:#E8323C;">, </font>`<font style="color:#E8323C;">TIMED_WAITING</font>`<font style="color:#E8323C;">, </font>`<font style="color:#E8323C;">TERMINATED</font>` |
-| isInterrupted()  |        | 判断是否被打断                           | 不会清除`<font style="color:#E8323C;">打断标记</font>` |
+| getState()       |        | 获取线程状态                            | Java中线程状态是用 6 个 enum 表示，分别为：`NEW` `RUNNABLE` `BLOCKED` `WAITING` `TIMED_WAITING` `TERMINATED` |
+| isInterrupted()  |        | 判断是否被打断                           | 不会清除打断标记                                 |
 | isAlive()        |        | 线程是否存活（还没有运行完毕）                   |                                          |
-| interrupt()      |        | 打断线程                              | 如果被打断线程正在 sleep，wait，join 会导致被打断的线程抛出 InterruptedException，并清除`<font style="color:#E8323C;">打断标记</font>`；如果打断的正在运行的线程，则会设置`<font style="color:#E8323C;">打断标记</font>`；park 的线程被打断，也会设置`<font style="color:#E8323C;">打断标记</font>` |
-| interrupted()    | static | 判断当前线程是否被打断                       | 会清除`<font style="color:#E8323C;">打断标记</font>` |
+| interrupt()      |        | 打断线程                              | 如果被打断线程正在 sleep，wait，join 会导致被打断的线程抛出 InterruptedException，并清除打断标记；如果打断的正在运行的线程，则会设置打断标记；park 的线程被打断，也会设置打断标记 |
+| interrupted()    | static | 判断当前线程是否被打断                       | 会清除打断标记                                  |
 | currentThread()  | static | 获取当前正在执行的线程                       |                                          |
 | sleep(long n)    | static | 让当前执行的线程休眠n毫秒，休眠时让出 cpu 的时间片给其它线程 |                                          |
 | yield()          | static | 提示线程调度器让出当前线程对CPU的使用              | 主要是为了测试和调试                               |
