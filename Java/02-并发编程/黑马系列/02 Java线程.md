@@ -162,29 +162,29 @@ public void run() {
 ## 3 查看进程线程的方法
 **windows**
 
-```java
-//任务管理器可以查看进程和线程数，也可以用来杀死进程
-tasklist //查看进程
-taskkill //杀死进程
-```
+>```java
+>//任务管理器可以查看进程和线程数，也可以用来杀死进程
+>tasklist //查看进程
+>taskkill //杀死进程
+>```
 
 **linux**
 
-```powershell
-ps -fe 						#查看所有进程
-ps -fT -p <PID> 			#查看某个进程（PID）的所有线程
-kill 						#杀死进程
-top 						#按大写 H 切换是否显示线程
-top -H -p <PID>  			#查看某个进程（PID）的所有线程
-```
+>```powershell
+>ps -fe 						#查看所有进程
+>ps -fT -p <PID> 			#查看某个进程（PID）的所有线程
+>kill 						#杀死进程
+>top 						#按大写 H 切换是否显示线程
+>top -H -p <PID>  			#查看某个进程（PID）的所有线程
+>```
 
 **Java**
 
-```java
-jps 			//命令查看所有 Java 进程
-jstack <PID>  	//查看某个 Java 进程（PID）的所有线程状态
-jconsole  		//来查看某个 Java 进程中线程的运行情况（图形界面）
-```
+>```java
+>jps 			//命令查看所有 Java 进程
+>jstack <PID>  	//查看某个 Java 进程（PID）的所有线程状态
+>jconsole  		//来查看某个 Java 进程中线程的运行情况（图形界面）
+>```
 
 ## 4 原理之线程运行
 **栈与栈帧**
@@ -213,27 +213,25 @@ Java Virtual Machine Stacks （Java 虚拟机栈）
 
 
 ## 5 常见方法
-| 方法名              | static | 功能说明                              | 注意                                       |
-| ---------------- | ------ | --------------------------------- | ---------------------------------------- |
-| start()          |        | 启动一个新线程，在新的线程运行 run 方法中的代码        | start 方法只是让线程进入就绪，里面代码不一定立刻运行（CPU 的时间片还没分给它）。每个线程对象的start方法只能调用一次，如果调用了多次会出现IllegalThreadStateException |
-| run()            |        | 新线程启动后会调用的方法                      | 如果在构造 Thread 对象时传递了 Runnable 参数，则线程启动后会调用 Runnable 中的 run 方法，否则默认不执行任何操作。但可以创建 Thread 的子类对象，来覆盖默认行为 |
-| join()           |        | 等待线程运行结束                          |                                          |
-| join(long n)     |        | 等待线程运行结束,最多等待 n 毫秒                |                                          |
-| getId()          |        | 获取线程长整型的id                        | id 唯一                                    |
-| getName()        |        | 获取线程名                             |                                          |
-| setName(String)  |        | 修改线程名                             |                                          |
-| getPriority()    |        | 获取线程优先级                           |                                          |
-| setPriority(int) |        | 修改线程优先级                           | java中规定线程优先级是1~10 的整数，较大的优先级能提高该线程被 CPU 调度的机率 |
-| getState()       |        | 获取线程状态                            | Java中线程状态是用 6 个 enum 表示，分别为：`NEW` `RUNNABLE` `BLOCKED` `WAITING` `TIMED_WAITING` `TERMINATED` |
-| isInterrupted()  |        | 判断是否被打断                           | 不会清除打断标记                                 |
-| isAlive()        |        | 线程是否存活（还没有运行完毕）                   |                                          |
-| interrupt()      |        | 打断线程                              | 如果被打断线程正在 sleep，wait，join 会导致被打断的线程抛出 InterruptedException，并清除打断标记；如果打断的正在运行的线程，则会设置打断标记；park 的线程被打断，也会设置打断标记 |
-| interrupted()    | static | 判断当前线程是否被打断                       | 会清除打断标记                                  |
-| currentThread()  | static | 获取当前正在执行的线程                       |                                          |
-| sleep(long n)    | static | 让当前执行的线程休眠n毫秒，休眠时让出 cpu 的时间片给其它线程 |                                          |
-| yield()          | static | 提示线程调度器让出当前线程对CPU的使用              | 主要是为了测试和调试                               |
-
-
+| 方法名                | static | 功能说明                              | 注意                                       |
+| ------------------ | ------ | --------------------------------- | ---------------------------------------- |
+| `start()`          |        | 启动一个新线程，在新的线程运行 run 方法中的代码        | start 方法只是让线程进入就绪，里面代码不一定立刻运行（CPU 的时间片还没分给它）。每个线程对象的start方法只能调用一次，如果调用了多次会出现IllegalThreadStateException |
+| `run()`            |        | 新线程启动后会调用的方法                      | 如果在构造 Thread 对象时传递了 Runnable 参数，则线程启动后会调用 Runnable 中的 run 方法，否则默认不执行任何操作。但可以创建 Thread 的子类对象，来覆盖默认行为 |
+| `join()`           |        | 等待线程运行结束                          |                                          |
+| `join(long n)`     |        | 等待线程运行结束,最多等待 n 毫秒                |                                          |
+| `getId()`          |        | 获取线程长整型的id                        | id 唯一                                    |
+| `getName()`        |        | 获取线程名                             |                                          |
+| `setName(String)`  |        | 修改线程名                             |                                          |
+| `getPriority()`    |        | 获取线程优先级                           |                                          |
+| `setPriority(int)` |        | 修改线程优先级                           | java中规定线程优先级是1~10 的整数，较大的优先级能提高该线程被 CPU 调度的机率 |
+| `getState()`       |        | 获取线程状态                            | Java中线程状态是用 6 个 enum 表示，分别为：`NEW` `RUNNABLE` `BLOCKED` `WAITING` `TIMED_WAITING` `TERMINATED` |
+| `isInterrupted()`  |        | 判断是否被打断                           | 不会清除打断标记                                 |
+| `isAlive()`        |        | 线程是否存活（还没有运行完毕）                   |                                          |
+| `interrupt()`      |        | 打断线程                              | 如果被打断线程正在 sleep，wait，join 会导致被打断的线程抛出 InterruptedException，并清除打断标记；如果打断的正在运行的线程，则会设置打断标记；park 的线程被打断，也会设置打断标记 |
+| `interrupted()`    | static | 判断当前线程是否被打断                       | 会清除打断标记                                  |
+| `currentThread()`  | static | 获取当前正在执行的线程                       |                                          |
+| `sleep(long n)`    | static | 让当前执行的线程休眠n毫秒，休眠时让出 cpu 的时间片给其它线程 |                                          |
+| `yield()`          | static | 提示线程调度器让出当前线程对CPU的使用              | 主要是为了测试和调试                               |
 
 
 ## 6 start与run
@@ -262,12 +260,10 @@ public static void main(String[] args) {
 19:39:18 [main] c.TestStart - do other things ...
 ```
 
-程序仍在 main 线程运行， `<font style="color:#E8323C;">FileReader.read()</font>`方法调用还是同步的
-
-****
+程序仍在 main 线程运行， `FileReader.read()`方法调用还是同步的
 
 **调用start**  
-将上述代码的 `<font style="color:#E8323C;">t1.run()</font>`改为
+将上述代码的 `t1.run()`改为
 
 ```java
 t1.start();
@@ -282,57 +278,59 @@ t1.start();
 19:41:35 [t1] c.FileReader - read [1.mp4] end ... cost: 4542 ms
 ```
 
-程序在 t1 线程运行， `<font style="color:#E8323C;">FileReader.read()</font>`方法调用是异步的
+程序在 t1 线程运行， `FileReader.read()`方法调用是异步的
 
 **小结**：直接调用 run 是在主线程中执行了run，没有启动新的线程。使用start是启动新的线程，通过新的线程间接执行 run 中的代码。
 
 ## 7 sleep 与 yield
 **sleep：**
 
-1. 调用 sleep 会让当前线程从 Running 进入 Timed Waiting 状态（阻塞）
-2. 其它线程可以使用 interrupt 方法打断正在睡眠的线程，这时 sleep 方法会抛出 InterruptedException
-3. 睡眠结束后的线程未必会立刻得到执行
-4. 建议用 TimeUnit 的 sleep 代替 Thread 的 sleep 来获得更好的可读性
-
-
+>1. 调用 sleep 会让当前线程从 Running 进入 Timed Waiting 状态（阻塞）
+>2. 其它线程可以使用 interrupt 方法打断正在睡眠的线程，这时 sleep 方法会抛出 InterruptedException
+>3. 睡眠结束后的线程未必会立刻得到执行
+>4. 建议用 TimeUnit 的 sleep 代替 Thread 的 sleep 来获得更好的可读性
 
 **yield：**
 
-1. 调用 yield 会让当前线程从 Running 进入 Runnable 就绪状态，然后调度执行其它线程
-2. 具体的实现依赖于操作系统的任务调度器
+>1. 调用 yield 会让当前线程从 Running 进入 Runnable 就绪状态，然后调度执行其它线程
+>2. 具体的实现依赖于操作系统的任务调度器
+
 
 
 
 **线程优先级：**
 
-+ <font style="color:#DF2A3F;">线程优先级</font>会提示（hint）调度器优先调度该线程，但它仅仅是一个提示，调度器可以忽略它
++ 线程优先级会提示（hint）调度器优先调度该线程，但它仅仅是一个提示，调度器可以忽略它
+
 + 如果 cpu 比较忙，那么优先级高的线程会获得更多的时间片，但 cpu 闲时，优先级几乎没作用
 
-```java
-Runnable task1 = () -> {
-    int count = 0;
-    for (;;) {
-        System.out.println("---->1 " + count++);
-    }
-};
+  ```java
+  Runnable task1 = () -> {
+      int count = 0;
+      for (;;) {
+          System.out.println("---->1 " + count++);
+      }
+  };
 
-Runnable task2 = () -> {
-    int count = 0;
-    for (;;) {
-        Thread.yield();
-        System.out.println("---->2 " + count++);
-    }
-};
-Thread t1 = new Thread(task1, "t1");
-Thread t2 = new Thread(task2, "t2");
-t1.setPriority(Thread.MIN_PRIORITY); 
-t2.setPriority(Thread.MAX_PRIORITY); 
-t1.start();
-t2.start();
-```
+  Runnable task2 = () -> {
+      int count = 0;
+      for (;;) {
+          Thread.yield();
+          System.out.println("---->2 " + count++);
+      }
+  };
+  Thread t1 = new Thread(task1, "t1");
+  Thread t2 = new Thread(task2, "t2");
+  t1.setPriority(Thread.MIN_PRIORITY); 
+  t2.setPriority(Thread.MAX_PRIORITY); 
+  t1.start();
+  t2.start();
+  ```
+
+  ​
 
 ## 8 join 方法详解
-join 的简单理解就是：<font style="color:rgb(77, 77, 77);">把指定的线程加入到当前线程。</font>
+join 的简单理解就是：把指定的线程加入到当前线程。
 
 ### 8.1 为什么需要join
 下面的代码执行，打印`r`是什么？
@@ -373,9 +371,7 @@ private static void test1() throws InterruptedException {
 + 因为主线程和线程 t1 是并行执行的，t1 线程需要 1 秒之后才能算出 r=10
 + 而主线程一开始就要打印 r 的结果，所以只能打印出 r=0
 
-解决方法
-
-+ 用 sleep 行不行？为什么？
+解决方法：用 sleep 行不行？为什么？
 
 ```java
     private static void test1() throws InterruptedException {
@@ -407,7 +403,7 @@ private static void test1() throws InterruptedException {
 17:13:15.990 [main] DEBUG com.myspring.MyService1 - 结束
 ```
 
-+ 用 join，加在`t1.start()` 之后即可
+解决方法：用 join，加在`t1.start()` 之后即可
 
 ```java
     private static void test1() throws InterruptedException {
@@ -441,10 +437,7 @@ private static void test1() throws InterruptedException {
 17:11:06.355 [main] DEBUG com.myspring.MyService1 - 结束
 ```
 
-以调用方角度来讲，如果
-
-+ 需要等待结果返回，才能继续运行就是同步
-+ 不需要等待结果返回，就能继续运行就是异步
+以调用方角度来讲，如果需要等待结果返回，才能继续运行就是同步；如果不需要等待结果返回，就能继续运行就是异步
 
 ![](https://cdn.nlark.com/yuque/__mermaid_v3/d43213e45ed11adadfcd1056882a84c6.svg)
 
@@ -514,7 +507,7 @@ graph TB
 ```
 
 ### 8.3 有时效的 join
-**<font style="color:#E8323C;">等够时间</font>**
+**等够时间**
 
 ```java
 static int r1 = 0;
@@ -544,7 +537,7 @@ public static void test3() throws InterruptedException {
 
 
 
-**<font style="color:#E8323C;">没等够时间</font>**
+**没等够时间**
 
 ```java
 static int r1 = 0;
@@ -574,7 +567,7 @@ public static void test3() throws InterruptedException {
 
 ## 9 interrupt 方法详解
 ### 9.1 打断正常运行的线程
-**<font style="color:#E8323C;">打断 sleep，wait，join的线程</font>**：这几个方法都会让线程进入阻塞状态
+**打断 sleep，wait，join的线程**：这几个方法都会让线程进入阻塞状态
 
 第一种情况：打断 sleep 的线程, 会清空打断状态，以 sleep 为例
 
@@ -597,54 +590,7 @@ java.lang.InterruptedException: sleep interrupted
 at java.lang.Thread.sleep(Native Method)
 at java.lang.Thread.sleep(Thread.java:340)
 at java.util.concurrent.TimeUnit.sleep(TimeUnit.java:386) at cn.itcast.n2.util.Sleeper.sleep(Sleeper.java:8)
-at cn.itcast.n4.TestInterrupt.lambda
-
-$$
-
-$$
-
-
-$$
-
-$$
-
-
-
-$$
-
-$$
-
-
-$$
-
-$$
-
-
-
-test1
-$$
-
-$$
-
-
-$$
-
-$$
-
-
-
-$$
-
-$$
-
-
-$$
-
-$$
-
-
-
-3(TestInterrupt.java:59)
+at cn.itcast.n4.TestInterrupt.lambda$test1$3(TestInterrupt.java:59)
 at java.lang.Thread.run(Thread.java:745) 21:18:10.374 [main] c.TestInterrupt - 打断状态: false
 ```
 
@@ -677,9 +623,9 @@ private static void test2() throws InterruptedException {
 ```
 
 ### 9.2 模式之两阶段终止
-Two Phase Termination：在一个线程 T1 中如何“**<font style="color:#DF2A3F;">优雅</font>**”终止线程 T2？这里的【优雅】指的是给 T2 一个料理后事的机会。
+Two Phase Termination：在一个线程 T1 中如何【**优雅** 】终止线程 T2？这里的【优雅】指的是给 T2 一个料理后事的机会。
 
-<font style="color:#E8323C;">错误思路</font>
+错误思路
 
 + 使用线程对象的 stop() 方法停止线程 ：stop 方法会真正杀死线程，如果这时线程锁住了共享资源，那么当它被杀死后就再也没有机会释放锁， 其它线程将永远无法获取锁
 + 使用 System.exit(int) 方法停止线程：目的仅是停止一个线程，但这种做法会让整个程序都停止
