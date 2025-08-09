@@ -1132,11 +1132,11 @@ public class CompletableFutureWithThreadPoolDemo
 null
 ```
 
-**源码分析：** 
+**源码分析：**   
 
 ![](images/12.png)
 
-可以看到thenRun和thenRunAsync两个方法的区别，在于thenRunAsync传入了一个asyncPool参数  
+可以看到thenRun和thenRunAsync两个方法的区别，在于thenRunAsync传入了一个asyncPool参数    
 
 ![](images/13.png)
 
