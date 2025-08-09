@@ -1,12 +1,10 @@
 
 
-**<font style="color:#DF2A3F;">笔记来源：</font>**[**<font style="color:#DF2A3F;">黑马程序员深入学习Java并发编程，JUC并发编程全套教程</font>**](https://www.bilibili.com/video/BV16J411h7Rd/?spm_id_from=333.337.search-card.all.click&vd_source=e8046ccbdc793e09a75eb61fe8e84a30)
+**笔记来源：**[**黑马程序员深入学习Java并发编程，JUC并发编程全套教程**](https://www.bilibili.com/video/BV16J411h7Rd/?spm_id_from=333.337.search-card.all.click&vd_source=e8046ccbdc793e09a75eb61fe8e84a30)
 
+------
 
-
-**<font style="color:#117CEE;">前言</font>**
-
-相对于 synchronized 它具备如下特点
+**前言：** 相对于 synchronized 它具备如下特点
 
 + 可中断
 + 可以设置超时时间
@@ -15,8 +13,8 @@
 
 与 synchronized 一样，都支持可重入
 
-  
-**<font style="color:#E8323C;">基本语法</font>**
+
+**基本语法**
 
 ```java
 // 获取锁
@@ -124,111 +122,15 @@ java.lang.InterruptedException
 	at java.util.concurrent.locks.AbstractQueuedSynchronizer.doAcquireInterruptibly(AbstractQueuedSynchronizer.java:898)
 	at java.util.concurrent.locks.AbstractQueuedSynchronizer.acquireInterruptibly(AbstractQueuedSynchronizer.java:1222)
 	at java.util.concurrent.locks.ReentrantLock.lockInterruptibly(ReentrantLock.java:335)
-	at com.ali.bingfa.TestLockInterrupt.lambda
-
-$$
-
-$$
-
-
-$$
-
-$$
-
-
-
-$$
-
-$$
-
-
-$$
-
-$$
-
-
-
-main
-$$
-
-$$
-
-
-$$
-
-$$
-
-
-
-$$
-
-$$
-
-
-$$
-
-$$
-
-
-
-0(TestLockInterrupt.java:12)
-	at com.ali.bingfa.TestLockInterrupt
-
-$$
-
-$$
-
-
-$$
-
-$$
-
-
-
-$$
-
-$$
-
-
-$$
-
-$$
-
-
-
-$Lambda
-$$
-
-$$
-
-
-$$
-
-$$
-
-
-
-$$
-
-$$
-
-
-$$
-
-$$
-
-
-
-1/1534030866.run(Unknown Source)
+	at com.ali.bingfa.TestLockInterrupt.lambda$main$0(TestLockInterrupt.java:12)
+	at com.ali.bingfa.TestLockInterrupt$$Lambda$1/1534030866.run(Unknown Source)
 	at java.lang.Thread.run(Thread.java:745)
 18:02:41.532 [t1] c.TestInterrupt - 等锁的过程中被打断
 ```
 
 
 
-**<font style="color:#E8323C;">注意</font>**
-
-如果是不可中断模式，那么即使使用了 interrupt 也不会让等待中断
+**注意：** 如果是不可中断模式，那么即使使用了 interrupt 也不会让等待中断
 
 ```java
 ReentrantLock lock = new ReentrantLock();
@@ -270,7 +172,7 @@ try {
 
 
 ## 3 锁超时
-**<font style="color:#E8323C;">立刻失败</font>**
+**立刻失败**
 
 ```java
 ReentrantLock lock = new ReentrantLock();
@@ -308,7 +210,7 @@ try {
 
 
 
-**<font style="color:#E8323C;">超时失败</font>**
+**超时失败**
 
 ```java
 ReentrantLock lock = new ReentrantLock();
@@ -583,9 +485,9 @@ private static void sendBreakfast() {
 
 ## 6 同步模式之顺序控制
 ### 6.1 固定顺序运行
-<font style="color:rgb(51,51,51);">比如，必须先 2 后 1 打印</font>
+目标：实现必须先 2 后 1 打印
 
-**<font style="color:#E8323C;">方式一：wait notify版</font>**
+**方式一：wait notify版** 
 
 ```java
 // 用来同步的对象 
@@ -623,15 +525,15 @@ public static void main(String[] args) {
 } 
 ```
 
-**<font style="color:#E8323C;">方式二： Park Unpark版 </font>**
+**方式二： Park Unpark版 ** 
 
-<font style="color:rgb(51,51,51);">可以看到，实现上很麻烦： </font>
+可以看到，实现上很麻烦： 
 
-1. <font style="color:rgb(51,51,51);">首先，需要保证先 wait 再 notify，否则 wait 线程永远得不到唤醒。因此使用了『运行标记』来判断该不该 wait </font>
-2. <font style="color:rgb(51,51,51);">第二，如果有些干扰线程错误地 notify 了 wait 线程，条件不满足时还要重新等待，使用了 while 循环来解决 此问题 </font>
-3. <font style="color:rgb(51,51,51);">最后，唤醒对象上的 wait 线程需要使用 notifyAll，因为『同步对象』上的等待线程可能不止一个 </font>
+1. 首先，需要保证先 wait 再 notify，否则 wait 线程永远得不到唤醒。因此使用了『运行标记』来判断该不该 wait
+2. 第二，如果有些干扰线程错误地 notify 了 wait 线程，条件不满足时还要重新等待，使用了 while 循环来解决 此问题
+3. 最后，唤醒对象上的 wait 线程需要使用 notifyAll，因为『同步对象』上的等待线程可能不止一个 
 
-<font style="color:rgb(51,51,51);">可以使用</font><font style="color:rgb(51,51,51);"> LockSupport </font><font style="color:rgb(51,51,51);">类的</font><font style="color:rgb(51,51,51);"> park </font><font style="color:rgb(51,51,51);">和</font><font style="color:rgb(51,51,51);"> unpark </font><font style="color:rgb(51,51,51);">来简化上面的题目： </font>
+可以使用LockSupport 类的park 和 unpark来简化上面的题目：
 
 ```java
 Thread t1 = new Thread(() -> { 
@@ -655,14 +557,12 @@ t1.start();
 t2.start(); 
 ```
 
-<font style="color:rgb(51,51,51);">park </font><font style="color:rgb(51,51,51);">和</font><font style="color:rgb(51,51,51);"> unpark </font><font style="color:rgb(51,51,51);">方法比较灵活，他俩谁先调用，谁后调用无所谓。并且是以线程为单位进行『暂停』和『恢复』， </font>
+park 和 unpark 方法比较灵活，他俩谁先调用，谁后调用无所谓。并且是以线程为单位进行『暂停』和『恢复』，不需要『同步对象』和『运行标记』 
 
-<font style="color:rgb(51,51,51);">不需要『同步对象』和『运行标记』 </font>
+### 6.2 交替输出 
+线程 1 输出 a 5 次，线程 2 输出 b 5 次，线程 3 输出 c 5 次。现在要求输出 abcabcabcabcabc 怎么实现
 
-### <font style="color:rgb(51,51,51);">6.2 交替输出 </font>
-<font style="color:rgb(51,51,51);">线程 1 输出 a 5 次，线程 2 输出 b 5 次，线程 3 输出 c 5 次。现在要求输出 abcabcabcabcabc 怎么实现</font>
-
-**<font style="color:#E8323C;">方式一：wait notify 版 </font>**
+**方式一：wait notify 版 ** 
 
 ```java
 class SyncWaitNotify { 
@@ -705,7 +605,7 @@ new Thread(() -> {
 }).start(); 
 ```
 
-**<font style="color:#E8323C;">方式二：Lock 条件变量版 </font>**
+**方式二：Lock 条件变量版** 
 
 ```java
 class AwaitSignal extends ReentrantLock { 
@@ -763,12 +663,12 @@ new Thread(() -> {
 as.start(aWaitSet); 
 ```
 
-**<font style="color:rgb(119,119,119);">注意 </font>**
+**注意** 
 
-> <font style="color:rgb(0,0,0);"></font><font style="color:rgb(119,119,119);">该实现没有考虑 a，b，c 线程都就绪再开始 </font>
+> 该实现没有考虑 a，b，c 线程都就绪再开始
 >
 
-**<font style="color:#E8323C;">方式三：Park Unpark 版</font>****<font style="color:rgb(51,51,51);"> </font>**
+**方式三：Park Unpark 版**
 
 ```java
 class SyncPark { 
