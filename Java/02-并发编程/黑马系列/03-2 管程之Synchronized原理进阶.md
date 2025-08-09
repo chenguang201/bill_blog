@@ -1,4 +1,8 @@
-**<font style="color:#DF2A3F;">笔记来源：</font>**[**<font style="color:#DF2A3F;">黑马程序员深入学习Java并发编程，JUC并发编程全套教程</font>**](https://www.bilibili.com/video/BV16J411h7Rd/?spm_id_from=333.337.search-card.all.click&vd_source=e8046ccbdc793e09a75eb61fe8e84a30)
+**笔记来源：**[**黑马程序员深入学习Java并发编程，JUC并发编程全套教程**](https://www.bilibili.com/video/BV16J411h7Rd/?spm_id_from=333.337.search-card.all.click&vd_source=e8046ccbdc793e09a75eb61fe8e84a30)
+
+------
+
+
 
 # 1 Synchronized原理
 ```java
@@ -12,7 +16,7 @@ public static void main(String[] args) {
 ```
 
 对应的字节码为  
-用`<font style="color:#E8323C;">javap -v xxx.class</font>`命令
+用`javap -v xxx.class` 命令
 
 ```java
 public static void main(java.lang.String[]);
@@ -92,7 +96,7 @@ public static void main(java.lang.String[]);
 ## 2.1 轻量级锁
 轻量级锁的使用场景：如果一个对象虽然有多线程要加锁，但加锁的时间是错开的（也就是没有竞争），那么可以使用轻量级锁来优化。
 
-轻量级锁对使用者是透明的，即语法仍然是**<font style="color:#E8323C;"> synchronized</font>**
+轻量级锁对使用者是透明的，即语法仍然是**synchronized** 
 
 假设有两个方法同步块，利用同一个对象加锁
 
@@ -113,17 +117,17 @@ public static void method2() {
 ```
 
 +  创建锁记录（Lock Record）对象，每个线程都的栈帧都会包含一个锁记录的结构，内部可以存储锁定对象的 Mark Word  
-![](images/13.png) 
+  ![](images/13.png) 
 +  让锁记录中 Object reference 指向锁对象，并尝试用 cas 替换 Object 的 Mark Word，将 Mark Word 的值存入锁记录  
-![](images/14.png) 
+  ![](images/14.png) 
 +  如果 cas 替换成功，对象头中存储了 锁记录地址和状态 00 ，表示由该线程给对象加锁，这时图示如下  
-![](images/15.png) 
+  ![](images/15.png) 
 +  如果 cas 失败，有两种情况 
     - 如果是其它线程已经持有了该 Object 的轻量级锁，这时表明有竞争，进入锁膨胀过程
     - 如果是自己执行了 synchronized 锁重入，那么再添加一条 Lock Record 作为重入的计数  
-![](images/16.png)
+      ![](images/16.png)
 +  当退出 synchronized 代码块（解锁时）如果有取值为 null 的锁记录，表示有重入，这时重置锁记录，表示重入计数减一  
-![](images/17.png) 
+  ![](images/17.png) 
 +  当退出 synchronized 代码块（解锁时）锁记录的值不为 null，这时使用 cas 将 Mark Word 的值恢复给对象头 
     - 成功，则解锁成功
     - 失败，说明轻量级锁进行了锁膨胀或已经升级为重量级锁，进入重量级锁解锁流程
@@ -141,47 +145,47 @@ public static void method1() {
 ```
 
 +  当 Thread-1 进行轻量级加锁时，Thread-0 已经对该对象加了轻量级锁  
-![](images/18.png) 
+  ![](images/18.png) 
 +  这时 Thread-1 加轻量级锁失败，进入锁膨胀流程 
     - 即为 Object 对象申请 Monitor 锁，让 Object 指向重量级锁地址
     - 然后自己进入 Monitor 的 EntryList BLOCKED  
-![](images/19.png)
+      ![](images/19.png)
 +  当 Thread-0 退出同步块解锁时，使用 cas 将 Mark Word 的值恢复给对象头，失败。这时会进入重量级解锁流程，即按照 Monitor 地址找到 Monitor 对象，设置 Owner 为 null，唤醒 EntryList 中 BLOCKED 线程 
 
 ## 2.3 自旋优化
 重量级锁竞争的时候，还可以使用自旋来进行优化，如果当前线程自旋成功（即这时候持锁线程已经退出了同步块，释放了锁），这时当前线程就可以避免阻塞。
 
-**<font style="color:#E8323C;">自旋重试成功的情况</font>**
+**自旋重试成功的情况**
 
-| 线程 1（core 1 上） | 对象 Mark | 线程2 （core 2 上） |
-| --- | --- | --- |
-| - | 10（重量锁） | - |
-| 访问同步块，获取 monitor | 10（重量锁）重量锁指针 | - |
-| 成功（加锁） | 10（重量锁）重量锁指针 | - |
-| 执行同步块 | 10（重量锁）重量锁指针 | - |
-| 执行同步块 | 10（重量锁）重量锁指针 | 访问同步块，获取 monitor |
-| 执行同步块 | 10（重量锁）重量锁指针 | 自旋重试 |
-| 执行完毕 | 10（重量锁）重量锁指针 | 自旋重试 |
-| 成功（解锁） | 01（无锁） | 自旋重试 |
-| - | 10（重量锁）重量锁指针 | 成功（加锁） |
-| - | 10（重量锁）重量锁指针 | 执行同步块 |
-| - | ... | ... |
+| 线程 1（core 1 上）   | 对象 Mark      | 线程2 （core 2 上）   |
+| ---------------- | ------------ | ---------------- |
+| -                | 10（重量锁）      | -                |
+| 访问同步块，获取 monitor | 10（重量锁）重量锁指针 | -                |
+| 成功（加锁）           | 10（重量锁）重量锁指针 | -                |
+| 执行同步块            | 10（重量锁）重量锁指针 | -                |
+| 执行同步块            | 10（重量锁）重量锁指针 | 访问同步块，获取 monitor |
+| 执行同步块            | 10（重量锁）重量锁指针 | 自旋重试             |
+| 执行完毕             | 10（重量锁）重量锁指针 | 自旋重试             |
+| 成功（解锁）           | 01（无锁）       | 自旋重试             |
+| -                | 10（重量锁）重量锁指针 | 成功（加锁）           |
+| -                | 10（重量锁）重量锁指针 | 执行同步块            |
+| -                | ...          | ...              |
 
 
-**<font style="color:#E8323C;">自旋重试失败的情况</font>**
+**自旋重试失败的情况**
 
-| 线程 1（core 1 上） | 对象 Mark | 线程2（core 2 上） |
-| --- | --- | --- |
-| - | 10（重量锁） | - |
-| 访问同步块，获取 monitor | 10（重量锁）重量锁指针 | - |
-| 成功（加锁） | 10（重量锁）重量锁指针 | - |
-| 执行同步块 | 10（重量锁）重量锁指针 | - |
-| 执行同步块 | 10（重量锁）重量锁指针 | 访问同步块，获取 monitor |
-| 执行同步块 | 10（重量锁）重量锁指针 | 自旋重试 |
-| 执行同步块 | 10（重量锁）重量锁指针 | 自旋重试 |
-| 执行同步块 | 10（重量锁）重量锁指针 | 自旋重试 |
-| 执行同步块 | 10（重量锁）重量锁指针 | 阻塞 |
-| - | ... | ... |
+| 线程 1（core 1 上）   | 对象 Mark      | 线程2（core 2 上）    |
+| ---------------- | ------------ | ---------------- |
+| -                | 10（重量锁）      | -                |
+| 访问同步块，获取 monitor | 10（重量锁）重量锁指针 | -                |
+| 成功（加锁）           | 10（重量锁）重量锁指针 | -                |
+| 执行同步块            | 10（重量锁）重量锁指针 | -                |
+| 执行同步块            | 10（重量锁）重量锁指针 | 访问同步块，获取 monitor |
+| 执行同步块            | 10（重量锁）重量锁指针 | 自旋重试             |
+| 执行同步块            | 10（重量锁）重量锁指针 | 自旋重试             |
+| 执行同步块            | 10（重量锁）重量锁指针 | 自旋重试             |
+| 执行同步块            | 10（重量锁）重量锁指针 | 阻塞               |
+| -                | ...          | ...              |
 
 
 + 自旋会占用 CPU 时间，单核 CPU 自旋就是浪费，多核 CPU 自旋才能发挥优势。
@@ -416,8 +420,6 @@ public static void main(String[] args) throws InterruptedException {
     }, "t2").start();
 }
 ```
-
-
 
 输出
 
@@ -686,7 +688,7 @@ public class MyBenchmark {
 }
 ```
 
-`<font style="color:#E8323C;">java -jar benchmarks.jar</font>`
+`java -jar benchmarks.jar` 
 
 ```java
 Benchmark               Mode        Samples       Score      Score      error       Units
@@ -696,7 +698,7 @@ c.i.MyBenchmark.b       avgt        5             1.518                 0.091   
 
 
 
-`<font style="color:#E8323C;">java -XX:-EliminateLocks -jar benchmarks.jar</font>`
+`java -XX:-EliminateLocks -jar benchmarks.jar ` 
 
 ```java
 Benchmark               Mode        Samples       Score      Score      error       Units
@@ -704,6 +706,3 @@ c.i.MyBenchmark.a       avgt        5             1.507                 0.108   
 c.i.MyBenchmark.b       avgt        5             16.976                1.572       ns/op
 ```
 
-
-
-# 192. 
