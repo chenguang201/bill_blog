@@ -1,12 +1,10 @@
-文章来自： 
+**文章来自：**  [四十五图，一万五千字！一文让你走出迷雾玩转Maven！ - 掘金](https://juejin.cn/post/7238823745828405308?utm_source=gold_browser_extension)
 
-[四十五图，一万五千字！一文让你走出迷雾玩转Maven！ - 掘金](https://juejin.cn/post/7238823745828405308?utm_source=gold_browser_extension)
+------
 
+**引言：** 
 
-
-**<font style="color:#DF2A3F;">引言</font>**
-
-<font style="color:#117CEE;">Maven</font> 应该是大家的老熟客了，身为 Java 程序员，几乎每天都会跟他打交道。
+Maven 应该是大家的老熟客了，身为 Java 程序员，几乎每天都会跟他打交道。
 
 不过有趣的是：很多伙伴对 Maven，似乎很熟，但又好像不熟；在理解上，处于似懂非懂的“量子纠缠态”，为什么这么说呢？原因很简单，要说不熟吧，偏偏每天都有所接触；要说熟吧，可是对许多高级功能又仅是一知半解。
 
@@ -49,35 +47,35 @@ Maven是专门用于构建、管理Java项目的工具，它为我们提供了�
 下载进行解压后（不过解压的目录最好别带中文，否则后续会碰到一些问题），接着需要配置一下，总共分为四步。
 
 1. 在系统环境中，新建一个 MAVEN_HOME 或 M2_HOME 的环境变量，值写成解压路径。
+
 2. 找到Path变量并编辑，在其中新增一行，配置一下bin目录：
 
-```bash
-%M2_HOME%\bin
-```
+   >```
+   >%M2_HOME%\bin
+   >```
+   >
+   >其实安装许多软件，都要配置这一步，到底是为啥呢？因为任何软件的bin目录，通常会存放一些可执行的脚本/工具，如JDK的bin目录中，就存放着javac、javap、jstack……一系列工具。如果不在Path中配置bin，那想要使用这些工具，只能去到JDK安装目录下的bin目录，然后才能使用。
+   >
+   >不过当大家在Path中配置了bin之后，这个配置就会对全局生效，任何位置执行javac这类指令，都可以从Path中，找到对应的bin目录位置，然后调用其中提供的工具。
 
-:::color1
-其实安装许多软件，都要配置这一步，到底是为啥呢？因为任何软件的bin目录，通常会存放一些可执行的脚本/工具，如JDK的bin目录中，就存放着javac、javap、jstack……一系列工具。如果不在Path中配置bin，那想要使用这些工具，只能去到JDK安装目录下的bin目录，然后才能使用。
-
-不过当大家在Path中配置了bin之后，这个配置就会对全局生效，任何位置执行javac这类指令，都可以从Path中，找到对应的bin目录位置，然后调用其中提供的工具。
-
-:::
 
 3. 找到Maven解压目录下的`conf/settings.xml`，然后点击编辑，找到`<localRepository>`标签，将其挪动到注释区域外，然后配置本地仓库位置：
 
-```xml
-<localRepository>自己选择一个空的本地目录（最好别带中文）</localRepository>
-```
+   >```xml
+   ><localRepository>自己选择一个空的本地目录（最好别带中文）</localRepository>
+   >```
+
 
 4. 由于 Apache 的官方镜像位于国外，平时拉取依赖比较慢，所以还需配置 Maven 国内的镜像源，这时在`settings.xml`文件中，先搜索 `<mirrors>`标签，接着在其中配置阿里云的镜像地址：
 
-```xml
-<mirror>  
-    <id>alimaven</id>  
-    <name>aliyun maven</name>  
-    <url>http://maven.aliyun.com/nexus/content/groups/public/</url>
-    <mirrorOf>central</mirrorOf>          
-</mirror>
-```
+   >```xml
+   ><mirror>  
+   >    <id>alimaven</id>  
+   >    <name>aliyun maven</name>  
+   >    <url>http://maven.aliyun.com/nexus/content/groups/public/</url>
+   >    <mirrorOf>central</mirrorOf>          
+   ></mirror>
+   >```
 
 到这里，整个 Maven 安装流程全部结束，最后也可以在终端工具，执行`mvn -v`命令检测一下。
 
@@ -112,9 +110,11 @@ Maven是专门用于构建、管理Java项目的工具，它为我们提供了�
 ### 1.2.2 Maven依赖管理
 最简单的依赖管理，总共就只有三步，如下：
 
-+ ①在`pom.xml`中，先写一个`<dependencies>`标签；
-+ ②在`<dependencies>`标签中，使用`<dependency>`标签来导入依赖；
-+ ③在`<dependency>`标签中，通过 GAV 坐标来导入依赖。
+>①在`pom.xml`中，先写一个`<dependencies>`标签；
+>
+>②在`<dependencies>`标签中，使用`<dependency>`标签来导入依赖；
+>
+>③在`<dependency>`标签中，通过 GAV 坐标来导入依赖。
 
 如果你不知道一个依赖的 GAV 该怎么写，可以去[仓库索引](https://link.juejin.cn/?target=https%3A%2F%2Fmvnrepository.com%2F)中搜索，现在写个坐标来感受一下：
 
@@ -151,13 +151,13 @@ Maven是专门用于构建、管理Java项目的工具，它为我们提供了�
 
 该标签共有五种取值方式，每种取值对应着一种依赖范围，而不同的依赖范围，生效的环境（classpath）也并不同，如下表所示：
 
-| 依赖范围 | 编译环境 | 测试环境 | 运行环境 |
-| --- | --- | --- | --- |
-| compile | 生效 | 生效 | 生效 |
-| provided | 生效 | 生效 | 不生效 |
-| system | 生效 | 生效 | 不生效 |
-| runtime | 不生效 | 生效 | 生效 |
-| test | 不生效 | 生效 | 不生效 |
+| 依赖范围     | 编译环境 | 测试环境 | 运行环境 |
+| -------- | ---- | ---- | ---- |
+| compile  | 生效   | 生效   | 生效   |
+| provided | 生效   | 生效   | 不生效  |
+| system   | 生效   | 生效   | 不生效  |
+| runtime  | 不生效  | 生效   | 生效   |
+| test     | 不生效  | 生效   | 不生效  |
 
 
 项目引入的所有依赖，如果不显式指定依赖范围，默认是 compile，意味着所有环境下都生效，而一般的依赖包也无需更改，只有某些特殊的依赖，才需要手动配置一下。如：
