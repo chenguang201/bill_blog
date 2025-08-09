@@ -1,124 +1,130 @@
-**<font style="color:rgb(223, 42, 63);">笔记来源：</font>**
+**笔记来源：** [08.Jenkins软件介绍_哔哩哔哩_bilibili](https://www.bilibili.com/video/BV1kJ411p7mV?spm_id_from=333.788.videopod.episodes&vd_source=e8046ccbdc793e09a75eb61fe8e84a30&p=8)
 
-[08.Jenkins软件介绍_哔哩哔哩_bilibili](https://www.bilibili.com/video/BV1kJ411p7mV?spm_id_from=333.788.videopod.episodes&vd_source=e8046ccbdc793e09a75eb61fe8e84a30&p=8)
+------
+
+
 
 # 1 Jenkins介绍
 ![](images/6.png)
 
-<font style="color:rgb(51,51,51);">Jenkins 是一款流行的开源持续集成（Continuous Integration）工具，广泛用于项目开发，具有自动化构建、测试和部署等功能。官网：</font>
+Jenkins 是一款流行的开源持续集成（Continuous Integration）工具，广泛用于项目开发，具有自动化构建、测试和部署等功能。官网：[Jenkins](https://www.jenkins.io/)
 
-[Jenkins](https://www.jenkins.io/)
+Jenkins的特征：
 
-<font style="color:rgb(51,51,51);">Jenkins</font><font style="color:rgb(51,51,51);">的特征： </font>
-
-+ <font style="color:rgb(51,51,51);">开源的Java语言开发持续集成工具，支持持续集成，持续部署。 </font>
-+ <font style="color:rgb(51,51,51);">易于安装部署配置：可通过 yum 安装，或下载 war 包以及通过 docker 容器等快速实现安装部署，可方便web界面配置管理。 </font>
-+ <font style="color:rgb(51,51,51);">消息通知及测试报告：集成RSS/E-mail 通过 RSS 发布构建结果或当构建完成时通过 e-mail 通知，生成JUnit/TestNG测试报告。</font>
-+ <font style="color:rgb(51,51,51);">分布式构建：Jenkins支持能够让多台计算机一起构建/测试。 </font>
-+ <font style="color:rgb(51,51,51);">文件识别：Jenkins能够跟踪哪次构建生成哪些jar，哪次构建使用哪个版本的jar等。 </font>
-+ <font style="color:rgb(51,51,51);">丰富的插件支持：支持扩展插件，你可以开发适合自己团队使用的工具，如 git，svn，maven，docker等。</font>
++ 开源的Java语言开发持续集成工具，支持持续集成，持续部署。
++ 易于安装部署配置：可通过 yum 安装，或下载 war 包以及通过 docker 容器等快速实现安装部署，可方便web界面配置管理。 
++ 消息通知及测试报告：集成RSS/E-mail 通过 RSS 发布构建结果或当构建完成时通过 e-mail 通知，生成JUnit/TestNG测试报告。
++ 分布式构建：Jenkins支持能够让多台计算机一起构建/测试。 
++ 文件识别：Jenkins能够跟踪哪次构建生成哪些jar，哪次构建使用哪个版本的jar等。
++ 丰富的插件支持：支持扩展插件，你可以开发适合自己团队使用的工具，如 git，svn，maven，docker等。
 
 # 2 Jenkins 安装和持续集成配置
 持续集成流程说明
 
 ![画板](images/7.jpeg)
 
-1. <font style="color:rgb(51,51,51);">首先，开发人员每天进行代码提交，提交到Git仓库 </font>
-2. <font style="color:rgb(51,51,51);">然后，Jenkins作为持续集成工具，使用Git工具到Git仓库拉取代码到集成服务器，再配合JDK， Maven等软件完成代码编译，代码测试与审查，测试，打包等工作，在这个过程中每一步出错，都重新再执行一次整个流程。 </font>
-3. <font style="color:rgb(51,51,51);">最后，Jenkins 把生成的 jar 或 war 包分发到测试服务器或者生产服务器，测试人员或用户就可以访问应用。</font>
+1. 首先，开发人员每天进行代码提交，提交到Git仓库
+2. 然后，Jenkins作为持续集成工具，使用Git工具到Git仓库拉取代码到集成服务器，再配合JDK， Maven等软件完成代码编译，代码测试与审查，测试，打包等工作，在这个过程中每一步出错，都重新再执行一次整个流程。 
+3. 最后，Jenkins 把生成的 jar 或 war 包分发到测试服务器或者生产服务器，测试人员或用户就可以访问应用。
 
-**<font style="color:rgb(51,51,51);">服务器列表：</font>**<font style="color:rgb(51,51,51);">本此实验虚拟机统一采用CentOS7。CentOS7的安装流程参考一下文档：</font>
+**服务器列表：** 本此实验虚拟机统一采用CentOS7。CentOS7的安装流程参考一下文档：
 
 [Win10 安装VirtualBox](https://www.yuque.com/chenguang201/java/en5ty7kwp9x4owvw)
 
 [利用VirtualBox 安装Centos7](https://www.yuque.com/chenguang201/java/xnatznvgbk160et1)
 
-| 名称 | IP地址 | 安装的软件 |
-| --- | --- | --- |
-| 代码托管服务器 | 192.168.3.100 | <font style="color:rgb(51,51,51);">Gitlab-12.4.2</font> |
-| 持续集成服务器 | 192.168.3.101 | <font style="color:rgb(51,51,51);">Jenkins-2.190.3，JDK1.8，Maven3.6.2，Git， SonarQube</font> |
-| 应用测试服务器 | 192.168.3.102 | <font style="color:rgb(51,51,51);">JDK1.8，Tomcat8.5</font> |
+| 名称      | IP地址          | 安装的软件                                    |
+| ------- | ------------- | ---------------------------------------- |
+| 代码托管服务器 | 192.168.3.100 | Gitlab-12.4.2                            |
+| 持续集成服务器 | 192.168.3.101 | Jenkins-2.190.3，JDK1.8，Maven3.6.2，Git， SonarQube |
+| 应用测试服务器 | 192.168.3.102 | JDK1.8，Tomcat8.5                         |
 
 
 ## 2.1 GitLab代码托管服务器安装
-### 2.1.2 GitLab 简介
+### 2.1.1 GitLab 简介
 [The most-comprehensive AI-powered DevSecOps platform](https://about.gitlab.com/)
 
-<font style="color:rgb(51,51,51);">GitLab 是一个用于仓库管理系统的开源项目，使用Git作为代码管理工具，并在此基础上搭建起来的web服务。 </font>
+GitLab 是一个用于仓库管理系统的开源项目，使用Git作为代码管理工具，并在此基础上搭建起来的web服务。 
 
-<font style="color:rgb(51,51,51);">GitLab 和 GitHub 一样属于第三方基于Git开发的作品，免费且开源（基于MIT协议），与 Github 类似， 可以注册用户，任意提交你的代码，添加SSHKey等等。不同的是，</font>**<font style="color:rgb(51,51,51);">GitLab是可以部署到自己的服务器上，数据库等一切信息都掌握在自己手上，适合团队内部协作开发</font>**<font style="color:rgb(51,51,51);">，你总不可能把团队内部的智慧总放在别人的服务器上吧？简单来说可把GitLab看作个人版的GitHub。</font>
+GitLab 和 GitHub 一样属于第三方基于Git开发的作品，免费且开源（基于MIT协议），与 Github 类似， 可以注册用户，任意提交你的代码，添加SSHKey等等。不同的是，**GitLab是可以部署到自己的服务器上，数据库等一切信息都掌握在自己手上，适合团队内部协作开发**， 你总不可能把团队内部的智慧总放在别人的服务器上吧？简单来说可把GitLab看作个人版的GitHub。
 
-### <font style="color:rgb(51,51,51);">2.1.2 Linux安装GitLab流程</font>
+### 2.1.2 Linux安装GitLab流程
 1. 安装相关依赖
 
-```powershell
-yum -y install policycoreutils openssh-server openssh-clients postfix
-```
+   >```powershell
+   >yum -y install policycoreutils openssh-server openssh-clients postfix
+   >```
 
-2. <font style="color:rgb(51,51,51);">启动ssh服务并设置为开机启动</font>
 
-```powershell
-systemctl enable sshd && sudo systemctl start sshd
-```
+2. 启动ssh服务并设置为开机启动
 
-3. <font style="color:rgb(51,51,51);">设置postfix开机自启，并启动，postfix支持gitlab发信功能</font>
+   > ```powershell
+   > systemctl enable sshd && sudo systemctl start sshd
+   > ```
 
-```powershell
-systemctl enable postfix && systemctl start postfix
-```
 
-4. <font style="color:rgb(51,51,51);">开放ssh以及http服务，然后重新加载防火墙列表，如果关闭防火墙就不需要做以下配置</font>
+3. 设置postfix开机自启，并启动，postfix支持gitlab发信功能
 
-```powershell
-firewall-cmd --add-service=ssh --permanent
-firewall-cmd --add-service=http --permanent
-firewall-cmd --reload
+   >```powershell
+   >systemctl enable postfix && systemctl start postfix
+   >```
 
-# 185. 关闭防火墙
-systemctl stop firewalld.service
-systemctl status firewalld.service
-systemctl start firewalld.service
-systemctl restart firewalld.service
-```
 
-5. <font style="color:rgb(51,51,51);">下载gitlab包，并且安装</font>
+4. 开放ssh以及http服务，然后重新加载防火墙列表，如果关闭防火墙就不需要做以下配置
 
-在线下载：
+   >```powershell
+   >firewall-cmd --add-service=ssh --permanent
+   >firewall-cmd --add-service=http --permanent
+   >firewall-cmd --reload
+   >
+   ># 185. 关闭防火墙
+   >systemctl stop firewalld.service
+   >systemctl status firewalld.service
+   >systemctl start firewalld.service
+   >systemctl restart firewalld.service
+   >```
 
-```powershell
-wget https://mirrors.tuna.tsinghua.edu.cn/gitlab-ce/yum/el6/gitlab-ce-12.4.2-ce.0.el6.x86_64.rpm
-```
 
-[gitlab-ce-12.4.2-ce.0.el6.x86_64.rpm](https://www.yuque.com/attachments/yuque/0/2025/rpm/22334924/1736584521404-1a58e96c-b6fa-477e-868c-0f22b1cf21c6.rpm)
+5. 下载gitlab包，并且安装
 
-安装命令：
+   >```powershell
+   ># 在线下载：
+   >wget https://mirrors.tuna.tsinghua.edu.cn/gitlab-ce/yum/el6/gitlab-ce-12.4.2-ce.0.el6.x86_64.rpm
+   >```
+   >
+   >[gitlab-ce-12.4.2-ce.0.el6.x86_64.rpm](https://www.yuque.com/attachments/yuque/0/2025/rpm/22334924/1736584521404-1a58e96c-b6fa-477e-868c-0f22b1cf21c6.rpm)
+   >
+   >```powershell
+   ># 安装命令：
+   >rpm -i gitlab-ce-12.4.2-ce.0.el6.x86_64.rpm
+   >```
 
-```powershell
-rpm -i gitlab-ce-12.4.2-ce.0.el6.x86_64.rpm
-```
 
-6. <font style="color:rgb(51,51,51);">修改gitlab配置</font>
+6. 修改gitlab配置
 
-```powershell
-vi /etc/gitlab/gitlab.rb
-# 186. 修改gitlab访问地址和端口，默认为80，我们改为82
-external_url 'http://192.168.33.100:82'
-nginx['listen_port'] = 82
-```
+   >```powershell
+   >vi /etc/gitlab/gitlab.rb
+   ># 186. 修改gitlab访问地址和端口，默认为80，我们改为82
+   >external_url 'http://192.168.33.100:82'
+   >nginx['listen_port'] = 82
+   >```
 
-7. <font style="color:rgb(51,51,51);">重载配置及启动gitlab</font>
 
-```powershell
-gitlab-ctl reconfigure
-gitlab-ctl restart
-```
+7. 重载配置及启动gitlab
 
-8. <font style="color:rgb(51,51,51);">把端口添加到防火墙</font>
+   >```powershell
+   >gitlab-ctl reconfigure
+   >gitlab-ctl restart
+   >```
 
-```powershell
-firewall-cmd --zone=public --add-port=82/tcp --permanent
-firewall-cmd --reload
-```
+
+8. 把端口添加到防火墙
+
+   >```powershell
+   >firewall-cmd --zone=public --add-port=82/tcp --permanent
+   >firewall-cmd --reload
+   >```
+
 
 9. 访问：[http://192.168.3.100:82](http://192.168.3.100:82/)
 
@@ -127,7 +133,7 @@ firewall-cmd --reload
 ### 2.1.3 Gitlab的操作
 接着上面的安装流程，在浏览器上访问页面后，直接可以改密码操作。
 
-**<font style="color:rgb(51,51,51);">创建组操作</font>**<font style="color:rgb(51,51,51);">：使用管理员 root 创建组，一个组里面可以有多个项目分支，可以将开发添加到组里面进行设置权限，不同的组就是公司不同的开发项目或者服务模块，不同的组添加不同的开发即可实现对开发设置权限的管理。操作流程如下：</font>
+**创建组操作**： 使用管理员 root 创建组，一个组里面可以有多个项目分支，可以将开发添加到组里面进行设置权限，不同的组就是公司不同的开发项目或者服务模块，不同的组添加不同的开发即可实现对开发设置权限的管理。操作流程如下：
 
 1. 用root 账户登录上服务
 
