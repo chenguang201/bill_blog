@@ -392,3 +392,391 @@ CompletableFuture的优点：
 +  主线程设置好回调后，不再关心异步任务的执行，异步任务之间可以顺序的执行；  
 +  异步任务出错时，会自动回调某个对象的方法；  
 
+# 4 案例精讲  
+复习函数式编程：[Java8：Lambda表达式](https://www.yuque.com/u21918439/java/wifqx4)  
+
+几大函数式接口    
+
++ Runnable：无参数，无返回值  
++ Function：接受一个参数，并且有返回值  
++ Consumer：接受一个参数，无返回值  
++ BiConsumer：接受两个参数，无返回值  
++ Supplier：没有参数，有一个返回值    
+
+![](images/11.png)
+
+代码如下：  
+
+```java
+package com.bilibili.juc;
+
+import java.util.function.BiConsumer;
+import java.util.function.Consumer;
+import java.util.function.Function;
+import java.util.function.Supplier;
+
+public class Test {
+
+    public static void main(String[] args) {
+        testRunnable(new Runnable() {
+            @Override
+            public void run() {
+
+            }
+        });
+        testConsumer(new Consumer() {
+            @Override
+            public void accept(Object o) {
+
+            }
+        });
+        testFunction(new Function<String, Integer>() {
+            @Override
+            public Integer apply(String s) {
+                return 1;
+            }
+        });
+        testSupplier(new Supplier<String>() {
+            @Override
+            public String get() {
+                return "hello";
+            }
+        });
+        testBiConsumer(new BiConsumer<String, String>() {
+            @Override
+            public void accept(String s, String s2) {
+                
+            }
+        });
+    }
+    
+
+    public static void testRunnable(Runnable runnable){
+    }
+    public static void testConsumer(Consumer consumer){
+    }
+    public static void testFunction(Function<String,Integer> function){
+    }
+    public static void testSupplier(Supplier<String> supplier){
+    }
+    public static void testBiConsumer(BiConsumer<String,String> biConsumer){
+    }
+}
+```
+
+get方法和join方法的区别：两者在功能上并无太大区别，都是获得异步任务的结果，只是get会在代码检查时抛出异常，join在代码书写阶段不会出现任何异常。  
+
+```java
+package com.bilibili.juc;
+
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
+import java.util.function.Supplier;
+
+public class TestGetAndJoin {
+
+    public static void main(String[] args) throws ExecutionException, InterruptedException {
+        CompletableFuture<String> stringCompletableFuture = CompletableFuture.supplyAsync(new Supplier<String>() {
+            @Override
+            public String get() {
+                return "hello";
+            }
+        });
+        System.out.println(stringCompletableFuture.get());
+    }
+    public static void testJoin(){
+        CompletableFuture<String> stringCompletableFuture = CompletableFuture.supplyAsync(new Supplier<String>() {
+            @Override
+            public String get() {
+                return "hello";
+            }
+        });
+        System.out.println(stringCompletableFuture.join());
+    }
+}
+```
+
+**案例使用：**在实际生产开发中，先功能，再性能    
+
+> 需求说明：  
+>
+> - 同一款产品，同时搜索出同款产品在各大电商平台的售价  
+> - 同一款产品，工时搜索出本产品在同一个电商平台下，各个入驻卖家售价是多少    
+>
+> 输出返回：出来结果是同款产品在不同地方的价格清单列表，返回一个List  
+>
+> - 《MySQL》 in jd price is 88.05  
+> - 《MySQL》 in dangdang price is 86.11  
+> - 《MySQL》 in taobao price is 90.43  
+>
+> 解决方案：比对同一个商品在各个平台上的价格，要求获取一个清单列表  
+>
+> - step by step：按部就班，查完京东，再查淘宝，再查当当...  
+> - all in：万箭齐发，一口气多线程异步任务同时查询...  
+
+
+代码如下：  
+
+```java
+package com.bilibili.juc.cf;
+
+import lombok.*;
+import lombok.experimental.Accessors;
+
+import java.awt.print.Book;
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ThreadLocalRandom;
+import java.util.concurrent.TimeUnit;
+import java.util.stream.Collectors;
+
+/**
+ *
+ * 案例说明：电商比价需求，模拟如下情况：
+ *
+ * 1 需求：
+ *   1.1 同一款产品，同时搜索出同款产品在各大电商平台的售价;
+ *   1.2 同一款产品，同时搜索出本产品在同一个电商平台下，各个入驻卖家售价是多少
+ *
+ * 2 输出：出来结果希望是同款产品的在不同地方的价格清单列表，返回一个List<String>
+ *  《mysql》 in jd price is 88.05
+ *  《mysql》 in dangdang price is 86.11
+ *  《mysql》 in taobao price is 90.43
+ *
+ * 3 技术要求
+ *   3.1 函数式编程
+ *   3.2 链式编程
+ *   3.3 Stream流式计算
+ */
+public class CompletableFutureMallDemo
+{
+    static List<NetMall> list = Arrays.asList(
+            new NetMall("jd"),
+            new NetMall("dangdang"),
+            new NetMall("taobao"),
+            new NetMall("pdd"),
+            new NetMall("tmall")
+    );
+
+    /**
+     * step by step 一家家搜查
+     * List<NetMall> ----->map------> List<String>
+     * @param list
+     * @param productName
+     * @return
+     */
+    public static List<String> getPrice(List<NetMall> list,String productName)
+    {
+        //《mysql》 in taobao price is 90.43
+        return list
+                .stream()
+                .map(netMall ->
+                        String.format(productName + " in %s price is %.2f",
+                                netMall.getNetMallName(),
+                                netMall.calcPrice(productName)))
+                .collect(Collectors.toList());
+    }
+
+    /**
+     * List<NetMall> ----->List<CompletableFuture<String>>------> List<String>
+     * @param list
+     * @param productName
+     * @return
+     */
+    public static List<String> getPriceByCompletableFuture(List<NetMall> list,String productName)
+    {
+        return list.stream().map(netMall ->
+                CompletableFuture.supplyAsync(() -> String.format(productName + " in %s price is %.2f",
+                netMall.getNetMallName(),
+                netMall.calcPrice(productName))))
+                .collect(Collectors.toList())
+                .stream()
+                .map(s -> s.join())
+                .collect(Collectors.toList());
+    }
+
+
+    public static void main(String[] args)
+    {
+        long startTime = System.currentTimeMillis();
+        List<String> list1 = getPrice(list, "mysql");
+        for (String element : list1) {
+            System.out.println(element);
+        }
+        long endTime = System.currentTimeMillis();
+        System.out.println("----costTime: "+(endTime - startTime) +" 毫秒");
+
+        System.out.println("--------------------");
+
+        long startTime2 = System.currentTimeMillis();
+        List<String> list2 = getPriceByCompletableFuture(list, "mysql");
+        for (String element : list2) {
+            System.out.println(element);
+        }
+        long endTime2 = System.currentTimeMillis();
+        System.out.println("----costTime: "+(endTime2 - startTime2) +" 毫秒");
+    }
+}
+
+class NetMall
+{
+    @Getter
+    private String netMallName;
+
+    public NetMall(String netMallName)
+    {
+        this.netMallName = netMallName;
+    }
+
+    public double calcPrice(String productName)
+    {
+        try { TimeUnit.SECONDS.sleep(1); } catch (InterruptedException e) { e.printStackTrace(); }
+
+        return ThreadLocalRandom.current().nextDouble() * 2 + productName.charAt(0);
+    }
+}
+```
+
+结果输出：  
+
+```java
+mysql in jd price is 109.73
+mysql in dangdang price is 109.31
+mysql in taobao price is 109.39
+mysql in pdd price is 110.83
+mysql in tmall price is 109.66
+----costTime: 5152 毫秒
+
+
+--------------------
+mysql in jd price is 110.64
+mysql in dangdang price is 110.57
+mysql in taobao price is 109.93
+mysql in pdd price is 109.90
+mysql in tmall price is 110.44
+----costTime: 1011 毫秒
+```
+
+# 5 CompletableFuture常用方法  
+## 5.1 获得结果和触发计算  
++ 获得结果  
+    - public T get()：不见不散  
+    - public T get(long timeout, TimeUnit unit)：过时不候  
+    - public T getNow(T valueIfAbsent)：没有计算完成的情况下，给我一个替代结果，立即获取结果不阻塞，计算完，返回计算完成后的结果，没计算完，返回设定的valueIfAbsent值  
+    - public T join()：同get方法  
++ 主动触发计算  
+    - public boolean complete(T value)：是否打断get方法，立即返回括号里的值  
+
+代码如下：  
+
+```java
+package com.bilibili.juc.cf;
+
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
+
+
+public class CompletableFutureAPIDemo
+{
+    public static void main(String[] args) throws ExecutionException, InterruptedException, TimeoutException {
+        group1();
+    }
+
+    /**
+     * 获得结果和触发计算
+     * @throws InterruptedException
+     * @throws ExecutionException
+     */
+    private static void group1() throws InterruptedException, ExecutionException, TimeoutException {
+        CompletableFuture<String> completableFuture = CompletableFuture.supplyAsync(() -> {
+            //暂停几秒钟线程
+            try {
+                TimeUnit.SECONDS.sleep(1);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            return "abc";
+        });
+
+        System.out.println(completableFuture.get());
+        System.out.println(completableFuture.get(2L,TimeUnit.SECONDS));
+        System.out.println(completableFuture.join());
+
+        //暂停几秒钟线程
+        try { TimeUnit.SECONDS.sleep(2); } catch (InterruptedException e) { e.printStackTrace(); }
+
+        System.out.println(completableFuture.getNow("xxx"));
+        System.out.println(completableFuture.complete("completeValue")+"\t"+completableFuture.get());
+    }
+}
+
+```
+
+上述代码执行结果如下  
+
+```java
+abc
+abc
+abc
+abc
+false	abc
+```
+
+如果将completableFuture任务的花费时间改为3s，而下面的主线程只愿意等1s，如下：  
+
+```java
+package com.bilibili.juc.cf;
+
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
+
+public class CompletableFutureAPIDemo
+{
+    public static void main(String[] args) throws ExecutionException, InterruptedException, TimeoutException {
+        group1();
+    }
+
+    /**
+     * 获得结果和触发计算
+     * @throws InterruptedException
+     * @throws ExecutionException
+     */
+    private static void group1() throws InterruptedException, ExecutionException, TimeoutException {
+        CompletableFuture<String> completableFuture = CompletableFuture.supplyAsync(() -> {
+            //暂停几秒钟线程
+            try {
+                TimeUnit.SECONDS.sleep(3);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            return "abc";
+        });
+
+//        System.out.println(completableFuture.get());
+//        System.out.println(completableFuture.get(2L,TimeUnit.SECONDS));
+//        System.out.println(completableFuture.join());
+
+        //暂停几秒钟线程
+        try { TimeUnit.SECONDS.sleep(1); } catch (InterruptedException e) { e.printStackTrace(); }
+
+        System.out.println(completableFuture.getNow("xxx"));
+        System.out.println(completableFuture.complete("completeValue")+"\t"+completableFuture.get());
+    }
+}
+```
+
+输出如下：  
+
+```java
+xxx
+true	completeValue
+```
+
