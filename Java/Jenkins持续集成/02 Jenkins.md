@@ -212,7 +212,9 @@ Gitlab用户在组里面有5种不同权限：
 3. 填写远程的仓库地址![](images/26.png)
 
 
-4. 点击OK，发现需要个Token  ![](images/27.png)
+4. 点击OK，发现需要个Token
+
+   ![](images/27.png)
 
 
 5. 生成token
@@ -223,7 +225,10 @@ Gitlab用户在组里面有5种不同权限：
 
 
 7. 然后我们发现，GitLab的版本太老，不支持这种Token这种模式，点击右下角的Log in via GitLab![](images/30.png)
-8. 然后重新输入用户名和密码的方式来登录，至此我们将远程仓库和本地仓库绑定好了![](images/31.png)
+
+8. 然后重新输入用户名和密码的方式来登录，至此我们将远程仓库和本地仓库绑定好了
+
+   ![](images/31.png)
 
 
 9. 开始进行add、commit、push等操作![](images/32.png)
