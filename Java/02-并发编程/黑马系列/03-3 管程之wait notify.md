@@ -1,4 +1,8 @@
-**<font style="color:#DF2A3F;">笔记来源：</font>**[**<font style="color:#DF2A3F;">黑马程序员深入学习Java并发编程，JUC并发编程全套教程</font>**](https://www.bilibili.com/video/BV16J411h7Rd/?spm_id_from=333.337.search-card.all.click&vd_source=e8046ccbdc793e09a75eb61fe8e84a30)
+**笔记来源：**[**黑马程序员深入学习Java并发编程，JUC并发编程全套教程**](https://www.bilibili.com/video/BV16J411h7Rd/?spm_id_from=333.337.search-card.all.click&vd_source=e8046ccbdc793e09a75eb61fe8e84a30)
+
+------
+
+
 
 ## 1 为什么需要 wait
 小故事：由于条件不满足，小南不能继续进行计算，但小南如果一直占用着锁，其它人就得一直阻塞，效率太低
@@ -89,11 +93,11 @@ notifyAll 的结果
 19:58:17.456 [Thread-0] c.TestWaitNotify - 其它代码....
 ```
 
-<font style="color:#E8323C;">wait()</font> 方法会释放对象的锁，进入 WaitSet 等待区，从而让其他线程就机会获取对象的锁。无限制等待，直到 notify 为止  
-<font style="color:#E8323C;">wait(long n) </font>有时限的等待, 到 n 毫秒后结束等待，或是被 notify
+`wait()` 方法会释放对象的锁，进入 WaitSet 等待区，从而让其他线程就机会获取对象的锁。无限制等待，直到 notify 为止  
+`wait(long n)` 有时限的等待, 到 n 毫秒后结束等待，或是被 notify
 
 ## 4 wait-notify 的正确用法
-开始之前先看看：**sleep(long n)** 和** wait(long n**) 的区别
+开始之前先看看：`sleep(long n)`  和`wait(long n) `的区别
 
 1. sleep 是 Thread 方法，而 wait 是 Object 的方法
 2. sleep 不需要强制和 synchronized 配合使用，但 wait 需要和 synchronized 一起用
@@ -102,7 +106,7 @@ notifyAll 的结果
 
 
 
-**<font style="color:#E8323C;">案例一</font>**
+**案例一** 
 
 ```java
 static final Object room = new Object();
@@ -163,12 +167,12 @@ new Thread(() -> {
 ```
 
 其它干活的线程，都要一直阻塞，效率太低。小南线程必须睡足 2s 后才能醒来，就算烟提前送到，也无法立刻醒来，因为 sleep 不会释放锁。  
-下面为什么不能加 synchronized (room)，加了 synchronized (room) 后，就好比小南在里面反锁了门睡觉，烟根本没法送进门，main 没加 synchronized 就好像 main 线程是翻窗户进来的。解决方法，使用 wait - notify 机制
+
+下面为什么不能加`synchronized (room)` ，加了`synchronized (room)`  后，就好比小南在里面反锁了门睡觉，烟根本没法送进门，main 没加 synchronized 就好像 main 线程是翻窗户进来的。解决方法，使用 wait - notify 机制
 
 
 
-**<font style="color:#E8323C;">案例二</font>**  
-思考下面的实现行吗，为什么？
+**案例二：**   思考下面的实现行吗，为什么？
 
 ```java
 new Thread(() -> {
@@ -226,8 +230,8 @@ new Thread(() -> {
 
 解决了其它干活的线程阻塞的问题。但如果有其它线程也在等待条件呢？
 
-  
-**<font style="color:#E8323C;">案例三</font>**
+
+**案例三：** 
 
 ```java
 new Thread(() -> {
@@ -298,9 +302,7 @@ new Thread(() -> {
 
 notify 只能随机唤醒一个 WaitSet 中的线程，这时如果有其它线程也在等待，那么就可能唤醒不了正确的线程，称之为【虚假唤醒】。这里本来是送外卖的到了，唤醒的应该是需要外卖的，但是我们唤醒的却是需要烟的，事实上烟没到，所以是不对的。解决方法，改为 notifyAll
 
-
-
-**<font style="color:#E8323C;">案例四</font>**
+**案例四：**
 
 ```java
 new Thread(() -> {
@@ -328,7 +330,7 @@ new Thread(() -> {
 
 用 notifyAll 倒是可以唤醒等烟的和等外卖的，但是我们仅仅是外卖到了，只需要唤醒等外卖的即可，等烟的不需要唤醒。但这里唤醒了，后续烟到了也无济于事，因为代码已经执行过了。所以使用 if + wait 判断仅有一次机会，一旦条件不成立，就没有重新判断的机会了。解决方法，用 while + wait，当条件不成立，再次 wait
 
-**<font style="color:#E8323C;">案例五</font>**
+**案例五：**
 
 将 if 改为 while。改动前：
 
@@ -389,12 +391,12 @@ synchronized(lock) {
 
 ## 5 同步模式之保护性暂停
 ### 5.1 定义
-<font style="color:rgb(51,51,51);">即 Guarded Suspension，用在一个线程等待另一个线程的执行结果。要点：</font>
+即 Guarded Suspension，用在一个线程等待另一个线程的执行结果。要点：
 
-+ <font style="color:rgb(51,51,51);">有一个结果需要从一个线程传递到另一个线程，让他们关联同一个 GuardedObject </font>
-+ <font style="color:rgb(51,51,51);">如果有结果不断从一个线程到另一个线程那么可以使用消息队列（见生产者/消费者） </font>
-+ <font style="color:rgb(51,51,51);">JDK 中，join 的实现、Future 的实现，采用的就是此模式 </font>
-+ <font style="color:rgb(51,51,51);">因为要等待另一方的结果，因此归类到同步模式</font>
++ 有一个结果需要从一个线程传递到另一个线程，让他们关联同一个 GuardedObject 
++ 如果有结果不断从一个线程到另一个线程那么可以使用消息队列（见生产者/消费者）
++ JDK 中，join 的实现、Future 的实现，采用的就是此模式
++ 因为要等待另一方的结果，因此归类到同步模式
 
 ![](images/25.png)
 
@@ -431,7 +433,7 @@ class GuardedObject {
 ```
 
 ### 5.3 应用
-<font style="color:rgb(51,51,51);">一个线程等待另一个线程的执行结果</font>
+一个线程等待另一个线程的执行结果
 
 ```java
 public static void main(String[] args) {
@@ -457,7 +459,7 @@ public static void main(String[] args) {
 }
 ```
 
-<font style="color:rgb(51,51,51);">执行结果</font>
+执行结果
 
 ```java
 08:42:18.568 [main] c.TestGuardedObject - waiting...
@@ -466,7 +468,7 @@ public static void main(String[] args) {
 ```
 
 ### 5.4 带超时版
-<font style="color:rgb(51,51,51);">如果要控制超时时间呢</font><font style="color:rgb(51,51,51);"> </font>
+如果要控制超时时间呢
 
 ```java
 class GuardedObjectV2 {
@@ -516,9 +518,7 @@ class GuardedObjectV2 {
 }
 ```
 
-<font style="color:rgb(51,51,51);"></font>
-
-<font style="color:rgb(51,51,51);">测试没有超时的时候：</font>
+测试没有超时的时候：
 
 ```java
 public static void main(String[] args) {
@@ -543,7 +543,7 @@ public static void main(String[] args) {
 }
 ```
 
-<font style="color:rgb(51,51,51);">输出</font>
+输出
 
 ```java
 08:49:39.917 [main] c.GuardedObjectV2 - waitTime: 2500
@@ -555,16 +555,14 @@ public static void main(String[] args) {
 08:49:41.918 [main] c.TestGuardedObjectV2 - get response: [3] lines
 ```
 
-<font style="color:rgb(51,51,51);"></font>
-
-<font style="color:rgb(51,51,51);">测试超时的时候：</font>
+测试超时的时候：
 
 ```java
 // 等待时间不足 
 List<String> lines = v2.get(1500); 
 ```
 
-<font style="color:rgb(51,51,51);">输出 </font>
+输出
 
 ```java
 08:47:54.963 [main] c.GuardedObjectV2 - waitTime: 1500 
@@ -579,13 +577,13 @@ List<String> lines = v2.get(1500);
 ```
 
 ### 5.5 join原理
-<font style="color:rgb(51,51,51);">是调用者轮询检查线程 alive 状态 </font>
+是调用者轮询检查线程 alive 状态 
 
 ```java
 t1.join(); 
 ```
 
-<font style="color:rgb(51,51,51);"> 等价于下面的代码</font>
+等价于下面的代码
 
 ```java
 synchronized (t1) {
@@ -597,13 +595,13 @@ synchronized (t1) {
 ```
 
 ### 5.6 多任务版
-<font style="color:rgb(51,51,51);">图中 Futures 就好比居民楼一层的信箱（每个信箱有房间编号），左侧的 t0，t2，t4 就好比等待邮件的居民，右 侧的 t1，t3，t5 就好比邮递员 </font>
+图中 Futures 就好比居民楼一层的信箱（每个信箱有房间编号），左侧的 t0，t2，t4 就好比等待邮件的居民，右 侧的 t1，t3，t5 就好比邮递员
 
-<font style="color:rgb(51,51,51);">如果需要在多个类之间使用 GuardedObject 对象，作为参数传递不是很方便，因此设计一个用来解耦的中间类， 这样不仅能够解耦【结果等待者】和【结果生产者】，还能够同时支持多个任务的管理</font>
+如果需要在多个类之间使用 GuardedObject 对象，作为参数传递不是很方便，因此设计一个用来解耦的中间类， 这样不仅能够解耦【结果等待者】和【结果生产者】，还能够同时支持多个任务的管理
 
 ![](images/26.png)
 
-<font style="color:rgb(51,51,51);">新增 id 用来标识 Guarded Object</font>
+新增 id 用来标识 Guarded Object
 
 ```java
 class GuardedObject {
@@ -659,7 +657,7 @@ class GuardedObject {
 
 
 
-<font style="color:rgb(51,51,51);">中间解耦类</font>
+中间解耦类
 
 ```java
 class Mailboxes {
@@ -684,7 +682,7 @@ class Mailboxes {
 
 ```
 
-<font style="color:rgb(51,51,51);">业务相关类</font>
+业务相关类
 
 ```java
 class People extends Thread{
@@ -717,7 +715,7 @@ class Postman extends Thread {
 }
 ```
 
-<font style="color:rgb(51,51,51);">测试</font>
+测试
 
 ```java
 public static void main(String[] args) throws InterruptedException {
@@ -731,7 +729,7 @@ public static void main(String[] args) throws InterruptedException {
 }
 ```
 
-<font style="color:rgb(51,51,51);">某次运行结果</font>
+某次运行结果
 
 ```java
 10:35:05.689 c.People [Thread-1] - 开始收信 id:3
