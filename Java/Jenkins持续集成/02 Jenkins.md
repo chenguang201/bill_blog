@@ -128,7 +128,7 @@ GitLab 和 GitHub 一样属于第三方基于Git开发的作品，免费且开�
 
 9. 访问：[http://192.168.3.100:82](http://192.168.3.100:82/)
 
-![](images/8.png)
+   ![](images/8.png)
 
 ### 2.1.3 Gitlab的操作
 接着上面的安装流程，在浏览器上访问页面后，直接可以改密码操作。
@@ -137,73 +137,61 @@ GitLab 和 GitHub 一样属于第三方基于Git开发的作品，免费且开�
 
 1. 用root 账户登录上服务
 
-![](images/9.png)
+   ![](images/9.png)
+
 
 2. 点击 creat a group 菜单。
 
-![](images/10.png)
+   ![](images/10.png)
+
 
 3. 填写对应的信息，点击确认。
 
-![](images/11.png)
+   ![](images/11.png)
 
-![](images/12.png)
+   ![](images/12.png)
 
-创建用户操作：<font style="color:rgb(51,51,51);">创建用户的时候，可以选择Regular或Admin类型。流程如下：</font>
+创建用户操作：创建用户的时候，可以选择Regular或Admin类型。流程如下：
 
-1. 再次点击首页图标，回到首页，点击add people 选项
+1. 再次点击首页图标，回到首页，点击add people 选项![](images/13.png)
 
-![](images/13.png)
 
-2. 填写所有的选项，然后点击确认。
+2. 填写所有的选项，然后点击确认。![](images/14.png)
 
-qq.com![](images/14.png)
 
-3. 创建完用户后，立即修改密码
+3. 创建完用户后，立即修改密码![](images/15.png)
 
-![](images/15.png)
 
-4. 输入密码，点击确认更改
+4. 输入密码，点击确认更改![](images/16.png)
 
-![](images/16.png)
 
-5. 将用户添加进组中。<font style="color:rgb(51,51,51);">选择某个用户组，进行Members管理组的成员</font>
+5. 将用户添加进组中。选择某个用户组，进行Members管理组的成员![](images/17.png)
 
-![](images/17.png)
 
-6. 搜索用户，同时给用户赋予不同的角色，不同的角色有不同的权限。
+6. 搜索用户，同时给用户赋予不同的角色，不同的角色有不同的权限。![](images/18.png)![](images/19.png)
 
-![](images/18.png)
+Gitlab用户在组里面有5种不同权限： 
 
-![](images/19.png)
-
-<font style="color:rgb(51,51,51);">Gitlab用户在组里面有5种不同权限： </font>
-
-+ <font style="color:rgb(51,51,51);">Guest：可以创建issue、发表评论，不能读写版本库 </font>
-+ <font style="color:rgb(51,51,51);">Reporter：可以克隆代码，不能提交，QA、PM 可以赋予这个权限 </font>
-+ <font style="color:rgb(51,51,51);">Developer：可以克隆代码、开发、提交、push，普通开发可以赋予这个权限 </font>
-+ <font style="color:rgb(51,51,51);">Maintainer：可以创建项目、添加tag、保护分支、添加项目成员、编辑项目，核心开发可以赋予这个权限 </font>
-+ <font style="color:rgb(51,51,51);">Owner：可以设置项目访问权限 - Visibility Level、删除项目、迁移项目、管理组成员，开发组组长可以赋予这个权限</font>
++ Guest：可以创建issue、发表评论，不能读写版本库
++ Reporter：可以克隆代码，不能提交，QA、PM 可以赋予这个权限
++ Developer：可以克隆代码、开发、提交、push，普通开发可以赋予这个权限 
++ Maintainer：可以创建项目、添加tag、保护分支、添加项目成员、编辑项目，核心开发可以赋予这个权限 
++ Owner：可以设置项目访问权限 - Visibility Level、删除项目、迁移项目、管理组成员，开发组组长可以赋予这个权限
 
 
 
 创建项目操作流程：
 
-1. <font style="color:rgb(51,51,51);">以刚才创建的新用户身份登录到Gitlab，</font>
+1. 以刚才创建的新用户身份登录到Gitlab![](images/20.png)
 
-![](images/20.png)
 
-2. <font style="color:rgb(51,51,51);">在用户组中创建新的项目</font>
+2. 在用户组中创建新的项目![](images/21.png)
 
-![](images/21.png)
 
-3. 填写对应的选项，然后点击确认
+3. 填写对应的选项，然后点击确认![](images/22.png)
 
-![](images/22.png)
 
-4. 此时项目就创建好了
-
-![](images/23.png)
+4. 此时项目就创建好了![](images/23.png)
 
 注意一点：我们平时从Gitlab 或者其他代码托管平台拉取代码有两种方式：
 
@@ -213,37 +201,32 @@ qq.com![](images/14.png)
 [SSH 公钥设置 | Gitee 帮助中心](https://help.gitee.com/base/account/SSH%E5%85%AC%E9%92%A5%E8%AE%BE%E7%BD%AE)
 
 ### 2.1.4 源码上传到GitLab
-<font style="color:rgb(51,51,51);">下面来到IDEA开发工具，我们已经准备好一个简单的Web应用准备到集成部署。 我们要把源码上传到Gitlab的项目仓库中。</font>
+下面来到IDEA开发工具，我们已经准备好一个简单的Web应用准备到集成部署。 我们要把源码上传到Gitlab的项目仓库中。
 
-1. <font style="color:rgb(51,51,51);">项目结构说明：我们建立了一个非常简单的web应用，只有一个index.jsp页面，如果部署好，可以访问该页面就成功啦！</font>
+1. 项目结构说明：我们建立了一个非常简单的web应用，只有一个index.jsp页面，如果部署好，可以访问该页面就成功啦！![](images/24.png)
 
-![](images/24.png)
 
-2. 开启本地代码和远程仓库的绑定。
+2. 开启本地代码和远程仓库的绑定。![](images/25.png)
 
-![](images/25.png)
 
-3. 填写远程的仓库地址
+3. 填写远程的仓库地址![](images/26.png)
 
-![](images/26.png)
 
-4. 点击OK，发现需要个Token
+4. 点击OK，发现需要个Token![](images/27.png)
 
-![](images/27.png)
 
-5. 生成token![](images/28.png)
-6. 将生成的Token 输入在IDEA中，点击登录
+5. 生成token
 
-![](images/29.png)
+   ![](images/28.png)
+
+6. 将生成的Token 输入在IDEA中，点击登录![](images/29.png)
+
 
 7. 然后我们发现，GitLab的版本太老，不支持这种Token这种模式，点击右下角的Log in via GitLab![](images/30.png)
-8. 然后重新输入用户名和密码的方式来登录，至此我们将远程仓库和本地仓库绑定好了
+8. 然后重新输入用户名和密码的方式来登录，至此我们将远程仓库和本地仓库绑定好了![](images/31.png)
 
-![](images/31.png)
 
-9. 开始进行add、commit、push等操作
-
-![](images/32.png)
+9. 开始进行add、commit、push等操作![](images/32.png)
 
 我们发现代码已经被提交到远程仓库了。
 
