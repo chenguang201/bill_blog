@@ -663,12 +663,9 @@ new Thread(() -> {
 as.start(aWaitSet); 
 ```
 
-**注意** 
+>  **注意** ：该实现没有考虑 a，b，c 线程都就绪再开始
 
-> 该实现没有考虑 a，b，c 线程都就绪再开始
->
-
-**方式三：Park Unpark 版**
+**方式三：Park Unpark 版** 
 
 ```java
 class SyncPark { 
