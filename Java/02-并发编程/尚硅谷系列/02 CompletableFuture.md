@@ -206,3 +206,189 @@ public class FutureAPIDemo
 
 针对于上述的特殊需求，使用Future之前提供的那点API就囊中羞涩，处理起来不够优雅，这时候还是让CompletableFuture以声明式的方式优雅的处理这些需求，Future能干的，CompletableFuture都能干。
 
+# 3 CompletableFuture  
+## 3.1 CompletableFuture结构  
+CompletableFuture为什么出现呢？  
+
+Future的get方法在计算完成之前会一直处在阻塞状态下，isDone方法容易耗费CPU资源，对于真正的异步处理我们是希望可以通过传入回调函数，在Future结束时候自动调用该回调函数，这样我们就不用等待结果。    
+
+阻塞的方式和异步编程的设计理念想违背，而轮询的方式会消耗无谓的CPU资源，因此JDK8设计出CompletableFuture。  
+
+CompletableFuture提供了一种观察者模式类似的机制，可以让任务执行完成后通知监听的一方。  
+
+CompletableFuture类架构图    
+
+![](images/6.png)
+
+先来看看这个CompletionStage    
+
+![](images/7.png)
+
+有这么多的方法，要远远的比Future复杂的多。那么CompletionStage是什么呢？  ![](images/8.png)
+
+代表异步计算过程中的某一个阶段，一个阶段完成以后可能会触发另外一个阶段，有些类似Linux系统的管道分隔符传参数。  
+
+CompletableFuture    
+
+![](images/9.png)
+
+## 3.2 创建异步任务  
+可以看到使用构造方法可以创建一个不完整的CompletableFuture，官方不推荐    
+
+![](images/10.png)
+
+### 3.2.1 四个静态方法    
+可以使用下面四个静态方法来创建异步任务    
+
++ runAsync：无返回值    
+    - > `public static CompletableFuture<Void> runAsync(Runnable runnable)`：返回一个新的CompletableFuture，它在运行给定操作后由运行在 `ForkJoinPool.commonPool()`中的任务异步完成。  
+
+    - > `static CompletableFuture<Void> runAsync(Runnable runnable, Executor executor)`：返回一个新的CompletableFuture，它在运行给定操作之后由在给定执行程序中运行的任务异步完成。  
+
++ supplyAsync：有返回值    
+    - > `static <U> CompletableFuture<U> supplyAsync(Supplier<U> supplier)`：返回一个新的CompletableFuture，它通过在 `ForkJoinPool.commonPool()`中运行的任务与通过调用给定的供应商获得的值异步完成。  
+
+    - > `static <U> CompletableFuture<U> supplyAsync(Supplier<U> supplier, Executor executor)`：返回一个新的CompletableFuture，由给定执行器中运行的任务异步完成，并通过调用给定的供应商获得的值。   
+
+上面的Executor executor参数说明：没有指定Executor，直接使用默认的ForkJoinPool.commonPool()作为它的线程池执行异步代码，如果制定线程池，则使用我们自定义的或者特别指定的线程池执行异步代码。  
+
+代码示例：
+
+先看看Supplier函数式接口的用法    
+
+```java
+public static void testSupplier(){
+    String test = test(new Supplier<String>() {
+        @Override
+        public String get() {
+            return "hello";
+        }
+    });
+    System.out.println(test);
+
+    String test2 = test(() -> "hello");
+    System.out.println(test2);
+}
+public static String test(Supplier<String> supplier){
+    String s = supplier.get();
+    return s;
+}
+```
+
+创建异步任务    
+
+```java
+package com.bilibili.juc.cf;
+
+import java.util.concurrent.*;
+import java.util.function.Supplier;
+
+public class CompletableFutureBuildDemo
+{
+    public static void main(String[] args) throws ExecutionException, InterruptedException
+    {
+        ExecutorService threadPool = Executors.newFixedThreadPool(3);
+    	//无返回值
+        CompletableFuture<Void> completableFuture = CompletableFuture.runAsync(() -> {
+            System.out.println(Thread.currentThread().getName());
+            //暂停几秒钟线程
+            try { TimeUnit.SECONDS.sleep(1); } catch (InterruptedException e) { e.printStackTrace(); }
+        },threadPool);
+
+        System.out.println(completableFuture.get());
+
+        //有返回值
+        CompletableFuture<String> completableFuture2 = CompletableFuture.supplyAsync(() -> {
+            System.out.println(Thread.currentThread().getName());
+            //暂停几秒钟线程
+            try { TimeUnit.SECONDS.sleep(1); } catch (InterruptedException e) { e.printStackTrace(); }
+            return "hello supplyAsync";
+        },threadPool);
+        System.out.println(completableFuture2.get());
+        threadPool.shutdown();
+    }
+}
+```
+
+那么它是如何减少阻塞和轮询的呢？从Java8开始引入了CompletableFuture，它是Future的功能增强版，减少阻塞和轮询，可以传入回调对象，当异步任务完成或者发生异常时，自动调用回调对象的回调方法。  
+
+代码如下    
+
+```java
+package com.bilibili.juc.cf;
+
+import java.util.concurrent.*;
+
+/**
+ * @auther zzyy
+ * @create 2022-01-16 16:53
+ */
+public class CompletableFutureUseDemo
+{
+    public static void main(String[] args) throws ExecutionException, InterruptedException
+    {
+
+        ExecutorService threadPool = Executors.newFixedThreadPool(3);
+
+        try
+        {
+            CompletableFuture.supplyAsync(() -> {
+                System.out.println(Thread.currentThread().getName() + "----come in");
+                int result = ThreadLocalRandom.current().nextInt(10);
+                try { TimeUnit.SECONDS.sleep(1); } catch (InterruptedException e) { e.printStackTrace(); }
+                System.out.println("-----1秒钟后出结果：" + result);
+                if(result > 2)
+                {
+                    int i=10/0;
+                }
+                return result;
+            },threadPool).whenComplete((v,e) -> {
+                if (e == null) {
+                    System.out.println("-----计算完成，更新系统UpdateValue："+v);
+                }
+            }).exceptionally(e -> {
+                e.printStackTrace();
+                System.out.println("异常情况："+e.getCause()+"\t"+e.getMessage());
+                return null;
+            });
+
+            System.out.println(Thread.currentThread().getName()+"线程先去忙其它任务");
+        }catch (Exception e){
+            e.printStackTrace();
+        }finally {
+            threadPool.shutdown();
+        }
+
+        //主线程不要立刻结束，否则CompletableFuture默认使用的线程池会立刻关闭：暂停3秒钟线程
+        //也可以换成自己自定义的线程池来解决这个问题，不用ForkJoinPool默认的线程池
+        //try { TimeUnit.SECONDS.sleep(3); } catch (InterruptedException e) { e.printStackTrace(); }
+
+    }
+
+    private static void future1() throws InterruptedException, ExecutionException
+    {
+        CompletableFuture<Integer> completableFuture = CompletableFuture.supplyAsync(() -> {
+            System.out.println(Thread.currentThread().getName() + "----come in");
+            int result = ThreadLocalRandom.current().nextInt(10);
+            try {
+                TimeUnit.SECONDS.sleep(1);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            System.out.println("-----1秒钟后出结果：" + result);
+            return result;
+        });
+
+        System.out.println(Thread.currentThread().getName()+"线程先去忙其它任务");
+
+        System.out.println(completableFuture.get());
+    }
+}
+```
+
+CompletableFuture的优点：  
+
++  异步任务结束时，会自动回调某个对象的方法；  
++  主线程设置好回调后，不再关心异步任务的执行，异步任务之间可以顺序的执行；  
++  异步任务出错时，会自动回调某个对象的方法；  
+
