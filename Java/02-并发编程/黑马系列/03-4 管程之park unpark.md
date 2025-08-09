@@ -15,8 +15,6 @@ LockSupport.park();
 LockSupport.unpark(暂停线程对象)
 ```
 
-****
-
 **先 park 再 unpark** 
 
 ```java
