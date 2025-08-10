@@ -1,4 +1,8 @@
-**<font style="color:#DF2A3F;">笔记来源：</font>**[**<font style="color:#DF2A3F;">黑马程序员深入学习Java并发编程，JUC并发编程全套教程</font>**](https://www.bilibili.com/video/BV16J411h7Rd/?spm_id_from=333.337.search-card.all.click&vd_source=e8046ccbdc793e09a75eb61fe8e84a30)
+**笔记来源：**[**黑马程序员深入学习Java并发编程，JUC并发编程全套教程**](https://www.bilibili.com/video/BV16J411h7Rd/?spm_id_from=333.337.search-card.all.click&vd_source=e8046ccbdc793e09a75eb61fe8e84a30)
+
+------
+
+
 
 # 1 CountdownLatch
 用来进行线程同步协作，等待所有线程完成倒计时。  
@@ -35,8 +39,6 @@ public static void main(String[] args) throws InterruptedException {
 }
 ```
 
-
-
 输出
 
 ```java
@@ -49,8 +51,6 @@ public static void main(String[] args) throws InterruptedException {
 18:44:02.782 c.TestCountDownLatch [Thread-1] - end...0 
 18:44:02.782 c.TestCountDownLatch [main] - wait end...
 ```
-
-
 
 可以配合线程池使用，改进如下
 
@@ -93,8 +93,6 @@ public static void main(String[] args) throws InterruptedException {
 }
 ```
 
-
-
 输出
 
 ```java
@@ -111,7 +109,7 @@ public static void main(String[] args) throws InterruptedException {
 
 
 ## 1.1 应用
-**<font style="color:#F5222D;">案例一：</font>****<font style="color:#F5222D;">应用之同步等待多线程准备完毕</font>**
+**案例一：** 应用之同步等待多线程准备完毕
 
 ```java
 AtomicInteger num = new AtomicInteger(0);
@@ -144,15 +142,11 @@ System.out.println("
 service.shutdown();
 ```
 
-
-
 中间输出
 
 ```bash
 [t0(52%), t1(47%), t2(51%), t3(40%), t4(49%), t5(44%), t6(49%), t7(52%), t8(46%), t9(46%)]
 ```
-
-
 
 最后输出
 
@@ -163,7 +157,7 @@ service.shutdown();
 
 
 
-**<font style="color:#F5222D;">应用二：应用之同步等待多个远程调用结束</font>**
+**应用二：** 应用之同步等待多个远程调用结束
 
 ```java
 @RestController
@@ -210,8 +204,6 @@ public class TestCountDownlatchController {
 }
 ```
 
-
-
 rest 远程调用
 
 ```java
@@ -246,8 +238,6 @@ log.debug("执行完毕");
 service.shutdown();
 ```
 
-
-
 执行结果
 
 ```java
@@ -260,8 +250,7 @@ service.shutdown();
 ```
 
 # 2 CyclicBarrier
-[ˈsaɪklɪk ˈbæriɚ] 循环栅栏，用来进行线程协作，等待线程满足某个计数。构造时设置『计数个数』，每个线程执  
-行到某个需要“同步”的时刻调用 await() 方法进行等待，当等待的线程数满足『计数个数』时，继续执行
+[ˈsaɪklɪk ˈbæriɚ] 循环栅栏，用来进行线程协作，等待线程满足某个计数。构造时设置『计数个数』，每个线程执  行到某个需要“同步”的时刻调用 await() 方法进行等待，当等待的线程数满足『计数个数』时，继续执行
 
 ```java
 CyclicBarrier cb = new CyclicBarrier(2); // 个数为2时才会继续执行
@@ -292,7 +281,5 @@ new Thread(()->{
 }).start();
 ```
 
-> 注意 CyclicBarrier 与 CountDownLatch 的主要区别在于 CyclicBarrier 是可以重用的 CyclicBarrier 可以被比喻为『人满发车』  
-
->
+> 注意：CyclicBarrier 与 CountDownLatch 的主要区别在于 CyclicBarrier 是可以重用的 CyclicBarrier 可以被比喻为『人满发车』  
 
