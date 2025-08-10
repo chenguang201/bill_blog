@@ -1,14 +1,12 @@
-**<font style="color:#DF2A3F;">笔记来源：</font>**[**<font style="color:#DF2A3F;">黑马程序员深入学习Java并发编程，JUC并发编程全套教程</font>**](https://www.bilibili.com/video/BV16J411h7Rd/?spm_id_from=333.337.search-card.all.click&vd_source=e8046ccbdc793e09a75eb61fe8e84a30)
+**笔记来源：**[**黑马程序员深入学习Java并发编程，JUC并发编程全套教程**](https://www.bilibili.com/video/BV16J411h7Rd/?spm_id_from=333.337.search-card.all.click&vd_source=e8046ccbdc793e09a75eb61fe8e84a30)
 
-**<font style="color:#DF2A3F;"></font>**
-
-**<font style="color:#1DC0C9;">架构图</font>**
+**架构图：**
 
 
 
 ![](images/65.png)
 
-
+------
 
 ## 1 非公平锁实现原理
 ### 1.1 加锁解锁流程
@@ -22,8 +20,6 @@ public ReentrantLock() {
 
 NonfairSync 继承自 AQS
 
-
-
 没有竞争时  
 ![](images/66.png)
 
@@ -31,8 +27,6 @@ NonfairSync 继承自 AQS
 
 第一个竞争出现时  
 ![](images/67.png)
-
-
 
 Thread-1 执行了
 
@@ -42,7 +36,7 @@ Thread-1 执行了
     - 图中黄色三角表示该 Node 的 waitStatus 状态，其中 0 为默认正常状态
     - Node 的创建是懒惰的
     - 其中第一个 Node 称为 Dummy（哑元）或哨兵，用来占位，并不关联线程  
-![](images/68.png)
+      ![](images/68.png)
 
 
 
@@ -51,11 +45,11 @@ Thread-1 执行了
 1.  acquireQueued 会在一个死循环中不断尝试获得锁，失败后进入 park 阻塞 
 2.  如果自己是紧邻着 head（排第二位），那么再次 tryAcquire 尝试获取锁，当然这时 state 仍为 1，失败 
 3.  进入 shouldParkAfterFailedAcquire 逻辑，将前驱 node，即 head 的 waitStatus 改为 -1，这次返回 false  
-![](images/69.png) 
+  ![](images/69.png) 
 4.  shouldParkAfterFailedAcquire 执行完毕回到 acquireQueued ，再次 tryAcquire 尝试获取锁，当然这时state 仍为 1，失败 
 5.  当再次进入 shouldParkAfterFailedAcquire 时，这时因为其前驱 node 的 waitStatus 已经是 -1，这次返回true 
 6.  进入 parkAndCheckInterrupt， Thread-1 park（灰色表示）  
-![](images/70.png) 
+  ![](images/70.png) 
 
 
 
@@ -66,7 +60,7 @@ Thread-0 释放锁，进入 tryRelease 流程，如果成功
 
 + 设置 exclusiveOwnerThread 为 null
 + state = 0  
-![](images/72.png)
+  ![](images/72.png)
 
 当前队列不为 null，并且 head 的 waitStatus = -1，进入 unparkSuccessor 流程  
 找到队列中离 head 最近的一个 Node（没取消的），unpark 恢复其运行，本例中即为 Thread-1  
@@ -251,10 +245,7 @@ static final class NonfairSync extends Sync {
 }
 ```
 
-注意
-
-> 是否需要 unpark 是由当前节点的前驱节点的 waitStatus == Node.SIGNAL 来决定，而不是本节点的waitStatus 决定
->
+> 注意：是否需要 unpark 是由当前节点的前驱节点的 waitStatus == Node.SIGNAL 来决定，而不是本节点的waitStatus 决定
 
 ### 1.3 解锁源码
 ```java
@@ -802,5 +793,5 @@ public class ConditionObject implements Condition, java.io.Serializable {
 }
 ```
 
-# 195.   
+
 
