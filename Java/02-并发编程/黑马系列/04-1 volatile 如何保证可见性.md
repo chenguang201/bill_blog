@@ -1,6 +1,6 @@
-**<font style="color:#DF2A3F;">笔记来源：</font>**[**<font style="color:#DF2A3F;">黑马程序员深入学习Java并发编程，JUC并发编程全套教程</font>**](https://www.bilibili.com/video/BV16J411h7Rd/?spm_id_from=333.337.search-card.all.click&vd_source=e8046ccbdc793e09a75eb61fe8e84a30)
+**笔记来源：**[**黑马程序员深入学习Java并发编程，JUC并发编程全套教程**](https://www.bilibili.com/video/BV16J411h7Rd/?spm_id_from=333.337.search-card.all.click&vd_source=e8046ccbdc793e09a75eb61fe8e84a30)
 
-
+------
 
 ## 1 背景
 退不出的循环：先来看一个现象，main 线程对 run 变量的修改对于 t 线程不可见，导致了 t 线程无法停止：
@@ -35,7 +35,7 @@ public static void main(String[] args) throws InterruptedException {
 ![](images/37.png)
 
 ## 2 解决方法
-**volatile**（易变关键字）：<font style="color:#01B2BC;">它可以用来修饰成员变量和静态成员变量</font><font style="color:#DF2A3F;">，他可以避免线程从自己的工作缓存中查找变量的值，必须到主存中获取它的值，线程操作 volatile 变量都是直接操作主存</font>
+**volatile**（易变关键字）：它可以用来修饰成员变量和静态成员变量，他可以避免线程从自己的工作缓存中查找变量的值，必须到主存中获取它的值，线程操作 volatile 变量都是直接操作主存
 
 ## 3 可见性vs原子性
 前面例子体现的实际就是可见性，它保证的是在多个线程之间，一个线程对 volatile 变量的修改对另一个线程可见， 不能保证原子性，仅用在一个写线程，多个读线程的情况。上例从字节码理解是这样的：
@@ -63,7 +63,7 @@ isub        // 线程2-自减 线程内i=-1
 putstatic i // 线程2-将修改后的值存入静态变量i 静态变量i=-1
 ```
 
-**<font style="color:#E8323C;">注意：</font>**synchronized 语句块既可以保证代码块的原子性，也同时保证代码块内变量的可见性。但缺点是synchronized 是属于重量级操作，性能相对更低
+**注意：** synchronized 语句块既可以保证代码块的原子性，也同时保证代码块内变量的可见性。但缺点是synchronized 是属于重量级操作，性能相对更低
 
 如果在前面示例的死循环中加入`System.out.println()`会发现即使不加 volatile 修饰符，线程 t 也能正确看到对 run 变量的修改了，想一想为什么？
 
@@ -102,13 +102,13 @@ NUMA node0 CPU(s):      0
 
 速度比较
 
-| 从 cpu 到 | 大约需要的时钟周期 |
-| --- | --- |
-| 寄存器 | 1 cycle |
-| L1 | 3~4 cycle |
-| L2 | 10~20 cycle |
-| L3 | 40~45 cycle |
-| 内存 | 120~240 cycle |
+| 从 cpu 到 | 大约需要的时钟周期     |
+| ------- | ------------- |
+| 寄存器     | 1 cycle       |
+| L1      | 3~4 cycle     |
+| L2      | 10~20 cycle   |
+| L3      | 40~45 cycle   |
+| 内存      | 120~240 cycle |
 
 
 查看 cpu 缓存行
@@ -137,7 +137,7 @@ cpu 拿到的内存地址格式是这样的
         * 不一致，去内存读取新数据更新缓存行
 
 ### 4.3 CPU 缓存一致性
-<font style="color:#E8323C;">MESI 协议</font>
+MESI 协议
 
 1. E、S、M 状态的缓存行都可以满足 CPU 的读请求
 2. E 状态的缓存行，有写请求，会将状态改为 M，这时并不触发向主存的写
@@ -176,8 +176,7 @@ Two Phase Termination
 
 
 
-**<font style="color:#E8323C;">利用 isInterrupted</font>**  
-interrupt 可以打断正在执行的线程，无论这个线程是在 sleep，wait，还是正常运行
+**方式一：利用 isInterrupted：**  interrupt 可以打断正在执行的线程，无论这个线程是在 sleep，wait，还是正常运行
 
 ```java
 class TPTInterrupt { 
@@ -206,8 +205,6 @@ class TPTInterrupt {
 }
 ```
 
-
-
 调用
 
 ```java
@@ -218,7 +215,7 @@ log.debug("stop");
 t.stop();
 ```
 
-<font style="color:rgb(51,51,51);">结果 </font>
+结果 
 
 ```java
 11:49:42.915 c.TwoPhaseTermination [监控线程] - 将结果保存
@@ -228,7 +225,7 @@ t.stop();
 11:49:45.413 c.TwoPhaseTermination [监控线程] - 料理后事
 ```
 
-**<font style="color:#E8323C;">利用停止标记 </font>**
+**方式二：利用停止标记**
 
 ```java
 // 停止标记用 volatile 是为了保证该变量在多个线程之间的可见性
@@ -261,8 +258,6 @@ class TPTVolatile {
 }
 ```
 
-
-
 调用
 
 ```java
@@ -273,7 +268,7 @@ log.debug("stop");
 t.stop();
 ```
 
-<font style="color:rgb(51,51,51);">结果 </font>
+结果
 
 ```java
 11:54:52.003 c.TPTVolatile [监控线程] - 将结果保存 
@@ -285,10 +280,10 @@ t.stop();
 
 ## 6 同步模式之Balking
 ### 6.1 定义
-<font style="color:rgb(51,51,51);">Balking （犹豫）模式用在一个线程发现另一个线程或本线程已经做了某一件相同的事，那么本线程就无需再做 了，直接结束返回</font>
+> Balking （犹豫）模式用在一个线程发现另一个线程或本线程已经做了某一件相同的事，那么本线程就无需再做 了，直接结束返回
 
 ### 6.2 实现
-<font style="color:rgb(51,51,51);">例如：</font>
+例如：
 
 ```java
 public class MonitorService {
@@ -308,9 +303,7 @@ public class MonitorService {
 }
 ```
 
-<font style="color:rgb(51,51,51);">当前端页面多次点击按钮调用</font><font style="color:rgb(51,51,51);"> start </font><font style="color:rgb(51,51,51);">时 </font>
-
-<font style="color:rgb(51,51,51);">输出</font>
+当前端页面多次点击按钮调用 start时，输出：
 
 ```java
 [http-nio-8080-exec-1] cn.itcast.monitor.service.MonitorService - 该监控线程已启动?(false)
@@ -320,7 +313,7 @@ public class MonitorService {
 [http-nio-8080-exec-4] cn.itcast.monitor.service.MonitorService - 该监控线程已启动?(true)
 ```
 
-<font style="color:rgb(51,51,51);">它还经常用来实现线程安全的单例</font>
+它还经常用来实现线程安全的单例
 
 ```java
 public final class Singleton {
@@ -338,5 +331,5 @@ public final class Singleton {
 }
 ```
 
-<font style="color:rgb(51,51,51);">对比一下保护性暂停模式：保护性暂停模式用在一个线程等待另一个线程的执行结果，当条件不满足时线程等待。</font>
+对比一下保护性暂停模式：保护性暂停模式用在一个线程等待另一个线程的执行结果，当条件不满足时线程等待。
 
