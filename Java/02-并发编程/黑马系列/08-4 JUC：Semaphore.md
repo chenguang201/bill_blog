@@ -1,4 +1,6 @@
-**<font style="color:#DF2A3F;">笔记来源：</font>**[**<font style="color:#DF2A3F;">黑马程序员深入学习Java并发编程，JUC并发编程全套教程</font>**](https://www.bilibili.com/video/BV16J411h7Rd/?spm_id_from=333.337.search-card.all.click&vd_source=e8046ccbdc793e09a75eb61fe8e84a30)
+**笔记来源：**[**黑马程序员深入学习Java并发编程，JUC并发编程全套教程**](https://www.bilibili.com/video/BV16J411h7Rd/?spm_id_from=333.337.search-card.all.click&vd_source=e8046ccbdc793e09a75eb61fe8e84a30)
+
+------
 
 ## 1 基本使用
 [ˈsɛməˌfɔr] 信号量，用来限制能同时访问共享资源的线程上限。
@@ -29,8 +31,6 @@ public static void main(String[] args) {
  }
 ```
 
-
-
 输出
 
 ```java
@@ -56,8 +56,8 @@ public static void main(String[] args) {
 07:35:19.492 c.TestSemaphore [Thread-8] - end...
 ```
 
-## <font style="color:#000000;">2 </font>**<font style="color:#000000;"> Semaphore应用</font>**
-## <font style="color:#000000;">3 </font>**<font style="color:#000000;">Semaphore原理</font>**
+## 2 Semaphore应用
+## 3 Semaphore原理
 ### 3.1 加锁解锁流程
 
 
@@ -66,17 +66,11 @@ Semaphore 有点像一个停车场，permits 就好像停车位数量，当线�
 刚开始，permits（state）为 3，这时 5 个线程来获取资源  
 ![](images/96.png)
 
-
-
 假设其中 Thread-1，Thread-2，Thread-4 cas 竞争成功，而 Thread-0 和 Thread-3 竞争失败，进入 AQS 队列park 阻塞  
 ![](images/97.png)
 
-
-
 这时 Thread-4 释放了 permits，状态如下  
 ![](images/98.png)
-
-
 
 接下来 Thread-0 竞争成功，permits 再次设置为 0，设置自己为 head 节点，断开原来的 head 节点，unpark 接下来的 Thread-3 节点，但由于 permits 是 0，因此 Thread-3 在尝试不成功后再次进入 park 状态  
 ![](images/99.png)
@@ -186,10 +180,9 @@ static final class NonfairSync extends Sync {
 ```
 
 ### 3.3 为什么要有PROPAGATE
-早期有 bug
+早期有 bug。
 
-  
-<font style="color:#000000;">releaseShared 方法</font>
+releaseShared 方法
 
 ```java
 public final boolean releaseShared(int arg) {
@@ -203,9 +196,7 @@ public final boolean releaseShared(int arg) {
 }
 ```
 
-
-
-<font style="color:#000000;">doAcquireShared 方法</font>
+doAcquireShared 方法
 
 ```java
 private void doAcquireShared(int arg) {
@@ -238,9 +229,7 @@ private void doAcquireShared(int arg) {
 }
 ```
 
-
-
-<font style="color:#000000;">setHeadAndPropagate 方法</font>
+setHeadAndPropagate 方法
 
 ```java
 private void setHeadAndPropagate(Node node, int propagate) {
