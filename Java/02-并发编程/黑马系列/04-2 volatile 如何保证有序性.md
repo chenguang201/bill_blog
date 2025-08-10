@@ -1,6 +1,6 @@
-**<font style="color:#DF2A3F;">笔记来源：</font>**[**<font style="color:#DF2A3F;">黑马程序员深入学习Java并发编程，JUC并发编程全套教程</font>**](https://www.bilibili.com/video/BV16J411h7Rd/?spm_id_from=333.337.search-card.all.click&vd_source=e8046ccbdc793e09a75eb61fe8e84a30)
+**笔记来源：**[**黑马程序员深入学习Java并发编程，JUC并发编程全套教程**](https://www.bilibili.com/video/BV16J411h7Rd/?spm_id_from=333.337.search-card.all.click&vd_source=e8046ccbdc793e09a75eb61fe8e84a30)
 
-
+------
 
 思考：JVM 会在不影响正确性的前提下，可以调整语句的执行顺序，思考下面一段代码
 
@@ -31,13 +31,13 @@ i = ...;
 
 ## 1 指令级并行原理
 ### 1.1 名词
-**<font style="color:#E8323C;">Clock Cycle Time</font>**：主频的概念大家接触的比较多，而 CPU 的 Clock Cycle Time（时钟周期时间），等于主频的倒数，意思是 CPU 能够识别的最小时间单位，比如说 4G 主频的 CPU 的 Clock Cycle Time 就是 0.25 ns，作为对比，我们墙上挂钟的Cycle Time 是 1s。例如，运行一条加法指令一般需要一个时钟周期时间
+**Clock Cycle Time：** 主频的概念大家接触的比较多，而 CPU 的 Clock Cycle Time（时钟周期时间），等于主频的倒数，意思是 CPU 能够识别的最小时间单位，比如说 4G 主频的 CPU 的 Clock Cycle Time 就是 0.25 ns，作为对比，我们墙上挂钟的Cycle Time 是 1s。例如，运行一条加法指令一般需要一个时钟周期时间
 
-**<font style="color:#E8323C;">CPI：</font>**有的指令需要更多的时钟周期时间，所以引出了 CPI （Cycles Per Instruction）指令平均时钟周期数
+**CPI：** 有的指令需要更多的时钟周期时间，所以引出了 CPI （Cycles Per Instruction）指令平均时钟周期数
 
-**<font style="color:#E8323C;">IPC：</font>**IPC（Instruction Per Clock Cycle） 即 CPI 的倒数，表示每个时钟周期能够运行的指令数
+**IPC：** IPC（Instruction Per Clock Cycle） 即 CPI 的倒数，表示每个时钟周期能够运行的指令数
 
-**<font style="color:#E8323C;">CPU 执行时间：</font>**程序的 CPU 执行时间，即我们前面提到的 user + system 时间，可以用下面的公式来表示
+**CPU 执行时间：** 程序的 CPU 执行时间，即我们前面提到的 user + system 时间，可以用下面的公式来表示
 
 ```plain
 程序 CPU 执行时间 = 指令数 * CPI * Clock Cycle Time
@@ -46,8 +46,6 @@ i = ...;
 ### 1.2 鱼罐头的故事
 加工一条鱼需要 50 分钟，只能一条鱼、一条鱼顺序加工...  
 ![](images/42.png)
-
-
 
 可以将每个鱼罐头的加工流程细分为 5 个步骤：
 
@@ -143,7 +141,9 @@ I_Result 是一个对象，有一个属性 r1 用来保存结果，问，可能�
 但我告诉你，结果还有可能是 0 ，信不信吧！  
 这种情况下是：线程2 执行 ready = true，切换到线程1，进入 if 分支，相加为 0，再切回线程2 执行 num = 2 相信很多人已经晕了  
 这种现象叫做指令重排，是 JIT 编译器在运行时的一些优化，这个现象需要通过大量测试才能复现：  
-借助 java 并发压测工具 `jcstress` [https://wiki.openjdk.java.net/display/CodeTools/jcstress](https://wiki.openjdk.java.net/display/CodeTools/jcstress)
+借助 java 并发压测工具 `jcstress`。
+
+ [https://wiki.openjdk.java.net/display/CodeTools/jcstress](https://wiki.openjdk.java.net/display/CodeTools/jcstress)
 
 ```java
 mvn archetype:generate -DinteractiveMode=false -DarchetypeGroupId=org.openjdk.jcstress -DarchetypeArtifactId=jcstress-java-test-archetype -DarchetypeVersion=0.5 -DgroupId=cn.itcast -DartifactId=ordering -Dversion=1.0
@@ -394,10 +394,10 @@ public final class Singleton {
 
 关键在于 0: getstatic 这行代码在 monitor 控制之外，它就像之前举例中不守规则的人，可以越过 monitor 读取INSTANCE 变量的值
 
-  
+
 这时 t1 还未完全将构造方法执行完毕，如果在构造方法中要执行很多初始化操作，那么 t2 拿到的是将是一个未初始化完毕的单例
 
-  
+
 对 INSTANCE 使用 volatile 修饰即可，可以禁用指令重排，但要注意在 JDK 5 以上的版本的 volatile 才会真正有效
 
 
@@ -478,115 +478,111 @@ happens-before 规定了对共享变量的写操作对其它线程的读操作�
 
 + 线程解锁 m 之前对变量的写，对于接下来对 m 加锁的其它线程对该变量的读可见
 
-```java
-static int x;
-static Object m = new Object();
-new Thread(()->{
-    synchronized(m) {
-        x = 10;
-    }
-},"t1").start();
+  ```java
+  static int x;
+  static Object m = new Object();
+  new Thread(()->{
+      synchronized(m) {
+          x = 10;
+      }
+  },"t1").start();
 
-new Thread(()->{
-    synchronized(m) {
-         System.out.println(x);
-    }
-},"t2").start();
-```
-
+  new Thread(()->{
+      synchronized(m) {
+           System.out.println(x);
+      }
+  },"t2").start();
+  ```
 
 
 + 线程对 volatile 变量的写，对接下来其它线程对该变量的读可见
 
-```java
-volatile static int x;
+  ```java
+  volatile static int x;
 
-new Thread(()->{
-    x = 10;
-},"t1").start();
+  new Thread(()->{
+      x = 10;
+  },"t1").start();
 
-new Thread(()->{
-    System.out.println(x);
-},"t2").start();
-```
-
+  new Thread(()->{
+      System.out.println(x);
+  },"t2").start();
+  ```
 
 
 + 线程 start 前对变量的写，对该线程开始后对该变量的读可见
 
-```java
-static int x; 
-x = 10;
-new Thread(()->{
-    System.out.println(x);
-},"t2").start();
-```
-
+  ```java
+  static int x; 
+  x = 10;
+  new Thread(()->{
+      System.out.println(x);
+  },"t2").start();
+  ```
 
 
 + 线程结束前对变量的写，对其它线程得知它结束后的读可见（比如其它线程调用 t1.isAlive() 或 t1.join()等待它结束）
 
-```java
-static int x;
-Thread t1 = new Thread(()->{
-    x = 10;
-},"t1");
-t1.start();
+  ```java
+  static int x;
+  Thread t1 = new Thread(()->{
+      x = 10;
+  },"t1");
+  t1.start();
 
-t1.join();
-System.out.println(x);
-```
+  t1.join();
+  System.out.println(x);
+  ```
 
 
++ 线程 t1 打断 t2（interrupt）前对变量的写，对于其他线程得知 t2 被打断后对变量的读可见（通过`t2.interrupted`  或 `t2.isInterrupted` ）
 
-+ 线程 t1 打断 t2（interrupt）前对变量的写，对于其他线程得知 t2 被打断后对变量的读可见（通过t2.interrupted 或 t2.isInterrupted）
+  ```java
+  static int x;
+  public static void main(String[] args) {
+      Thread t2 = new Thread(()->{
+          while(true) {
+              if(Thread.currentThread().isInterrupted()) {
+                  System.out.println(x);
+                  break;
+              }
+          }
+      },"t2");
 
-```java
-static int x;
-public static void main(String[] args) {
-    Thread t2 = new Thread(()->{
-        while(true) {
-            if(Thread.currentThread().isInterrupted()) {
-                System.out.println(x);
-                break;
-            }
-        }
-    },"t2");
+      t2.start();
 
-    t2.start();
+      new Thread(()->{
+          sleep(1);
+          x = 10;
+          t2.interrupt();
+      },"t1").start();
 
-    new Thread(()->{
-        sleep(1);
-        x = 10;
-        t2.interrupt();
-    },"t1").start();
-
-    while(!t2.isInterrupted()) {
-        Thread.yield();
-    }
-    System.out.println(x);
-}
-```
-
+      while(!t2.isInterrupted()) {
+          Thread.yield();
+      }
+      System.out.println(x);
+  }
+  ```
 
 
 + 对变量默认值（0，false，null）的写，对其它线程对该变量的读可见
+
 + 具有传递性，如果 x hb-> y 并且 y hb-> z 那么有 x hb-> z ，配合 volatile 的防指令重排，有下面的例子
 
-```java
-volatile static int x;
-static int y;
+  ```java
+  volatile static int x;
+  static int y;
 
-new Thread(()->{ 
-    y = 10;
-    x = 20;
-},"t1").start();
+  new Thread(()->{ 
+      y = 10;
+      x = 20;
+  },"t1").start();
 
-new Thread(()->{
-    // x=20 对 t2 可见, 同时 y=10 也对 t2 可见
-    System.out.println(x); 
-},"t2").start();
-```
+  new Thread(()->{
+      // x=20 对 t2 可见, 同时 y=10 也对 t2 可见
+      System.out.println(x); 
+  },"t2").start();
+  ```
 
 > 变量都是指成员变量或静态成员变量
 >
@@ -616,10 +612,10 @@ public class TestVolatile {
 单例模式有很多实现方法，饿汉、懒汉、静态内部类、枚举类，试分析每种实现下获取单例对象（即调用getInstance）时的线程安全，并思考注释中的问题
 
 > 饿汉式：类加载就会导致该单实例对象被创建  
-懒汉式：类加载不会导致该单实例对象被创建，而是首次使用该对象时才会创建
+> 懒汉式：类加载不会导致该单实例对象被创建，而是首次使用该对象时才会创建
 >
 
-**<font style="color:#E8323C;">实现1：</font>**
+**实现1：** 
 
 ```java
 // 问题1：为什么加 final
@@ -641,7 +637,7 @@ public final class Singleton implements Serializable {
 
 
 
-**<font style="color:#E8323C;">实现2：</font>**
+**实现2：** 
 
 ```java
 // 问题1：枚举单例是如何限制实例个数的
@@ -657,7 +653,7 @@ enum Singleton {
 
 
 
-**<font style="color:#E8323C;">实现3：</font>**
+**实现3：** 
 
 ```java
 public final class Singleton {
@@ -676,7 +672,7 @@ public final class Singleton {
 
 
 
-**<font style="color:#E8323C;">实现4：DCL</font>**
+**实现4：DCL** 
 
 ```java
 public final class Singleton {
@@ -704,7 +700,7 @@ public final class Singleton {
 
 
 
-**<font style="color:#E8323C;">实现5：</font>**
+**实现5：** 
 
 ```java
 public final class Singleton {
