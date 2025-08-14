@@ -484,14 +484,16 @@ private static void test2() throws InterruptedException {
 graph TB
     a("main") --> b("t1.join")
     b -->c("t2.join-仅需等待一秒")
+    d("r=10")
+    e("r=20")
 
     a --> t1.start
-    t1.start --> |1s后| d("r=10")
+    t1.start --> |1s后| d
     d -->|t1终止| b
 
     a --> t2.start
-    t2.start -->|2s后| r=20
-    r=20-->|t2终止| c
+    t2.start -->|2s后| e
+    e-->|t2终止| c
 ```
 
 
