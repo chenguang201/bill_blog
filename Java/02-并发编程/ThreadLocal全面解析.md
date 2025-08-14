@@ -167,7 +167,7 @@ public class MyDemo {
 }
 ```
 
-打印结果:
+打印结果：  
 
 ![](images/2.png)
 
