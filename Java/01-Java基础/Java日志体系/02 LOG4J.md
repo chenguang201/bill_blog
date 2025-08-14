@@ -9,48 +9,51 @@
 # 1 Log4J入门
 
 1. 建立maven工程 
+
 2. 添加依赖
 
-```xml
-<!--log4j-->
-<dependency>
-    <groupId>log4j</groupId>
-    <artifactId>log4j</artifactId>
-    <version>1.2.17</version>
-</dependency>
+   ```xml
+   <!--log4j-->
+   <dependency>
+       <groupId>log4j</groupId>
+       <artifactId>log4j</artifactId>
+       <version>1.2.17</version>
+   </dependency>
 
-<dependency>
-    <groupId>junit</groupId>
-    <artifactId>junit</artifactId>
-    <version>4.12</version>
-</dependency>
-```
+   <dependency>
+       <groupId>junit</groupId>
+       <artifactId>junit</artifactId>
+       <version>4.12</version>
+   </dependency>
+   ```
+
 
 3. Java代码
 
-```java
-public class Log4jTest {
-    @Test
-	public void testQuick() throws Exception { 
-        // 初始化系统配置，不需要配置文件
-        BasicConfigurator.configure();
+   ```java
+   public class Log4jTest {
+       @Test
+   	public void testQuick() throws Exception { 
+           // 初始化系统配置，不需要配置文件
+           BasicConfigurator.configure();
 
-        // 创建日志记录器对象
-		Logger logger = Logger.getLogger(Log4jTest.class); 
-        // 日志记录输出
-		logger.info("hello log4j");
+           // 创建日志记录器对象
+   		Logger logger = Logger.getLogger(Log4jTest.class); 
+           // 日志记录输出
+   		logger.info("hello log4j");
 
 
-		// 日志级别 
-		logger.fatal("fatal"); // 严重错误，一般会造成系统崩溃和终止运行
-		logger.error("error"); // 错误信息，但不会影响系统运行
-		logger.warn("warn");   // 警告信息，可能会发生问题
-		logger.info("info");   // 程序运行信息，数据库的连接、网络、IO操作等
-		logger.debug("debug"); // 调试信息，一般在开发阶段使用，记录程序的变量、参数等
-		logger.trace("trace"); // 追踪信息，记录程序的所有流程信息
-	} 
-}
-```
+   		// 日志级别 
+   		logger.fatal("fatal"); // 严重错误，一般会造成系统崩溃和终止运行
+   		logger.error("error"); // 错误信息，但不会影响系统运行
+   		logger.warn("warn");   // 警告信息，可能会发生问题
+   		logger.info("info");   // 程序运行信息，数据库的连接、网络、IO操作等
+   		logger.debug("debug"); // 调试信息，一般在开发阶段使用，记录程序的变量、参数等
+   		logger.trace("trace"); // 追踪信息，记录程序的所有流程信息
+   	} 
+   }
+   ```
+
 
 4. 日志的级别：每个Logger都被了一个日志级别(log level)，用来控制日志信息的输出。日志级别从高到低分为:
 
