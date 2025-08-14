@@ -486,8 +486,8 @@ graph TB
     b -->c("t2.join-仅需等待一秒")
 
     a --> t1.start
-    t1.start --> |1s后| r=10
-    r=10 -->|t1终止| b
+    t1.start --> |1s后| d("r=10")
+    d -->|t1终止| b
 
     a --> t2.start
     t2.start -->|2s后| r=20
