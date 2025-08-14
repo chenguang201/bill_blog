@@ -15,13 +15,13 @@
 <!--log4j-->
 <dependency>
     <groupId>log4j</groupId>
-    log4j</artifactId>
+    <artifactId>log4j</artifactId>
     <version>1.2.17</version>
 </dependency>
 
 <dependency>
     <groupId>junit</groupId>
-    junit</artifactId>
+    <artifactId>junit</artifactId>
     <version>4.12</version>
 </dependency>
 ```
@@ -60,8 +60,8 @@ public class Log4jTest {
    - **info** 一般和在粗粒度级别上，强调应用程序的运行全程。
    - **debug** 一般用于细粒度级别上，对调试应用程序非常有帮助。
    - **trace** 是程序追踪，可以用于输出程序运行中的变量，显示执行的流程。
-   - **OFF**，可用来关闭日志记录。
-   - **ALL**，启用所有消息的日志记录。
+   - **OFF** 可用来关闭日志记录。
+   - **ALL** 启用所有消息的日志记录。
 
    注：一般只使用4个级别，优先级从高到低为 ERROR > WARN > INFO > DEBUG 
 
@@ -117,8 +117,8 @@ log4j 采用类似 C 语言的 printf 函数的打印格式格式化日志信息
   - **%r**  输出自应用启动到输出该 log 信息耗费的毫秒数
   - **%c**  输出打印语句所属的类的全名
   - **%t**  输出产生该日志的线程全名
-  - **%d**  输出服务器当前时间，默认为 ISO8601，也可以指定格式，如:%d{yyyy年MM月dd日HH:mm:ss}
-  - **%l**   输出日志时间发生的位置，包括类名、线程、及在代码中的行数。如:Test.main(Test.java:10)
+  - **%d**  输出服务器当前时间，默认为 ISO8601，也可以指定格式，如：`%d{yyyy年MM月dd日HH:mm:ss}` 
+  - **%l**   输出日志时间发生的位置，包括类名、线程、及在代码中的行数。如：`Test.main(Test.java:10)`
   - **%F**  输出日志消息产生时所在的文件名称
   - **%L**  输出代码中的行号 %% 输出一个 "%" 字符 
 
@@ -127,7 +127,7 @@ log4j 采用类似 C 语言的 printf 函数的打印格式格式化日志信息
 - **%5c**          输出category名称，最小宽度是5，category<5，默认的情况下右对齐
 - **%-5c**         输出category名称，最小宽度是5，category<5，"-"号指定左对齐,会有空格
 - **%.5c**         输出category名称，最大宽度是5，category>5，就会将左边多出的字符截掉，<5不会有空
-- **%20.30c** category名称<20补空格，并且右对齐，>30字符，就从左边交远销出的字符截掉
+- **%20.30c**  category名称<20补空格，并且右对齐，>30字符，就从左边交远销出的字符截掉
 
 # 4 Appender的输出
 
@@ -359,19 +359,19 @@ POM.xml
   <!--log4j-->
   <dependency>
     <groupId>log4j</groupId>
-    log4j</artifactId>
+    <artifactId>log4j</artifactId>
     <version>1.2.17</version>
   </dependency>
 
   <dependency>
     <groupId>junit</groupId>
-    junit</artifactId>
+    <artifactId>junit</artifactId>
     <version>4.12</version>
   </dependency>
 
   <dependency>
     <groupId>mysql</groupId>
-    mysql-connector-java</artifactId>
+    <artifactId>mysql-connector-java</artifactId>
     <version>5.1.47</version>
   </dependency>
 </dependencies>
