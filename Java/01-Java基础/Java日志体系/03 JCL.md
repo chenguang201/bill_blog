@@ -72,8 +72,6 @@ JCL 有两个基本的抽象类：Log（基本记录器）和LogFactory（负责
    # 指定 RootLogger 顶级父元素默认配置信息
    # 指定日志级别=trace，使用的 apeender 为=console
    log4j.rootLogger = trace,console
-
-
    # 指定控制台日志输出的 appender
    log4j.appender.console = org.apache.log4j.ConsoleAppender
    # 指定消息格式 layout
