@@ -32,61 +32,63 @@ SLF4J日志门面主要提供两大功能：
 ## 2.1 SLF4J入门
 1. 添加依赖 
 
-```xml
-<!-- slf4j 日志门面 -->
-<dependency>
-    <groupId>org.slf4j</groupId>
-    <artifactId>slf4j-api</artifactId>
-    <version>1.7.26</version>
-</dependency>
+   ```xml
+   <!-- slf4j 日志门面 -->
+   <dependency>
+       <groupId>org.slf4j</groupId>
+       <artifactId>slf4j-api</artifactId>
+       <version>1.7.26</version>
+   </dependency>
 
-<!-- slf4j 内置的简单实现-->
-<dependency>
-    <groupId>org.slf4j</groupId>
-    <artifactId>slf4j-simple</artifactId>
-    <version>1.7.21</version>
-</dependency>
-```
+   <!-- slf4j 内置的简单实现-->
+   <dependency>
+       <groupId>org.slf4j</groupId>
+       <artifactId>slf4j-simple</artifactId>
+       <version>1.7.21</version>
+   </dependency>
+   ```
+
 
 2. 编写代码
 
-```java
-package com.itheima;
+   ```java
+   package com.itheima;
 
-import org.junit.Test;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+   import org.junit.Test;
+   import org.slf4j.Logger;
+   import org.slf4j.LoggerFactory;
 
-public class Slf4jTest {
+   public class Slf4jTest {
 
-    public static final Logger LOGGER = LoggerFactory.getLogger(Slf4jTest.class);
+       public static final Logger LOGGER = LoggerFactory.getLogger(Slf4jTest.class);
 
-    // 快速入门
-    @Test
-    public void test01()throws Exception{
-        // 日志输出
-        LOGGER.error("error");
-        LOGGER.warn("wring");
-        LOGGER.info("info"); // 默认级别
-        LOGGER.debug("debug");
-        LOGGER.trace("trace");
+       // 快速入门
+       @Test
+       public void test01()throws Exception{
+           // 日志输出
+           LOGGER.error("error");
+           LOGGER.warn("wring");
+           LOGGER.info("info"); // 默认级别
+           LOGGER.debug("debug");
+           LOGGER.trace("trace");
 
-        // 使用占位符输出日志信息
-        String name = "itheima";
-        Integer age = 14;
-        LOGGER.info("用户：{},{}",name,age);
+           // 使用占位符输出日志信息
+           String name = "itheima";
+           Integer age = 14;
+           LOGGER.info("用户：{},{}",name,age);
 
-        // 将系统的异常信息输出
-        try {
-            int i = 1/0;
-        } catch (Exception e) {
-           // e.printStackTrace();
-            LOGGER.error("出现异常：",e);
+           // 将系统的异常信息输出
+           try {
+               int i = 1/0;
+           } catch (Exception e) {
+              // e.printStackTrace();
+               LOGGER.error("出现异常：",e);
 
-        }
-    }
-}
-```
+           }
+       }
+   }
+   ```
+
 
 3. 输出![](images/20.png)
 
