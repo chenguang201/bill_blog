@@ -17,61 +17,64 @@ Logback主要分为三个模块：
 # 1 logback入门 
 1. 添加依赖
 
-```xml
-<dependencies>
-    <!--slf4j 日志门面-->
-    <dependency>
-        <groupId>org.slf4j</groupId>
-        slf4j-api</artifactId>
-        <version>1.7.26</version>
-    </dependency>
+   ```
+   <dependencies>
+       <!--slf4j 日志门面-->
+       <dependency>
+           <groupId>org.slf4j</groupId>
+           <artifactId>slf4j-api</artifactId>
+           <version>1.7.26</version>
+       </dependency>
 
-    <!--logback 日志实现-->
-    <dependency>
-        <groupId>ch.qos.logback</groupId>
-        logback-classic</artifactId>
-        <version>1.2.3</version>
-    </dependency>
-    
-    <!--junti 单元测试-->
-    <dependency>
-        <groupId>junit</groupId>
-        junit</artifactId>
-        <version>4.12</version>
-    </dependency>
-</dependencies>
-```
+       <!--logback 日志实现-->
+       <dependency>
+           <groupId>ch.qos.logback</groupId>
+           <artifactId>logback-classic</artifactId>
+           <version>1.2.3</version>
+       </dependency>
+       
+       <!--junti 单元测试-->
+       <dependency>
+           <groupId>junit</groupId>
+           <artifactId>junit</artifactId>
+           <version>4.12</version>
+       </dependency>
+   </dependencies>
+   ```
+
 
 2. java代码
 
-```java
-package com.itheima;
+   ```java
+   package com.itheima;
 
-import org.junit.Test;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+   import org.junit.Test;
+   import org.slf4j.Logger;
+   import org.slf4j.LoggerFactory;
 
-public class LogbackTest {
+   public class LogbackTest {
 
-    public static final Logger LOGGER = LoggerFactory.getLogger(LogbackTest.class);
+       public static final Logger LOGGER = LoggerFactory.getLogger(LogbackTest.class);
 
-    // 快速入门
-    @Test
-    public void testQuick()throws Exception{
-            // 日志输出
-            LOGGER.error("error");
-            LOGGER.warn("wring");
-            LOGGER.info("info");
-            LOGGER.debug("debug");// 默认级别
-            LOGGER.trace("trace");
-    }
-}
+       // 快速入门
+       @Test
+       public void testQuick()throws Exception{
+               // 日志输出
+               LOGGER.error("error");
+               LOGGER.warn("wring");
+               LOGGER.info("info");
+               LOGGER.debug("debug");// 默认级别
+               LOGGER.trace("trace");
+       }
+   }
+   ```
 
-```
 
 3. 输出
 
-![](images/33.png)
+   ![](images/33.png)
+
+
 
 # 2 logback配置 
 logback会依次读取以下类型配置文件：
