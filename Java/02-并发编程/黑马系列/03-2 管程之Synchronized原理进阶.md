@@ -15,8 +15,7 @@ public static void main(String[] args) {
 }
 ```
 
-对应的字节码为  
-用`javap -v xxx.class` 命令
+用`javap -v xxx.class` 命令。对应的字节码为  ：
 
 ```java
 public static void main(java.lang.String[]);
