@@ -374,7 +374,7 @@ public class Test4 {
 # 10 增强的Stream API
 Java的Stream API时Java标准库最好的改进之一，让开发者能够快速运算，从而能够有效的利用数据并进行运算。Java8提供的Stream能够利用多核架构实现声明式的数据处理。
 
-在Java9中，Stream API变得更好，Stream接口中添加了4个新的方法：`takeWhile``dropWhile``ofNullable`，还有个iterate方法的重载方法，可以让你提供一个Predicate（判断条件）来指定什么时候迭代结束。
+在Java9中，Stream API变得更好，Stream接口中添加了4个新的方法：`takeWhile` `dropWhile` `ofNullable` ，还有个iterate方法的重载方法，可以让你提供一个Predicate（判断条件）来指定什么时候迭代结束。
 
 除了对Stream本身的扩展，Optinal和Stream之间的结合也得到了改进，现在可以通过Optinal的新方法Stream()将一个Optinal对象转换为一个（可能是空的）Stream对象。
 
