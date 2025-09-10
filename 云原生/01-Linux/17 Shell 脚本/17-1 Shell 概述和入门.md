@@ -41,7 +41,7 @@ lrwxrwxrwx    1 root root           4 Apr  1  2020 sh -> bash
 
  					
 
-**Centos **默认的解析器是 **bash**
+**Centos ** 默认的解析器是 **bash** 
 
 ```powershell
 echo $SHELL
@@ -57,7 +57,7 @@ echo $SHELL
 
 
 
-第一个 **Shell **脚本：**helloworld.sh **
+第一个 **Shell ** 脚本：**helloworld.sh ** 
 
 1. 需求：创建一个 Shell 脚本，输出 helloworld 
 
