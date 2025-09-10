@@ -11,7 +11,7 @@ Shell还是一个功能相当强大的编程语言，易编写，易调试，灵
 
 
 
-**Linux ** 提供的 **Shell ** 解析器有
+**Linux** 提供的 **Shell** 解析器有
 
 ```powershell
 cat /etc/shells
@@ -28,7 +28,7 @@ cat /etc/shells
 
 
 
-**bash ** 和 **sh ** 的关系
+**bash** 和 **sh** 的关系
 
 ```powershell
 ll | grep bash
@@ -41,7 +41,7 @@ lrwxrwxrwx    1 root root           4 Apr  1  2020 sh -> bash
 
  					
 
-**Centos ** 默认的解析器是 **bash** 
+**Centos** 默认的解析器是 **bash** 
 
 ```powershell
 echo $SHELL
@@ -57,7 +57,7 @@ echo $SHELL
 
 
 
-第一个 **Shell ** 脚本：**helloworld.sh ** 
+第一个 **Shell** 脚本：**helloworld.sh** 
 
 1. 需求：创建一个 Shell 脚本，输出 helloworld 
 
