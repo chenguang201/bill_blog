@@ -104,52 +104,50 @@ echo $SHELL
 
     - 第二种：采用输入脚本的绝对路径或相对路径执行脚本（必须具有可执行权限 +x）
 
-        >1. 首先要赋予 helloworld.sh 脚本的 +x 权限
+        >① 首先要赋予 helloworld.sh 脚本的 +x 权限
         >
-        >   ```shell
-        >   chmod +x helloworld.sh
-        >   ```
+        >```shell
+        >chmod +x helloworld.sh
+        >```
+        >② 执行脚本
         >
-        >2. 执行脚本
+        >```shell
+        ># 相对路径
+        >./helloworld.sh
         >
-        >   ```shell
-        >   # 相对路径
-        >   ./helloworld.sh
-        >
-        >   # 绝对路径
-        >   /home/atguigu/shells/helloworld.sh
-        >   ```
+        ># 绝对路径
+        >/home/atguigu/shells/helloworld.sh
+        >```
 
         注意：第一种执行方法，本质是 bash 解析器帮你执行脚本，所以脚本本身不需要执行权限。第二种执行方法，本质是脚本需要自己执行，所以需要执行权限。
 
     - 第三种：在脚本的路径前加上 `.` 或者 source 【了解】
 
-        >1. 有以下脚本
+        >① 有以下脚本
         >
-        >   ```shell
-        >   cat test.sh
+        >```shell
+        >cat test.sh
         >
-        >   #!/bin/bash
-        >   A=5
-        >   echo $A
-        >   ```
+        >#!/bin/bash
+        >A=5
+        >echo $A
+        >```
+        >② 分别使用 `sh` `bash` `./` 和 `.` 的方式来执行，结果如下：
         >
-        >2. 分别使用 `sh` `bash` `./` 和 `.` 的方式来执行，结果如下：
+        >```shell
+        >bash test.sh
+        >echo $A
         >
-        >   ```shell
-        >   bash test.sh
-        >   echo $A
+        >sh test.sh
+        >echo $A
         >
-        >   sh test.sh
-        >   echo $A
+        >./test.sh
+        >echo $A
         >
-        >   ./test.sh
-        >   echo $A
-        >
-        >   . test.sh
-        >   echo $A
-        >   # 这种方式是可以看到 $A的输出的，上面其他三种都是看不到的。
-        >   ```
+        >. test.sh
+        >echo $A
+        ># 这种方式是可以看到 $A的输出的，上面其他三种都是看不到的。
+        >```
 
         ![](images/3.png)
 
