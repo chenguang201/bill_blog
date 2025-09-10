@@ -28,7 +28,7 @@ cat /etc/shells
 
 
 
-**bash **和 **sh **的关系
+**bash ** 和 **sh ** 的关系
 
 ```powershell
 ll | grep bash
