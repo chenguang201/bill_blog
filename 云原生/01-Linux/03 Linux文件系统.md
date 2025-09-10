@@ -1,10 +1,8 @@
-**<font style="color:#DF2A3F;">笔记来源：</font>**[**<font style="color:#DF2A3F;">3天搞定Linux，1天搞定Shell，清华学神带你通关</font>**](https://www.bilibili.com/video/BV1WY4y1H7d3?p=9&vd_source=e8046ccbdc793e09a75eb61fe8e84a30)
-
-**<font style="color:#DF2A3F;"></font>**
+**笔记来源：**[**3天搞定Linux，1天搞定Shell，清华学神带你通关**](https://www.bilibili.com/video/BV1WY4y1H7d3?p=9&vd_source=e8046ccbdc793e09a75eb61fe8e84a30)
 
 Linux 系统中一切皆文件 
 
-# 535. Linux目录结构
+# Linux目录结构
 ![画板](images/1.jpeg)
 
 + /bin：是Binary的缩写，这个目录存放着最经常使用的命令
@@ -26,21 +24,15 @@ Linux 系统中一切皆文件
 + /opt：这是给主机额外安装软件所摆放的目录。比如你安装一个mysql数据库则就可以放到这个目录下。默认是空的。
 + /var：这个目录中存放着在不断扩充着的东西，我们习惯将那些经常被修改的目录放在这个目录下。包括各种日志文件。
 
- 		
 
 注意事项：
 
 + /bin：我们发现，这个根目录下的bin文件夹带一个旋转的箭头，其实这块类似于windows里的快捷方式一样，像一个超链接一样，指向的是usr/bin目录下
 
-![](images/2.png) 	 
+  ![](images/2.png)  
 
 ![](images/3.png)
 
 ![](images/4.png)
 
 类似于的还有sbin、lib、lib64这三个目录也是一样的
-
-
-
-[此处为语雀卡片，点击链接查看](https://www.yuque.com/chenguang201/ubmq0x/nruex8zg7nc5cc04#yDTHH)
-
