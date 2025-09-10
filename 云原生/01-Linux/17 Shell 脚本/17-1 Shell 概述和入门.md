@@ -11,7 +11,7 @@ Shell还是一个功能相当强大的编程语言，易编写，易调试，灵
 
 
 
-**Linux **提供的 **Shell **解析器有
+**Linux ** 提供的 **Shell ** 解析器有
 
 ```powershell
 cat /etc/shells
