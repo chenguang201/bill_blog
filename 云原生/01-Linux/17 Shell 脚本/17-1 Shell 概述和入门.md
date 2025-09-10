@@ -53,7 +53,7 @@ echo $SHELL
 
 
 # 2 Shell 脚本入门 
-脚本格式：脚本以`<font style="color:rgb(100.000000%, 0.000000%, 0.000000%);">#!/bin/bash</font>`开头（指定解析器）
+脚本格式：脚本以 `#!/bin/bash` 开头（指定解析器）
 
 
 
