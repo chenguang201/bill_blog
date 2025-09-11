@@ -486,12 +486,12 @@ Route Predicate Factories这个是什么？
 
 Spring Cloud Gateway 内置了多种路由过滤器，他们都由GatewayFilter的工厂类来产生。
 
-Spring Cloud Gateway的Filter
+Spring Cloud Gateway 的 Filter
 
-+ 生命周期，Only Two
++ 生命周期，Only Two：
     - pre
     - post
-+ 种类，Only Two
++ 种类，Only Two：
     - GatewayFilter 
     - GlobalFilter
 
