@@ -7,19 +7,19 @@ Gateway官网：[Gateway官网](https://cloud.spring.io/spring-cloud-static/spri
 
 Cloud全家桶中有个很重要的组件就是网关，在1.x版本中都是采用的Zuul网关；但在2.x版本中，zuul的升级一直跳票，SpringCloud最后自己研发了一个网关替代Zuul，那就是 SpringCloud Gateway 一句话：gateway是原zuul1.x版的替代
 
-![](images/130.png)
+![](images/130.png)  
 
 **概述**：
 
 Gateway是在Spring生态系统之上构建的API网关服务，基于Spring 5，Spring Boot 2和 Project Reactor等技术。Gateway旨在提供一种简单而有效的方式来对API进行路由，以及提供一些强大的过滤器功能， 例如：熔断、限流、重试等。
 
-![](images/131.png)
+![](images/131.png)  
 
 一句话：SpringCloud Gateway 使用的Webflux中的reactor-netty响应式编程组件，底层使用了Netty通讯框架。
 
 源码架构：
 
-![](images/132.png) 
+![](images/132.png)   
 
 Gateway的主要功能：
 
@@ -28,94 +28,75 @@ Gateway的主要功能：
 + 流量控制
 + 熔断
 + 日志监控
-+ ...等等
++ ... 等等
 
 在微服务架构中网关的位置：
 
-![](images/133.png)
+![](images/133.png)  
 
 
 
 有Zuul了怎么又出来了gateway？
 
-+ 我们为什么选择Gateway？
-    - neflix不太靠谱，zuul2.0一直跳票，迟迟不发布
++ 我们为什么选择Gateway？neflix 不太靠谱，zuul2.0 一直跳票，迟迟不发布
 
-:::info
-一方面因为Zuul1.0已经进入了维护阶段，而且Gateway是SpringCloud团队研发的，是亲儿子产品，值得信赖。而且很多功能Zuul都没有用起来也非常的简单便捷。
+    >一方面因为Zuul1.0已经进入了维护阶段，而且Gateway是SpringCloud团队研发的，是亲儿子产品，值得信赖。而且很多功能Zuul都没有用起来也非常的简单便捷。
+    >
+    >Gateway是基于异步非阻塞模型上进行开发的，性能方面不需要担心。虽然Netflix早就发布了最新的 Zuul 2.x，但 Spring Cloud 貌似没有整合计划。而且Netflix相关组件都宣布进入维护期；不知前景如何。
+    >
+    >多方面综合考虑Gateway是很理想的网关选择。
 
-Gateway是基于异步非阻塞模型上进行开发的，性能方面不需要担心。虽然Netflix早就发布了最新的 Zuul 2.x，但 Spring Cloud 貌似没有整合计划。而且Netflix相关组件都宣布进入维护期；不知前景如何。
+    SpringCloud Gateway具有如下特性
 
-多方面综合考虑Gateway是很理想的网关选择。
+    >基于Spring Framework 5, Project Reactor 和 Spring Boot 2.0 进行构建；
+    >
+    >- 动态路由：能够匹配任何请求属性；
+    >- 可以对路由指定 Predicate（断言）和 Filter（过滤器）；
+    >- 集成Hystrix的断路器功能；
+    >- 集成 Spring Cloud 服务发现功能；
+    >- 易于编写的 Predicate（断言）和 Filter（过滤器）；
+    >- 请求限流功能；
+    >- 支持路径重写。
 
-:::
+    SpringCloud Gateway 与 Zuul的区别
 
-    - SpringCloud Gateway具有如下特性
+    >在SpringCloud Finchley 正式版之前，Spring Cloud 推荐的网关是 Netflix 提供的Zuul：
+    >
+    >1. Zuul 1.x，是一个基于阻塞 I/O 的 API Gateway
+    >2. Zuul 1.x 基于Servlet 2. 5使用阻塞架构它不支持任何长连接（如 WebSocket） Zuul 的设计模式和Nginx较像，每次 I/ O 操作都是从工作线程中选择一个执行，请求线程被阻塞到工作线程完成，但是差别是Nginx 用C++ 实现，Zuul 用 Java 实现，而 JVM 本身会有第一次加载较慢的情况，使得Zuul 的性能相对较差。
+    >3. Zuul 2.x理念更先进，想基于Netty非阻塞和支持长连接，但SpringCloud目前还没有整合。 Zuul 2.x的性能较 Zuul 1.x 有较大提升。在性能方面，根据官方提供的基准测试， Spring Cloud Gateway 的 RPS（每秒请求数）是Zuul 的 1. 6 倍。
+    >4. Spring Cloud Gateway 建立 在 Spring Framework 5、 Project Reactor 和 Spring Boot 2 之上， 使用非阻塞 API。
+    >5. Spring Cloud Gateway 还 支持 WebSocket， 并且与 Spring 紧密集成拥有更好的开发体验
 
-:::color1
-基于Spring Framework 5, Project Reactor 和 Spring Boot 2.0 进行构建；
 
-+ 动态路由：能够匹配任何请求属性；
-+ 可以对路由指定 Predicate（断言）和 Filter（过滤器）；
-+ 集成Hystrix的断路器功能；
-+ 集成 Spring Cloud 服务发现功能；
-+ 易于编写的 Predicate（断言）和 Filter（过滤器）；
-+ 请求限流功能；
-+ 支持路径重写。
++ Zuul1.x模型：Springcloud 中所集成的 Zuul 版本，采用的是 Tomcat 容器，使用的是传统的 Servlet IO 处理模型。
 
-:::
+  Servlet的生命周期？servlet由servlet container进行生命周期管理。
 
-    - SpringCloud Gateway 与 Zuul的区别
+  >1. container启动时构造servlet对象并调用servlet `init()`进行初始化；
+  >2. container运行时接受请求，并为每个请求分配一个线程（一般从线程池中获取空闲线程）然后调用service()。
+  >3. container关闭时调用servlet `destory()`销毁servlet；
+  >
+  >![](images/134.png)
 
-:::color2
-Spring Cloud Gateway 与 Zuul的区别
+  上述模式的缺点：servlet是一个简单的网络IO模型，当请求进入servlet container 时，servlet container 就会为其绑定一个线程，在并发不高的场景下这种模型是适用的。但是一旦高并发(比如抽风用jemeter压)，线程数量就会上涨，而线程资源代价是昂贵的（上线文切换，内存消耗大）严重影响请求的处理时间。在一些简单业务场景下，不希望为每个 request 分配一个线程，只需要1个或几个线程就能应对极大并发的请求，这种业务场景下 servlet 模型没有优势。
 
-在SpringCloud Finchley 正式版之前，Spring Cloud 推荐的网关是 Netflix 提供的Zuul：
+  所以Zuul 1.X是基于servlet之上的一个阻塞式处理模型，即spring实现了处理所有request请求的一个servlet（DispatcherServlet）并由该servlet阻塞式处理处理。所以Springcloud Zuul无法摆脱servlet模型的弊端
 
-1. Zuul 1.x，是一个基于阻塞 I/O 的 API Gateway
-2. Zuul 1.x 基于Servlet 2. 5使用阻塞架构它不支持任何长连接(如 WebSocket) Zuul 的设计模式和Nginx较像，每次 I/ O 操作都是从工作线程中选择一个执行，请求线程被阻塞到工作线程完成，但是差别是Nginx 用C++ 实现，Zuul 用 Java 实现，而 JVM 本身会有第一次加载较慢的情况，使得Zuul 的性能相对较差。
-3. Zuul 2.x理念更先进，想基于Netty非阻塞和支持长连接，但SpringCloud目前还没有整合。 Zuul 2.x的性能较 Zuul 1.x 有较大提升。在性能方面，根据官方提供的基准测试， Spring Cloud Gateway 的 RPS（每秒请求数）是Zuul 的 1. 6 倍。
-4. Spring Cloud Gateway 建立 在 Spring Framework 5、 Project Reactor 和 Spring Boot 2 之上， 使用非阻塞 API。
-5. Spring Cloud Gateway 还 支持 WebSocket， 并且与Spring紧密集成拥有更好的开发体验
 
-:::
++ GateWay模型：WebFlux是什么？
 
-+ Zuul1.x模型
+    ![](images/135.png)
 
-:::success
-Springcloud中所集成的Zuul版本，采用的是Tomcat容器，使用的是传统的Servlet IO处理模型。
+    传统的Web框架，比如说：struts2，springmvc等都是基于Servlet API与Servlet容器基础之上运行的。
 
-<font style="color:#0000ff;">Servlet的生命周期？servlet由servlet container进行生命周期管理。
+    但是在Servlet3.1之后有了异步非阻塞的支持。而WebFlux是一个典型非阻塞异步的框架，它的核心是基于Reactor的相关API实现的。相对于传统的web框架来说，它可以运行在诸如Netty，Undertow及支持Servlet3.1的容器上。非阻塞式+函数式编程（Spring5必须让你使用java8）
 
-1. container启动时构造servlet对象并调用servlet `init()`进行初始化；
-2. container运行时接受请求，并为每个请求分配一个线程（一般从线程池中获取空闲线程）然后调用service()。
-3. container关闭时调用servlet `destory()`销毁servlet；
+    Spring WebFlux 是 Spring 5.0 引入的新的响应式框架，区别于 Spring MVC，它不需要依赖Servlet API，它是完全异步非阻塞的，并且基于 Reactor 来实现响应式流规范。
 
-![](images/134.png)
+    官网：[Spring WebFlux](https://docs.spring.io/spring/docs/current/spring-framework-reference/web-reactive.html#webflux-new-framework)
 
-<font style="color:#0000ff;">上述模式的缺点：
 
-servlet是一个简单的网络IO模型，当请求进入servlet container时，servlet container就会为其绑定一个线程，在并发不高的场景下这种模型是适用的。但是一旦高并发(比如抽风用jemeter压)，线程数量就会上涨，而线程资源代价是昂贵的（上线文切换，内存消耗大）严重影响请求的处理时间。在一些简单业务场景下，不希望为每个request分配一个线程，只需要1个或几个线程就能应对极大并发的请求，这种业务场景下servlet模型没有优势
-
-所以Zuul 1.X是基于servlet之上的一个阻塞式处理模型，即spring实现了处理所有request请求的一个servlet（DispatcherServlet）并由该servlet阻塞式处理处理。所以Springcloud Zuul无法摆脱servlet模型的弊端
-
-:::
-
-+ GateWay模型
-    - WebFlux是什么
-
-![](images/135.png)
-
-:::warning
-传统的Web框架，比如说：struts2，springmvc等都是基于Servlet API与Servlet容器基础之上运行的。
-
-但是在Servlet3.1之后有了异步非阻塞的支持。而WebFlux是一个典型非阻塞异步的框架，它的核心是基于Reactor的相关API实现的。相对于传统的web框架来说，它可以运行在诸如Netty，Undertow及支持Servlet3.1的容器上。非阻塞式+函数式编程（Spring5必须让你使用java8）
-
-Spring WebFlux 是 Spring 5.0 引入的新的响应式框架，区别于 Spring MVC，它不需要依赖Servlet API，它是完全异步非阻塞的，并且基于 Reactor 来实现响应式流规范。
-
-官网：[Spring WebFlux](https://docs.spring.io/spring/docs/current/spring-framework-reference/web-reactive.html#webflux-new-framework)
-
-:::
 
 # 2 三大核心概念
 +  Route(路由)：路由是构建网关的基本模块，它由ID，目标URI，一系列的断言和过滤器组成，如果断言为true则匹配该路由
