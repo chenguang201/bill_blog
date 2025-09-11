@@ -77,7 +77,7 @@ Gateway的主要功能：
   >2. container运行时接受请求，并为每个请求分配一个线程（一般从线程池中获取空闲线程）然后调用service()。
   >3. container关闭时调用servlet `destory()`销毁servlet；
   >
-  >![](images/134.png)
+  >![](images/134.png)   
 
   上述模式的缺点：servlet是一个简单的网络IO模型，当请求进入servlet container 时，servlet container 就会为其绑定一个线程，在并发不高的场景下这种模型是适用的。但是一旦高并发(比如抽风用jemeter压)，线程数量就会上涨，而线程资源代价是昂贵的（上线文切换，内存消耗大）严重影响请求的处理时间。在一些简单业务场景下，不希望为每个 request 分配一个线程，只需要1个或几个线程就能应对极大并发的请求，这种业务场景下 servlet 模型没有优势。
 
@@ -154,13 +154,13 @@ predicate就是我们的匹配条件；
             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
             xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
        <parent>
-           cloud2020</artifactId>
+           <artifactId>cloud2020</artifactId>
            <groupId>com.atguigu.springcloud</groupId>
            <version>1.0-SNAPSHOT</version>
        </parent>
        <modelVersion>4.0.0</modelVersion>
 
-       cloud-gateway-gateway9527</artifactId>
+       <artifactId>cloud-gateway-gateway9527</artifactId>
 
        <properties>
            <maven.compiler.source>8</maven.compiler.source>
@@ -172,34 +172,34 @@ predicate就是我们的匹配条件；
            <!--gateway-->
            <dependency>
                <groupId>org.springframework.cloud</groupId>
-               spring-cloud-starter-gateway</artifactId>
+               <artifactId>spring-cloud-starter-gateway</artifactId>
            </dependency>
            <!--eureka-client-->
            <dependency>
                <groupId>org.springframework.cloud</groupId>
-               spring-cloud-starter-netflix-eureka-client</artifactId>
+               <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
            </dependency>
            <!-- 引入自己定义的api通用包，可以使用Payment支付Entity -->
            <dependency>
                <groupId>com.atguigu.springcloud</groupId>
-               cloud-api-commons</artifactId>
+               <artifactId>cloud-api-commons</artifactId>
                <version>${project.version}</version>
            </dependency>
            <!--一般基础配置类-->
            <dependency>
                <groupId>org.springframework.boot</groupId>
-               spring-boot-devtools</artifactId>
+               <artifactId>spring-boot-devtools</artifactId>
                <scope>runtime</scope>
                <optional>true</optional>
            </dependency>
            <dependency>
                <groupId>org.projectlombok</groupId>
-               lombok</artifactId>
+               <artifactId>lombok</artifactId>
                <optional>true</optional>
            </dependency>
            <dependency>
                <groupId>org.springframework.boot</groupId>
-               spring-boot-starter-test</artifactId>
+               <artifactId>spring-boot-starter-test</artifactId>
                <scope>test</scope>
            </dependency>
        </dependencies>
@@ -207,8 +207,7 @@ predicate就是我们的匹配条件；
    </project>
    ```
 
-
-3. YML
+3.  YML
 
    ```yaml
    server:
@@ -227,6 +226,7 @@ predicate就是我们的匹配条件；
          fetch-registry: true
          defaultZone: http://eureka7001.com:7001/eureka
    ```
+
 
 
 4. 业务类：暂无
@@ -249,7 +249,9 @@ predicate就是我们的匹配条件；
            SpringApplication.run(GateWayMain9527.class, args);
        }
    }
+
    ```
+
 
 开始配置：cloud-provider-payment8001 看看 controller 的访问地址，有 `/payment/get/{id}` 和 `/payment/lb` 这两个接口，先以这两个做测试吧
 
@@ -264,7 +266,7 @@ predicate就是我们的匹配条件；
 
 YML方式新增网关配置：
 
-```yaml
+   ```yaml
 server:
   port: 9527
 
@@ -292,7 +294,7 @@ eureka:
       register-with-eureka: true
       fetch-registry: true
       defaultZone: http://eureka7001.com:7001/eureka
-```
+   ```
 
 测试：
 
