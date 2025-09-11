@@ -167,7 +167,6 @@ predicate就是我们的匹配条件；
            <maven.compiler.target>8</maven.compiler.target>
        </properties>
 
-
        <dependencies>
            <!--gateway-->
            <dependency>
@@ -207,7 +206,7 @@ predicate就是我们的匹配条件；
    </project>
    ```
 
-3.  YML
+3.  YML  
 
    ```yaml
    server:
@@ -229,13 +228,12 @@ predicate就是我们的匹配条件；
 
 
 
-4. 业务类：暂无
+4. 业务类：暂无  
 
-5. 主启动
+5. 主启动  
 
    ```java
    package com.atguigu.springcloud;
-
 
    import org.springframework.boot.SpringApplication;
    import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -253,14 +251,14 @@ predicate就是我们的匹配条件；
    ```
 
 
-开始配置：cloud-provider-payment8001 看看 controller 的访问地址，有 `/payment/get/{id}` 和 `/payment/lb` 这两个接口，先以这两个做测试吧
+开始配置：cloud-provider-payment8001 看看 controller 的访问地址，有 `/payment/get/{id}` 和 `/payment/lb` 这两个接口，先以这两个做测试吧  
 
-![](images/140.png)  
+![](images/140.png)     
 
-我们目前不想暴露8001端口，希望在8001外面套一层9527，那么如何做呢？Gateway网关路由有两种配置方式：
+我们目前不想暴露8001端口，希望在8001外面套一层9527，那么如何做呢？Gateway网关路由有两种配置方式：  
 
-1. 在配置文件yml中配置，就是上面的示例
-2. 代码中注入RouteLocator的Bean
+1. 在配置文件yml中配置，就是上面的示例  
+2. 代码中注入RouteLocator的Bean  
 
 
 
@@ -296,7 +294,7 @@ eureka:
       defaultZone: http://eureka7001.com:7001/eureka
    ```
 
-测试：
+测试：  
 
 ![](images/141.png)  
 
