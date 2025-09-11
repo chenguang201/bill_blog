@@ -134,136 +134,135 @@ predicate就是我们的匹配条件；
 先创建一个服务，创建服务步骤：
 
 1. 创建Module
-    1. 新建Module
 
-![](images/138.png)
+    >① 新建Module
+    >
+    >![](images/138.png)
+    >
+    >② 填写Module名称
+    >
+    >![](images/139.png)
+    >
+    >③ 点击完成
 
-    2. 填写Module名称
 
-![](images/139.png)
-
-    3. 点击完成
 2. POM
 
-```xml
-<?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-    <parent>
-        cloud2020</artifactId>
-        <groupId>com.atguigu.springcloud</groupId>
-        <version>1.0-SNAPSHOT</version>
-    </parent>
-    <modelVersion>4.0.0</modelVersion>
+   ```xml
+   <?xml version="1.0" encoding="UTF-8"?>
+   <project xmlns="http://maven.apache.org/POM/4.0.0"
+            xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+            xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+       <parent>
+           cloud2020</artifactId>
+           <groupId>com.atguigu.springcloud</groupId>
+           <version>1.0-SNAPSHOT</version>
+       </parent>
+       <modelVersion>4.0.0</modelVersion>
 
-    cloud-gateway-gateway9527</artifactId>
+       cloud-gateway-gateway9527</artifactId>
 
-    <properties>
-        <maven.compiler.source>8</maven.compiler.source>
-        <maven.compiler.target>8</maven.compiler.target>
-    </properties>
+       <properties>
+           <maven.compiler.source>8</maven.compiler.source>
+           <maven.compiler.target>8</maven.compiler.target>
+       </properties>
 
 
-    <dependencies>
-        <!--gateway-->
-        <dependency>
-            <groupId>org.springframework.cloud</groupId>
-            spring-cloud-starter-gateway</artifactId>
-        </dependency>
-        <!--eureka-client-->
-        <dependency>
-            <groupId>org.springframework.cloud</groupId>
-            spring-cloud-starter-netflix-eureka-client</artifactId>
-        </dependency>
-        <!-- 引入自己定义的api通用包，可以使用Payment支付Entity -->
-        <dependency>
-            <groupId>com.atguigu.springcloud</groupId>
-            cloud-api-commons</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        <!--一般基础配置类-->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            spring-boot-devtools</artifactId>
-            <scope>runtime</scope>
-            <optional>true</optional>
-        </dependency>
-        <dependency>
-            <groupId>org.projectlombok</groupId>
-            lombok</artifactId>
-            <optional>true</optional>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            spring-boot-starter-test</artifactId>
-            <scope>test</scope>
-        </dependency>
-    </dependencies>
+       <dependencies>
+           <!--gateway-->
+           <dependency>
+               <groupId>org.springframework.cloud</groupId>
+               spring-cloud-starter-gateway</artifactId>
+           </dependency>
+           <!--eureka-client-->
+           <dependency>
+               <groupId>org.springframework.cloud</groupId>
+               spring-cloud-starter-netflix-eureka-client</artifactId>
+           </dependency>
+           <!-- 引入自己定义的api通用包，可以使用Payment支付Entity -->
+           <dependency>
+               <groupId>com.atguigu.springcloud</groupId>
+               cloud-api-commons</artifactId>
+               <version>${project.version}</version>
+           </dependency>
+           <!--一般基础配置类-->
+           <dependency>
+               <groupId>org.springframework.boot</groupId>
+               spring-boot-devtools</artifactId>
+               <scope>runtime</scope>
+               <optional>true</optional>
+           </dependency>
+           <dependency>
+               <groupId>org.projectlombok</groupId>
+               lombok</artifactId>
+               <optional>true</optional>
+           </dependency>
+           <dependency>
+               <groupId>org.springframework.boot</groupId>
+               spring-boot-starter-test</artifactId>
+               <scope>test</scope>
+           </dependency>
+       </dependencies>
 
-</project>
-```
+   </project>
+   ```
+
 
 3. YML
 
-```yaml
-server:
-  port: 9527
+   ```yaml
+   server:
+     port: 9527
 
-spring:
-  application:
-    name: cloud-gateway
+   spring:
+     application:
+       name: cloud-gateway
 
-eureka:
-  instance:
-    hostname: cloud-gateway-service
-  client: #服务提供者provider注册进eureka服务列表内
-    service-url:
-      register-with-eureka: true
-      fetch-registry: true
-      defaultZone: http://eureka7001.com:7001/eureka
-```
+   eureka:
+     instance:
+       hostname: cloud-gateway-service
+     client: #服务提供者provider注册进eureka服务列表内
+       service-url:
+         register-with-eureka: true
+         fetch-registry: true
+         defaultZone: http://eureka7001.com:7001/eureka
+   ```
+
 
 4. 业务类：暂无
+
 5. 主启动
 
-```java
-package com.atguigu.springcloud;
+   ```java
+   package com.atguigu.springcloud;
 
 
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
+   import org.springframework.boot.SpringApplication;
+   import org.springframework.boot.autoconfigure.SpringBootApplication;
+   import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
 
-@SpringBootApplication
-@EnableEurekaClient
-public class GateWayMain9527
-{
-    public static void main(String[] args) {
-        SpringApplication.run(GateWayMain9527.class, args);
-    }
-}
+   @SpringBootApplication
+   @EnableEurekaClient
+   public class GateWayMain9527
+   {
+       public static void main(String[] args) {
+           SpringApplication.run(GateWayMain9527.class, args);
+       }
+   }
+   ```
 
-```
+开始配置：cloud-provider-payment8001 看看 controller 的访问地址，有 `/payment/get/{id}` 和 `/payment/lb` 这两个接口，先以这两个做测试吧
 
+![](images/140.png)  
 
-
-开始配置：
-
-cloud-provider-payment8001看看controller的访问地址，有`/payment/get/{id} `和`/payment/lb `这两个接口，先以这两个做测试吧
-
-![](images/140.png)
-
-我们目前不想暴露8001端口，希望在8001外面套一层9527，那么如何做呢？
-
-Gateway网关路由有两种配置方式：
+我们目前不想暴露8001端口，希望在8001外面套一层9527，那么如何做呢？Gateway网关路由有两种配置方式：
 
 1. 在配置文件yml中配置，就是上面的示例
 2. 代码中注入RouteLocator的Bean
 
-****
 
-**<font style="color:#DF2A3F;">YML方式新增网关配置：**
+
+YML方式新增网关配置：
 
 ```yaml
 server:
@@ -278,12 +277,12 @@ spring:
         - id: payment_routh #payment_route    #路由的ID，没有固定规则但要求唯一，建议配合服务名
           uri: http://localhost:8001          #匹配后提供服务的路由地址
           predicates:
-            - Path=/payment/get/**         # 断言，路径相匹配的进行路由
+            - Path=/payment/get/**         	  # 断言，路径相匹配的进行路由
 
         - id: payment_routh2 #payment_route    #路由的ID，没有固定规则但要求唯一，建议配合服务名
-          uri: http://localhost:8001          #匹配后提供服务的路由地址
+          uri: http://localhost:8001           #匹配后提供服务的路由地址
           predicates:
-            - Path=/payment/lb/**         # 断言，路径相匹配的进行路由
+            - Path=/payment/lb/**         		# 断言，路径相匹配的进行路由
 
 eureka:
   instance:
@@ -297,7 +296,9 @@ eureka:
 
 测试：
 
-![](images/141.png)
+![](images/141.png)  
+
+开始测试：
 
 1. 启动7001、8001、9527网关
 2. 添加网关前：[http://localhost:8001/payment/get/31](http://localhost:8001/payment/get/31)
@@ -309,9 +310,7 @@ eureka:
 
 
 
-
-
-**<font style="color:#DF2A3F;">注入RouteLocator的Bean这种方式的演示：**
+注入RouteLocator的Bean这种方式的演示：
 
 官网案例
 
@@ -398,15 +397,18 @@ eureka:
 
 需要注意的是uri的协议为lb，表示启用Gateway的负载均衡功能。
 
-`lb://serviceName`是spring cloud gateway在微服务中自动为我们创建的负载均衡url
+`lb://serviceName` 是spring cloud gateway在微服务中自动为我们创建的负载均衡url
 
-**<font style="color:#4b4b4b;">测试：**[http://localhost:9527/payment/lb](http://localhost:9527/payment/lb)；会出现8001/8002两个端口切换
+测试：http://localhost:9527/payment/lb；会出现8001/8002两个端口切换
 
 ![](images/145.png)
 
 ![](images/146.png)
 
-# 28. **<font style="color:#4b4b4b;">6 Predicate的使用**
+
+
+# 6 Predicate的使用
+
 我们在启动我们的9527网关服务的时候，会出现
 
 ![](images/147.png)
@@ -419,64 +421,65 @@ Route Predicate Factories这个是什么？
 
 1. **After Route Predicate**
 
-![](images/149.png)
+   ![](images/149.png) 
 
-这个日期可以这样获取
+   这个日期可以这样获取
 
-```java
-public static void main(String[] args) {
-    ZonedDateTime zbj = ZonedDateTime.now(); // 默认时区
-    System.out.println(zbj);//2023-02-28T11:49:24.926+08:00[Asia/Shanghai]
-    //ZonedDateTime zny = ZonedDateTime.now(ZoneId.of("America/New_York")); // 用指定时区获取当前时间
-    //System.out.println(zny);
-}
-```
+   ```java
+   public static void main(String[] args) {
+       ZonedDateTime zbj = ZonedDateTime.now(); // 默认时区
+       System.out.println(zbj);//2023-02-28T11:49:24.926+08:00[Asia/Shanghai]
+       //ZonedDateTime zny = ZonedDateTime.now(ZoneId.of("America/New_York")); // 用指定时区获取当前时间
+       //System.out.println(zny);
+   }
+   ```
+
 
 2. **Before Route Predicate**
 
-![](images/150.png)
+   ![](images/150.png)
 
 3. **Between Route Predicate**
 
-![](images/151.png)
+   ![](images/151.png)
 
 4. **Cookie Route Predicate**
 
-![](images/152.png)
+   ![](images/152.png)
 
-Cookie Route Predicate需要两个参数，一个是 Cookie name ,一个是正则表达式。
+   Cookie Route Predicate需要两个参数，一个是 Cookie name ,一个是正则表达式。
 
-路由规则会通过获取对应的 Cookie name 值和正则表达式去匹配，如果匹配上就会执行路由，如果没有匹配上则不执行
+   路由规则会通过获取对应的 Cookie name 值和正则表达式去匹配，如果匹配上就会执行路由，如果没有匹配上则不执行
 
-![](images/153.png)
+   ![](images/153.png)
 
 5. **Header Route Predicate**
 
-![](images/154.png)
+   ![](images/154.png)
 
-两个参数：一个是属性名称和一个正则表达式，这个属性值和正则表达式匹配则执行。
+   两个参数：一个是属性名称和一个正则表达式，这个属性值和正则表达式匹配则执行。
 
 6. **Host Route Predicate**
 
-![](images/155.png)
+   ![](images/155.png)
 
 7. **Method Route Predicate**
 
-![](images/156.png)
+   ![](images/156.png)
 
 8. **Path Route Predicate**
 
-![](images/157.png)
+   ![](images/157.png)
 
 9. **Query Route Predicate**
 
-![](images/158.png)
+   ![](images/158.png)
 
-支持传入两个参数，一个是属性名，一个为属性值，属性值可以是正则表达式。
+   支持传入两个参数，一个是属性名，一个为属性值，属性值可以是正则表达式。
 
-<font style="color:#DF2A3F;">总结：说白了，Predicate就是为了实现一组匹配规则，让请求过来找到对应的Route进行处理。
+总结：说白了，Predicate就是为了实现一组匹配规则，让请求过来找到对应的Route进行处理。
 
-# 7 **<font style="color:#4b4b4b;">Filter的使用**
+# 7 Filter的使用
 ![](images/159.png)
 
 路由过滤器可用于修改进入的HTTP请求和返回的HTTP响应，路由过滤器只能指定路由进行使用。
@@ -500,16 +503,16 @@ Spring Cloud Gateway的Filter
 
 常见的GatewayFilter：见[官网](https://cloud.spring.io/spring-cloud-static/spring-cloud-gateway/2.2.1.RELEASE/reference/html/#gatewayfilter-factories)
 
-## 7.1 **<font style="color:#4b4b4b;">自定义过滤器**
+## 7.1 自定义过滤器
 自定义全局GlobalFilter
 
-方式：<font style="color:#000000;">实现`<font style="color:#000000;">GlobalFilter``<font style="color:#000000;">Ordered`<font style="color:#000000;">两个接口
+方式：实现`GlobalFilter` `Ordered` 两个接口
 
-<font style="color:#000000;">可以做什么？
+可以做什么？
 
 + 全局日志记录
 + 统一网关鉴权
-+ ...等等
++ ... 等等
 
 代码如下：
 
@@ -554,9 +557,7 @@ public class MyLogGateWayFilter implements GlobalFilter, Ordered
 
 启动7001、8001、8002、9527服务
 
-测试：
-
-+ 正确：[http://localhost:9527/payment/lb?uname=z3](http://localhost:9527/payment/lb?uname=z3)
+测试：正确：[http://localhost:9527/payment/lb?uname=z3](http://localhost:9527/payment/lb?uname=z3)
 
 ![](images/162.png)
 
