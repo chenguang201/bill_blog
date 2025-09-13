@@ -8,7 +8,7 @@
 
 
 ## 1.1 Spring的能力
-![](images/1.png) 
+![](images/1.png)     
 
 ## 1.2 Spring的生态
 覆盖了：
