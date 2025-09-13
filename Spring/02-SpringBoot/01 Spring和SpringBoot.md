@@ -1,4 +1,4 @@
-**<font style="color:#DF2A3F;">笔记来源：</font>**[**<font style="color:#DF2A3F;">【尚硅谷】SpringBoot2零基础入门教程（spring boot2干货满满）</font>**](https://www.bilibili.com/video/BV19K4y1L7MT/?spm_id_from=333.337.search-card.all.click&vd_source=e8046ccbdc793e09a75eb61fe8e84a30)
+**笔记来源：**[**【尚硅谷】SpringBoot2零基础入门教程（spring boot2干货满满）**](https://www.bilibili.com/video/BV19K4y1L7MT/?spm_id_from=333.337.search-card.all.click&vd_source=e8046ccbdc793e09a75eb61fe8e84a30)
 
 
 
@@ -8,7 +8,7 @@
 
 
 ## 1.1 Spring的能力
-![](images/1.png)
+![](images/1.png) 
 
 ## 1.2 Spring的生态
 覆盖了：
@@ -29,20 +29,16 @@
 
 + 响应式编程
 
-![](images/2.png)
+  ![](images/2.png) 
 
 + 内部源码设计
     - 基于Java8的一些新特性，如：接口默认实现。重新设计源码架构。
 
 
-
 # 2 为什么用SpringBoot
-> Spring Boot makes it easy to create stand-alone, production-grade Spring based Applications that you can "just run".
->
-> 能快速创建出生产级别的Spring应用。
->
+Spring Boot makes it easy to create stand-alone, production-grade Spring based Applications that you can "just run"
 
-****
+能快速创建出生产级别的Spring应用。
 
 **SpringBoot优点**
 
@@ -61,7 +57,7 @@
 +  SpringBoot是整合Spring技术栈的一站式框架 
 +  SpringBoot是简化Spring技术栈的快速开发脚手架 
 
-****
+
 
 **SpringBoot缺点**
 
@@ -107,14 +103,12 @@
 
 + SpringBoot + SpringCloud
 
-![](images/3.png)
+![](images/3.png) 
 
 
 
 ## 3.3 云原生
 原生应用如何上云。 Cloud Native
-
-
 
 **上云的困难**
 
@@ -130,7 +124,7 @@
 
 **上云的解决**
 
-![](images/4.png)
+![](images/4.png) 
 
 
 
@@ -142,12 +136,12 @@
 [Index of /spring-boot/docs](https://docs.spring.io/spring-boot/docs/)
 
 ## 4.1 官网文档架构
-![](images/5.png)
+![](images/5.png) 
 
-![](images/6.png)  
+![](images/6.png)   
 
 
 [查看版本新特性](https://github.com/spring-projects/spring-boot/wiki#release-notes)
 
-![](images/7.png)
+![](images/7.png) 
 
