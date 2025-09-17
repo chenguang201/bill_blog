@@ -1,16 +1,16 @@
-**<font style="color:#DF2A3F;">笔记来源：</font>**[**<font style="color:#DF2A3F;">【尚硅谷】SpringBoot2零基础入门教程（spring boot2干货满满）</font>**](https://www.bilibili.com/video/BV19K4y1L7MT/?spm_id_from=333.337.search-card.all.click&vd_source=e8046ccbdc793e09a75eb61fe8e84a30)
+**笔记来源：**[**【尚硅谷】SpringBoot2零基础入门教程（spring boot2干货满满）**](https://www.bilibili.com/video/BV19K4y1L7MT/?spm_id_from=333.337.search-card.all.click&vd_source=e8046ccbdc793e09a75eb61fe8e84a30)
 
 # 1 SpringMVC自动配置概览
-Spring Boot provides auto-configuration for Spring MVC that **works well with most applications.(大多场景我们都无需自定义配置)**
+Spring Boot provides auto-configuration for Spring MVC that **works well with most applications.(大多场景我们都无需自定义配置)**   
 
 The auto-configuration adds the following features on top of Spring’s defaults:
 
-+  Inclusion of `ContentNegotiatingViewResolver` and `BeanNameViewResolver` beans. 
++  Inclusion of  `ContentNegotiatingViewResolver` and `BeanNameViewResolver` beans. 
     - 内容协商视图解析器和BeanName视图解析器
 +  Support for serving static resources, including support for WebJars (covered [later in this document](https://docs.spring.io/spring-boot/docs/current/reference/html/spring-boot-features.html#boot-features-spring-mvc-static-content))). 
     - 静态资源（包括webjars）
-+  Automatic registration of `Converter`, `GenericConverter`, and `Formatter` beans. 
-    - 自动注册 `Converter，GenericConverter，Formatter`
++  Automatic registration of `Converter` , `GenericConverter` , and `Formatter` beans. 
+    - 自动注册 `Converter，GenericConverter，Formatter` 
 +  Support for `HttpMessageConverters` (covered [later in this document](https://docs.spring.io/spring-boot/docs/current/reference/html/spring-boot-features.html#boot-features-spring-mvc-message-converters)). 
     - 支持 `HttpMessageConverters` （后来我们配合内容协商理解原理）
 +  Automatic registration of `MessageCodesResolver` (covered [later in this document](https://docs.spring.io/spring-boot/docs/current/reference/html/spring-boot-features.html#boot-features-spring-message-codes)). 
@@ -22,44 +22,46 @@ The auto-configuration adds the following features on top of Spring’s defaults
 +  Automatic use of a `ConfigurableWebBindingInitializer` bean (covered [later in this document](https://docs.spring.io/spring-boot/docs/current/reference/html/spring-boot-features.html#boot-features-spring-mvc-web-binding-initializer)). 
     - 自动使用 `ConfigurableWebBindingInitializer` ，（DataBinder负责将请求数据绑定到JavaBean上）
 
+    ​
+
 
 
 > If you want to keep those Spring Boot MVC customizations and make more [MVC customizations](https://docs.spring.io/spring/docs/5.2.9.RELEASE/spring-framework-reference/web.html#mvc) (interceptors, formatters, view controllers, and other features), you can add your own `@Configuration` class of type `WebMvcConfigurer` but **without** `@EnableWebMvc`
 >
-> **不用@EnableWebMvc注解。使用** `**@Configuration**` **+** `**WebMvcConfigurer**` **自定义规则**
+> **不用@EnableWebMvc注解。使用** `@Configuration` **+** `WebMvcConfigurer` **自定义规则**  
 >
 
 
 
-> If you want to provide custom instances of `RequestMappingHandlerMapping`, `RequestMappingHandlerAdapter`, or `ExceptionHandlerExceptionResolver`, and still keep the Spring Boot MVC customizations, you can declare a bean of type `WebMvcRegistrations` and use it to provide custom instances of those components. 
+> If you want to provide custom instances of  `RequestMappingHandlerMapping` ,  `RequestMappingHandlerAdapter` , or  `ExceptionHandlerExceptionResolver` , and still keep the Spring Boot MVC customizations, you can declare a bean of type  `WebMvcRegistrations`  and use it to provide custom instances of those components. 
 >
-> **声明** `**WebMvcRegistrations**` **改变默认底层组件**
+> **声明** `WebMvcRegistrations`  **改变默认底层组件**  
 >
 
 
 
 > If you want to take complete control of Spring MVC, you can add your own `@Configuration` annotated with `@EnableWebMvc`, or alternatively add your own `@Configuration`-annotated `DelegatingWebMvcConfiguration` as described in the Javadoc of `@EnableWebMvc`.
 >
-> **使用** `**@EnableWebMvc+@Configuration+DelegatingWebMvcConfiguration 全面接管SpringMVC**`
+> **使用** `@EnableWebMvc + @Configuration+DelegatingWebMvcConfiguration ` 全面接管SpringMVC
 >
 
 # 2 简单功能分析
 ## 2.1 静态资源目录
-**1)普通访问**
+**1)普通访问**  
 
-只要静态资源放在**类路径**下：`/static``/public``/resources``/META-INF/resources`
+只要静态资源放在**类路径**下：`/static` `/public` `/resources` `/META-INF/resources`
 
-![](images/25.png)
+![](images/25.png) 
 
-访问 ： 当前项目根路径/ + 静态资源名
+访问 ： 当前项目根路径/  +  静态资源名
 
-![](images/26.png)
+![](images/26.png)  
 
 原理： 静态映射/**。请求进来，先去找Controller看能不能处理。不能处理的所有请求又都交给静态资源处理器。静态资源也找不到则响应404页面。
 
 **2）改变默认的静态资源路径**
 
-也可以改变默认的静态资源路径`/static``/public``/resources``/META-INF/resources`失效
+也可以改变默认的静态资源路径`/static` `/public` `/resources` `/META-INF/resources`失效
 
 ```yaml
 spring:
@@ -67,11 +69,11 @@ spring:
     static-locations: "classpath:/ha/"
 ```
 
-![](images/27.png)
+![](images/27.png)  
 
-![](images/28.png)
+![](images/28.png)  
 
-![](images/29.png)
+![](images/29.png)  
 
 **3）静态资源访问前缀**
 
@@ -81,9 +83,9 @@ spring.mvc.static-path-pattern=/res/**
 
 当前项目 + static-path-pattern + 静态资源名 = 静态资源文件夹下找
 
-![](images/30.png)
+![](images/30.png)  
 
-![](images/31.png)
+![](images/31.png)  
 
 **4）webjar**
 
@@ -96,14 +98,14 @@ spring.mvc.static-path-pattern=/res/**
 ```xml
 <dependency>
     <groupId>org.webjars</groupId>
-    jquery</artifactId>
+    <artifactId>jquery</artifactId>
     <version>3.5.1</version>
 </dependency>
 ```
 
 访问地址：[http://localhost:8080/webjars/**jquery/3.5.1/jquery.js**](http://localhost:8080/webjars/jquery/3.5.1/jquery.js)  后面地址要按照依赖里面的包路径。
 
-![](images/32.png)
+![](images/32.png)    
 
 ## 2.2 index页面支持
 [官方文档](https://docs.spring.io/spring-boot/docs/2.3.8.RELEASE/reference/htmlsingle/#boot-features-spring-mvc-welcome-page)
@@ -1923,7 +1925,7 @@ public void afterPropertiesSet() {
 至此，这个组合模式可以理解为完成。
 
 ### 3.8.2 适配器模式
-稍后研究//TODO<font style="background:#F8CED3;color:#70000D">待办</font>
+稍后研究//TODO<font style="background:#F8CED3;color:#70000D">待办
 
 ## 3.9 总结
 本节描述，一个请求发送到DispatcherServlet后的具体处理流程，也就是SpringMVC的主要原理。
@@ -2324,7 +2326,7 @@ public boolean supportsReturnType(MethodParameter returnType) {
 
 ****
 
-**好了，看完了所有的返回值处理器，接下来我们可以继续看如何用****<font style="color:#DF2A3F;">返回值处理器来处理返回值的过程</font>****了。**
+**好了，看完了所有的返回值处理器，接下来我们可以继续看如何用****返回值处理器来处理返回值的过程****了。**
 
 ## 4.2 HTTPMessageConverter原理
 ### 4.2.1 处理流程
@@ -2339,7 +2341,7 @@ public void handleReturnValue(@Nullable Object returnValue, MethodParameter retu
 }
 ```
 
-返回值处理器`<font style="color:#DF2A3F;">ReturnValueHandler</font>`原理：
+返回值处理器`ReturnValueHandler`原理：
 
 1. 返回值处理器判断是否支持这种类型返回值 `supportsReturnType`
 2. 返回值处理器调用`handleReturnValue`进行处理
@@ -2498,7 +2500,7 @@ MappingJackson2HttpMessageConverter的父类AbstractJackson2HttpMessageConverter
 
 至于GenericHttpMessageConverter其他的类也可以去详细的看看，此处不在列举
 
-<font style="color:#DF2A3F;">以上在类中出现support方法均是给canRead方法或者canWrite方法调用，如果没有supprot方法，可以直接查看canRead方法或者canWrite方法里面支持的类型</font>
+以上在类中出现support方法均是给canRead方法或者canWrite方法调用，如果没有supprot方法，可以直接查看canRead方法或者canWrite方法里面支持的类型
 
 **3）BufferedImageHttpMessageConverter**
 
@@ -3614,12 +3616,12 @@ View是一个接口，然后有一个抽象方法render。接下来我们可以�
 
 表达式
 
-| 表达式名字 | 语法 | 用途 |
-| :--- | :--- | :--- |
-| 变量取值 | `${...}` | 获取请求域、session域、对象等值 |
-| 选择变量 | `*{...}` | 获取上下文对象值 |
-| 消息 | `#{...}` | 获取国际化等值 |
-| 链接 | `@{...}` | 生成链接 |
+| 表达式名字 | 语法       | 用途                      |
+| :---- | :------- | :---------------------- |
+| 变量取值  | `${...}` | 获取请求域、session域、对象等值     |
+| 选择变量  | `*{...}` | 获取上下文对象值                |
+| 消息    | `#{...}` | 获取国际化等值                 |
+| 链接    | `@{...}` | 生成链接                    |
 | 片段表达式 | `~{...}` | jsp:include 作用，引入公共页面片段 |
 
 
@@ -3749,17 +3751,17 @@ view
 
 **⑤属性优先级**
 
-| **Order** | **Feature** | **Attributes** |
-| :--- | :--- | :--- |
-| 1 | Fragment inclusion | `th:insert`<br/>`th:replace` |
-| 2 | Fragment iteration | `th:each` |
-| 3 | Conditional evaluation | `th:if`<br/>`th:unless`<br/>`th:switch`<br/>`th:case` |
-| 4 | Local variable definition | `th:object`<br/>`th:with` |
-| 5 | General attribute modification | `th:attr`<br/>`th:attrprepend`<br/>`th:attrappend` |
-| 6 | Specific attribute modification | `th:value`<br/>`th:href`<br/>`th:src`<br/>`...` |
-| 7 | Text (tag body modification) | `th:text`<br/>`th:utext` |
-| 8 | Fragment specification | `th:fragment` |
-| 9 | Fragment removal | `th:remove` |
+| **Order** | **Feature**                     | **Attributes**                           |
+| :-------- | :------------------------------ | :--------------------------------------- |
+| 1         | Fragment inclusion              | `th:insert`<br/>`th:replace`             |
+| 2         | Fragment iteration              | `th:each`                                |
+| 3         | Conditional evaluation          | `th:if`<br/>`th:unless`<br/>`th:switch`<br/>`th:case` |
+| 4         | Local variable definition       | `th:object`<br/>`th:with`                |
+| 5         | General attribute modification  | `th:attr`<br/>`th:attrprepend`<br/>`th:attrappend` |
+| 6         | Specific attribute modification | `th:value`<br/>`th:href`<br/>`th:src`<br/>`...` |
+| 7         | Text (tag body modification)    | `th:text`<br/>`th:utext`                 |
+| 8         | Fragment specification          | `th:fragment`                            |
+| 9         | Fragment removal                | `th:remove`                              |
 
 
 [官方文档 - 10 Attribute Precedence](https://www.thymeleaf.org/doc/tutorials/3.0/usingthymeleaf.html#attribute-precedence)
