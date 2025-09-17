@@ -26,7 +26,7 @@ The auto-configuration adds the following features on top of Spring’s defaults
 
 
 
-> If you want to keep those Spring Boot MVC customizations and make more [MVC customizations](https://docs.spring.io/spring/docs/5.2.9.RELEASE/spring-framework-reference/web.html#mvc) (interceptors, formatters, view controllers, and other features), you can add your own `@Configuration` class of type `WebMvcConfigurer` but **without** `@EnableWebMvc`
+> If you want to keep those Spring Boot MVC customizations and make more [MVC customizations](https://docs.spring.io/spring/docs/5.2.9.RELEASE/spring-framework-reference/web.html#mvc) (interceptors, formatters, view controllers, and other features), you can add your own `@Configuration` class of type `WebMvcConfigurer` but **without**  `@EnableWebMvc`
 >
 > **不用@EnableWebMvc注解。使用** `@Configuration` **+** `WebMvcConfigurer` **自定义规则**  
 >
@@ -51,9 +51,9 @@ The auto-configuration adds the following features on top of Spring’s defaults
 
 只要静态资源放在**类路径**下：`/static` `/public` `/resources` `/META-INF/resources`
 
-![](images/25.png) 
+![](images/25.png)   
 
-访问 ： 当前项目根路径/  +  静态资源名
+  访问 ： 当前项目根路径/  +  静态资源名
 
 ![](images/26.png)  
 
