@@ -132,6 +132,7 @@ Eureka 包含两个组件：Eureka Server 和 Eureka Client
    ```yaml
    server:
      port: 7001
+   ```
 
 
    eureka:
@@ -630,6 +631,7 @@ eureka:
          #defaultZone: http://localhost:7001/eureka
          # 集群版
          defaultZone: http://eureka7001.com:7001/eureka,http://eureka7002.com:7002/eureka
+   ```
 
 
    mybatis:
@@ -664,6 +666,7 @@ eureka:
 
       ```java
       package com.atguigu.springcloud.controller;
+      ```
 
 
       import com.atguigu.springcloud.entities.CommonResult;
@@ -673,7 +676,7 @@ eureka:
       import org.springframework.beans.factory.annotation.Autowired;
       import org.springframework.beans.factory.annotation.Value;
       import org.springframework.web.bind.annotation.*;
-
+    
       @RestController
       @Slf4j
       public class PaymentController {
@@ -681,10 +684,10 @@ eureka:
 
           @Autowired
           PaymentService paymentService;
-
+    
           @Value("${server.port}")
           String port;
-
+    
           @PostMapping("/payment/create")
           public CommonResult create(@RequestBody Payment payment){
               int i = paymentService.create(payment);
@@ -694,7 +697,7 @@ eureka:
                   return new CommonResult(444,"插入数据失败",null);
               }
           }
-
+    
           @GetMapping("/payment/get/{id}")
           public CommonResult create(@PathVariable("id") Long id){
               Payment payment = paymentService.getPaymentById(id);
@@ -704,12 +707,12 @@ eureka:
                   return new CommonResult(4444,"没有对应记录，id="+id,null);
               }
           }
-
+    
       }
       ```
-
+    
     - 8001
-
+    
       ```java
       package com.atguigu.springcloud.controller;
 
@@ -721,7 +724,7 @@ eureka:
       import org.springframework.beans.factory.annotation.Autowired;
       import org.springframework.beans.factory.annotation.Value;
       import org.springframework.web.bind.annotation.*;
-
+    
       @RestController
       @Slf4j
       public class PaymentController {
@@ -729,10 +732,10 @@ eureka:
 
           @Autowired
           PaymentService paymentService;
-
+    
           @Value("${server.port}")
           String port;
-
+    
           @PostMapping("/payment/create")
           public CommonResult create(@RequestBody Payment payment){
               int i = paymentService.create(payment);
@@ -742,7 +745,7 @@ eureka:
                   return new CommonResult(444,"插入数据失败",null);
               }
           }
-
+    
           @GetMapping("/payment/get/{id}")
           public CommonResult create(@PathVariable("id") Long id){
               Payment payment = paymentService.getPaymentById(id);
@@ -752,7 +755,7 @@ eureka:
                   return new CommonResult(4444,"没有对应记录，id="+id,null);
               }
           }
-
+    
       }
       ```
 
@@ -852,7 +855,7 @@ eureka:
 # 5 服务发现Discovery
 对于注册进eureka里面的微服务，可以通过服务发现来获得该服务的信息
 
-1.  修改 cloud-provider-payment8001 的Controlle
+1.  修改 cloud-provider-payment8001 的Controlle  
 
    ```java
    @Autowired
@@ -875,7 +878,7 @@ eureka:
    ```
 
 
-2. 主启动类
+2. 主启动类  
 
    ```java
    @SpringBootApplication
@@ -986,9 +989,9 @@ EMERGENCY! EUREKA MAY BE INCORRECTLY CLAIMING INSTANCES ARE UP WHEN THEY'RE NOT.
 
 
 
- 
 
- 
+
+
 
 
 
