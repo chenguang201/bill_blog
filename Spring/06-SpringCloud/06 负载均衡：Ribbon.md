@@ -338,16 +338,17 @@ public class RoundRobinRule extends AbstractLoadBalancerRule {
 
       ```java
       package com.atguigu.springcloud.config;
+      ```
 
 
       import org.springframework.cloud.client.loadbalancer.LoadBalanced;
       import org.springframework.context.annotation.Bean;
       import org.springframework.context.annotation.Configuration;
       import org.springframework.web.client.RestTemplate;
-
+    
       @Configuration
       public class ApplicationContextConfig {
-
+    
           @Bean
           //@LoadBalanced
           public RestTemplate getRestTemplate(){
@@ -423,22 +424,23 @@ public class RoundRobinRule extends AbstractLoadBalancerRule {
 
       @Resource
       private DiscoveryClient discoveryClient;
+      ```
 
 
       @GetMapping(value = "/consumer/payment/lb")
       public String getPaymentLB(){
               List<ServiceInstance> instances = discoveryClient.getInstances("CLOUD-PAYMENT-SERVICE");
-
+    
               if(instances == null || instances.size() <= 0)
               {
                   return null;
               }
-
+    
               ServiceInstance serviceInstance = loadBalancer.instances(instances);
               URI uri = serviceInstance.getUri();
-
+    
               return restTemplate.getForObject(uri+"/payment/lb",String.class);
-
+    
       }
       ```
 
