@@ -1,16 +1,14 @@
-**<font style="color:#DF2A3F;">笔记来源：</font>**[**<font style="color:#DF2A3F;">尚硅谷SpringCloud框架开发教程(SpringCloudAlibaba微服务分布式架构丨Spring Cloud)</font>**](https://www.bilibili.com/video/BV18E411x7eT/?spm_id_from=333.337.search-card.all.click&vd_source=e8046ccbdc793e09a75eb61fe8e84a30)
+**笔记来源：**[**尚硅谷SpringCloud框架开发教程(SpringCloudAlibaba微服务分布式架构丨Spring Cloud)**](https://www.bilibili.com/video/BV18E411x7eT/?spm_id_from=333.337.search-card.all.click&vd_source=e8046ccbdc793e09a75eb61fe8e84a30)
 
-**<font style="color:#DF2A3F;"></font>**
 
-## <font style="color:#000000;">1 </font>**<font style="color:#000000;">为什么会出现SpringCloud alibaba？</font>**
-<font style="color:#282828;">Spring Cloud Netflix项目进入维护模式</font>
+
+## 1 **为什么会出现SpringCloud alibaba？**
+Spring Cloud Netflix项目进入维护模式
 
 ![](images/228.png)
 
-:::danger
-Spring Cloud Netflix项目进入维护模式
 
-最近，Netflix宣布Hystrix进入维护模式。自2016年以来，Ribbon一直处于类似的状态。虽然Hystrix和Ribbon现在处于维护模式，但它们仍然在Netflix大规模部署。
+Spring Cloud Netflix项目进入维护模式。最近，Netflix宣布Hystrix进入维护模式。自2016年以来，Ribbon一直处于类似的状态。虽然Hystrix和Ribbon现在处于维护模式，但它们仍然在Netflix大规模部署。
 
 Hystrix仪表盘和涡轮机已被Atlas所取代。这些项目的最后一次提交分别是2年和4年前。Zuul 1和Archaius 1都已被不向后兼容的后续版本所取代。
 
@@ -28,34 +26,26 @@ Hystrix仪表盘和涡轮机已被Atlas所取代。这些项目的最后一次�
 
 这并不包括Eureka或并发限制模块。
 
-
-
-什么是维护模式?
-
-将模块置于维护模式，意味着Spring Cloud团队将不再向模块添加新特性。我们将修复block级别的bug和安全问题，我们也将考虑和审查来自社区的小型pull request。
+什么是维护模式？将模块置于维护模式，意味着Spring Cloud团队将不再向模块添加新特性。我们将修复block级别的bug和安全问题，我们也将考虑和审查来自社区的小型pull request。
 
 我们打算继续支持这些模块，直到Greenwich版本被普遍采用至少一年。
 
-:::
 
-<font style="color:#282828;">进入维护模式意味着什么呢？</font>
 
-<font style="color:#0000ff;">Spring Cloud Netflix 将不再开发新的组件</font>
+进入维护模式意味着什么呢？Spring Cloud Netflix 将不再开发新的组件
 
 我们都知道Spring Cloud 版本迭代算是比较快的，因而出现了很多重大ISSUE都还来不及Fix就又推另一个Release了。进入维护模式意思就是目前一直以后一段时间Spring Cloud Netflix提供的服务和功能就这么多了，不在开发新的组件和功能了。以后将以维护和Merge分支Full Request为主
 
-<font style="color:#0000ff;">新组件功能将以其他替代平代替的方式实现</font>
+新组件功能将以其他替代平代替的方式实现
 
 ![](images/229.png)
 
 
 
-## 2 **<font style="color:#4b4b4b;">SpringCloud alibaba带来了什么？</font>**
+## 2 SpringCloud alibaba带来了什么？
 官网：[SpringCloud alibaba Git Hub地址](https://github.com/alibaba/spring-cloud-alibaba/blob/2.2.x/README-zh.md)
 
 诞生：2018.10.31，Spring Cloud Alibaba 正式入驻了 Spring Cloud 官方孵化器，并在 Maven 中央库发布了第一个版本。
-
-
 
 主要功能：
 
@@ -68,7 +58,7 @@ Hystrix仪表盘和涡轮机已被Atlas所取代。这些项目的最后一次�
 
 
 
-## 3 <font style="color:#4b4b4b;">SpringCloud alibaba学习资料获取</font>
+## 3 SpringCloud alibaba学习资料获取
 官网：[SpringCloud alibaba官网](https://spring.io/projects/spring-cloud-alibaba#overview)
 
 [https://github.com/alibaba/spring-cloud-alibaba](https://github.com/alibaba/spring-cloud-alibaba)
