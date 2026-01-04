@@ -49,7 +49,7 @@ Config是什么？SpringCloud Config为微服务架构中的微服务提供集�
 
 4. 此时在本地D盘符下`D:\44\SpringCloud2020\springcloud-config` 。表示多个环境的配置文件，保存格式必须为 UTF-8 。该文件可以从周阳老师的github仓库克隆一份  [https://github.com/zzyybs/springcloud-config](https://github.com/zzyybs/springcloud-config)  。复制到自己的仓库 
 
-  >![](images/166.png)  
+  >![](images/166.png)   
 
 5. 如果需要修改，此处模拟运维人员操作git和github
 
