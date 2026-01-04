@@ -334,11 +334,10 @@ public class RoundRobinRule extends AbstractLoadBalancerRule {
 
    ![](images/77.png)    
 
-   1. ApplicationContextBean去掉注解 @LoadBalanced  
+   1. ApplicationContextBean去掉 @LoadBalanced  注解
 
       ```java
       package com.atguigu.springcloud.config;
-
 
       import org.springframework.cloud.client.loadbalancer.LoadBalanced;
       import org.springframework.context.annotation.Bean;
@@ -415,7 +414,7 @@ public class RoundRobinRule extends AbstractLoadBalancerRule {
       }
       ```
 
-   4. OrderController
+   4. OrderController类
 
       ```java
       @Resource
@@ -423,7 +422,6 @@ public class RoundRobinRule extends AbstractLoadBalancerRule {
 
       @Resource
       private DiscoveryClient discoveryClient;
-
 
       @GetMapping(value = "/consumer/payment/lb")
       public String getPaymentLB(){
