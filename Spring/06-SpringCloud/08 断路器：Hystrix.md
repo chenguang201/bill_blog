@@ -43,7 +43,7 @@ Hystrix官宣，停更进维
 ![](images/89.png)
 
 # 2 Hystrix重要概念
-+ **服务降级：**服务器忙，请稍后再试，不让客户端等待并立刻返回一个友好提示，fallback
++ **服务降级：**  服务器忙，请稍后再试，不让客户端等待并立刻返回一个友好提示，fallback
     - 哪些情况会出发降级？
         * 程序运行异常
         * 超时
@@ -494,6 +494,7 @@ Hystrix官宣，停更进维
            return result;
        }
    }
+   ```
 
 
    ```
@@ -781,6 +782,7 @@ public class OrderHystirxController
 
    ```java
    package com.atguigu.springcloud.service;
+   ```
 
 
    import org.springframework.stereotype.Component;
@@ -793,7 +795,7 @@ public class OrderHystirxController
        {
            return "-----PaymentFallbackService fall back-paymentInfo_OK ,o(╥﹏╥)o";
        }
-
+    
        @Override
        public String paymentInfo_TimeOut(Integer id)
        {
@@ -816,6 +818,8 @@ public class OrderHystirxController
 
    ```java
 
+   ```
+
 
    package com.atguigu.springcloud.service;
 
@@ -830,7 +834,7 @@ public class OrderHystirxController
    {
        @GetMapping("/payment/hystrix/ok/{id}")
        public String paymentInfo_OK(@PathVariable("id") Integer id);
-
+    
        @GetMapping("/payment/hystrix/timeout/{id}")
        public String paymentInfo_TimeOut(@PathVariable("id") Integer id);
    }
