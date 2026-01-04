@@ -334,7 +334,7 @@ public class RoundRobinRule extends AbstractLoadBalancerRule {
 
    ![](images/77.png)    
 
-   1. ApplicationContextBean去掉注解`@LoadBalanced`   
+   1. ApplicationContextBean去掉注解 @LoadBalanced  
 
       ```java
       package com.atguigu.springcloud.config;
