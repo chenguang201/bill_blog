@@ -557,11 +557,13 @@ public class MyLogGateWayFilter implements GlobalFilter, Ordered
 
 启动7001、8001、8002、9527服务
 
-测试：正确：[http://localhost:9527/payment/lb?uname=z3](http://localhost:9527/payment/lb?uname=z3)
+测试：
+
+正确：[http://localhost:9527/payment/lb?uname=z3](http://localhost:9527/payment/lb?uname=z3)
 
 ![](images/162.png)
 
-+ 错误：[http://localhost:9527/payment/lb](http://localhost:9527/payment/lb)
+错误：[http://localhost:9527/payment/lb](http://localhost:9527/payment/lb)
 
 ![](images/163.png)
 
