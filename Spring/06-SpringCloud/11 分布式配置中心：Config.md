@@ -30,7 +30,6 @@ Config是什么？SpringCloud Config为微服务架构中的微服务提供集�
 + 将配置信息以REST接口的形式暴露，postman、curl访问刷新均可
 
 
-
 与GitHub整合配置：由于SpringCloud Config默认使用Git来存储配置文件(也有其它方式,比如支持SVN和本地文件)，但最推荐的还是Git，而且使用的是http/https访问的形式。
 
 官网：[SpringCloud Config](https://cloud.spring.io/spring-cloud-static/spring-cloud-config/2.2.1.RELEASE/reference/html/)
@@ -49,7 +48,7 @@ Config是什么？SpringCloud Config为微服务架构中的微服务提供集�
 
 4. 此时在本地D盘符下`D:\44\SpringCloud2020\springcloud-config` 。表示多个环境的配置文件，保存格式必须为 UTF-8 。该文件可以从周阳老师的github仓库克隆一份  [https://github.com/zzyybs/springcloud-config](https://github.com/zzyybs/springcloud-config)  。复制到自己的仓库    
 
-  ![](images/166.png)                    
+   ![](images/166.png)                    
 
 5. 如果需要修改，此处模拟运维人员操作git和github
 
@@ -64,16 +63,10 @@ Config是什么？SpringCloud Config为微服务架构中的微服务提供集�
 
 1. 创建Module
     1. 创建Module
-
        ![](images/167.png)
 
-
     2. 填写Module名称
-
-
        ![](images/168.png)
-
-
     3. 点击完成
 
 2. POM
