@@ -46,6 +46,7 @@ zookeeper具体的学习可以参考zookeeper得章节
             <maven.compiler.source>8</maven.compiler.source>
             <maven.compiler.target>8</maven.compiler.target>
         </properties>
+    ```
 
 
         <dependencies>
@@ -95,7 +96,7 @@ zookeeper具体的学习可以参考zookeeper得章节
             </dependency>
         </dependencies>
     </project>
-    ```
+    ​```
 
 
 3. 写YML
@@ -118,6 +119,7 @@ zookeeper具体的学习可以参考zookeeper得章节
 
    ```java
    package com.atguigu.springcloud;
+   ```
 
 
    import org.springframework.boot.SpringApplication;
@@ -165,7 +167,13 @@ zookeeper具体的学习可以参考zookeeper得章节
 
    ![](images/52.png)
 
-![](images/53.png)
+   ​
+
+   ![](images/53.png)  
+
+   ​
+
+   ​
 
 思考：服务节点是临时节点还是持久节点？关掉服务后
 
