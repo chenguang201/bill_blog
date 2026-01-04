@@ -56,12 +56,9 @@ Sentinel 分为两个部分:
 
        ![](images/279.png)
 
-
     2. 填写Module名称
 
-
        ![](images/280.png)
-
 
     3. 点击完成
 
@@ -174,7 +171,6 @@ Sentinel 分为两个部分:
            include: '*'
    ```
 
-
 4. 主启动
 
    ```java
@@ -197,7 +193,6 @@ Sentinel 分为两个部分:
        }
    }
    ```
-
 
 5. 业务类
 
@@ -669,7 +664,6 @@ timewindow，以s为单位)之内，对这个方法的调用都会自动地熔�
    }
    ```
 
-
 2. 配置
 
    ![](images/305.png)
@@ -751,7 +745,6 @@ timewindow，以s为单位)之内，对这个方法的调用都会自动地熔�
 
     - 但是达到5次报错后，进入熔断后降级。
 
-
       ![](images/316.png)
 
 # 6 热点规则限流
@@ -806,7 +799,6 @@ timewindow，以s为单位)之内，对这个方法的调用都会自动地熔�
 
     - `@SentinelResource(value = "testHotKey", blockHandler = "dealHandler_testHotKey")`
 
-
       方法testHotKey里面第一个参数只要QPS超过每秒1次，马上降级处理，用了我们自己定义的
 
       ![](images/320.png)
@@ -840,7 +832,6 @@ timewindow，以s为单位)之内，对这个方法的调用都会自动地熔�
 官网：[https://github.com/alibaba/Sentinel/wiki/%E7%B3%BB%E7%BB%9F%E8%87%AA%E9%80%82%E5%BA%94%E9%99%90%E6%B5%81](https://github.com/alibaba/Sentinel/wiki/%E7%B3%BB%E7%BB%9F%E8%87%AA%E9%80%82%E5%BA%94%E9%99%90%E6%B5%81)
 
 
-
 系统规则
 
 系统保护规则是从应用级别的入口流量进行控制，从单台机器的 load、CPU 使用率、平均 RT、入口 QPS 和并发线程数等几个维度监控应用指标，让系统尽可能跑在最大吞吐量的同时保证系统整体的稳定性。
@@ -854,7 +845,6 @@ timewindow，以s为单位)之内，对这个方法的调用都会自动地熔�
 + **平均 RT**：当单台机器上所有入口流量的平均 RT 达到阈值即触发系统保护，单位是毫秒。
 + **并发线程数**：当单台机器上所有入口流量的并发线程数达到阈值即触发系统保护。
 + **入口 QPS**：当单台机器上所有入口流量的 QPS 达到阈值即触发系统保护。
-
 
 
 配置：
