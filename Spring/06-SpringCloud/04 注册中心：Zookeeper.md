@@ -167,9 +167,7 @@ zookeeper具体的学习可以参考zookeeper得章节
 
    ![](images/52.png)
 
-   ​
-
-   ![](images/53.png)  
+   ![](images/53.png)    
 
    ​
 
