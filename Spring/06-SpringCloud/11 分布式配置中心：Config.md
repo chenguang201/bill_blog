@@ -48,7 +48,7 @@ Config是什么？SpringCloud Config为微服务架构中的微服务提供集�
 3. 本地硬盘目录上新建git仓库并clone：`git clone git@github.com:zzyybs/springcloud-config.git` 
 
 4. 此时在本地D盘符下`D:\44\SpringCloud2020\springcloud-config`  
-  ![](images/166.png)  
+  ![](images/166.png)    
 
   表示多个环境的配置文件，保存格式必须为UTF-8
 
@@ -354,6 +354,7 @@ Config是什么？SpringCloud Config为微服务架构中的微服务提供集�
    import org.springframework.boot.SpringApplication;
    import org.springframework.boot.autoconfigure.SpringBootApplication;
    import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
+   ```
 
 
    @EnableEurekaClient
