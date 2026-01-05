@@ -21,7 +21,6 @@ zookeeper具体的学习可以参考zookeeper得章节
 
     2. 填写Module名称
 
-
        ![](images/51.png)
 
     3. 点击完成
@@ -46,8 +45,6 @@ zookeeper具体的学习可以参考zookeeper得章节
             <maven.compiler.source>8</maven.compiler.source>
             <maven.compiler.target>8</maven.compiler.target>
         </properties>
-    ```
-
 
         <dependencies>
             <!-- SpringBoot整合Web组件 -->
@@ -119,9 +116,7 @@ zookeeper具体的学习可以参考zookeeper得章节
 
    ```java
    package com.atguigu.springcloud;
-   ```
-
-
+ 
    import org.springframework.boot.SpringApplication;
    import org.springframework.boot.autoconfigure.SpringBootApplication;
    import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
