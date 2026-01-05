@@ -780,9 +780,7 @@ public class OrderHystirxController
 
    ```java
    package com.atguigu.springcloud.service;
-   ```
-
-
+ 
    import org.springframework.stereotype.Component;
 
    @Component
@@ -815,9 +813,6 @@ public class OrderHystirxController
 3. PaymentHystrixService接口中
 
    ```java
-
-   ```
-
 
    package com.atguigu.springcloud.service;
 
