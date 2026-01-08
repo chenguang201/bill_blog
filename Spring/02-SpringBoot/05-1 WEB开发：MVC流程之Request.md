@@ -371,14 +371,13 @@ public String deleteUser(){
 ```
 
 Rest原理（表单提交要使用REST的时候） 
-
-    - 表单提交会带上`_method=PUT`
-    - **请求过来被**`HiddenHttpMethodFilter`拦截 
-        * 请求是否正常，并且是POST 
-            + 获取到`\_method`的值。
-            + 兼容以下请求；`**PUT**``**DELETE**``**PATCH**`
-            + **原生request（post），包装模式requesWrapper重写了getMethod方法，返回的是传入的值。**
-            + **过滤器链放行的时候用wrapper。以后的方法调用getMethod是调用requesWrapper的。**
+- 表单提交会带上`_method=PUT`
+- 请求过来被`HiddenHttpMethodFilter`拦截 
+    * 请求是否正常，并且是POST 
+        + 获取到`\_method`的值。
+        + 兼容以下请求；`PUT` `DELETE` `PATCH`
+        + 原生request（post），包装模式requesWrapper重写了getMethod方法，返回的是传入的值。
+        + 过滤器链放行的时候用wrapper。以后的方法调用getMethod是调用requesWrapper的。
 
 ```java
 public class HiddenHttpMethodFilter extends OncePerRequestFilter {
@@ -421,7 +420,6 @@ public class HiddenHttpMethodFilter extends OncePerRequestFilter {
 		filterChain.doFilter(requestToUse, response);
 	}
 
-
 	/**
 	 * Simple {@link HttpServletRequest} wrapper that returns the supplied method for
 	 * {@link HttpServletRequest#getMethod()}.
@@ -444,9 +442,8 @@ public class HiddenHttpMethodFilter extends OncePerRequestFilter {
 }
 ```
 
-Rest使用客户端工具。 
+Rest使用客户端工具：如PostMan可直接发送put、delete等方式请求。
 
-    - 如PostMan可直接发送put、delete等方式请求。
 
 **怎么改变默认的_method**
 
@@ -488,7 +485,7 @@ public class WebConfig{
 }
 ```
 
-将`_method`改成`_m`。
+将 `_method` 改成 `_m` 。
 
 ```html
 <form action="/user" method="post">
@@ -644,7 +641,7 @@ public class ParameterTestController {
 }
 ```
 
-**2）**`**@RequestAttribute**`**用例：**
+**2）**`@RequestAttribute` **用例：**  
 
 ```java
 @Controller
@@ -696,7 +693,7 @@ public class RequestController {
 }
 ```
 
-**3）**`**@MatrixVariable**`**与**`**UrlPathHelper**`
+**3）**`@MatrixVariable`与`UrlPathHelper`
 
 1.  语法： 请求路径：`/cars/sell;low=34;brand=byd,audi,yd` 
 2.  SpringBoot默认是禁用了矩阵变量的功能 
@@ -709,41 +706,42 @@ public class RequestController {
 
 + 方式一：实现`WebMvcConfigurer`接口：
 
-```java
-@Configuration(proxyBeanMethods = false)
-public class WebConfig implements WebMvcConfigurer {
-    @Override
-    public void configurePathMatch(PathMatchConfigurer configurer) {
+  ```java
+  @Configuration(proxyBeanMethods = false)
+  public class WebConfig implements WebMvcConfigurer {
+      @Override
+      public void configurePathMatch(PathMatchConfigurer configurer) {
 
-        UrlPathHelper urlPathHelper = new UrlPathHelper();
-        // 不移除；后面的内容。矩阵变量功能就可以生效
-        urlPathHelper.setRemoveSemicolonContent(false);
-        configurer.setUrlPathHelper(urlPathHelper);
-    }
-}
-```
+          UrlPathHelper urlPathHelper = new UrlPathHelper();
+          // 不移除；后面的内容。矩阵变量功能就可以生效
+          urlPathHelper.setRemoveSemicolonContent(false);
+          configurer.setUrlPathHelper(urlPathHelper);
+      }
+  }
+  ```
+
 
 + 方式二：创建返回`WebMvcConfigurer`Bean：
 
-```java
-@Configuration(proxyBeanMethods = false)
-public class WebConfig{
-    @Bean
-    public WebMvcConfigurer webMvcConfigurer(){
-        return new WebMvcConfigurer() {
-                        @Override
-            public void configurePathMatch(PathMatchConfigurer configurer) {
-                UrlPathHelper urlPathHelper = new UrlPathHelper();
-                // 不移除；后面的内容。矩阵变量功能就可以生效
-                urlPathHelper.setRemoveSemicolonContent(false);
-                configurer.setUrlPathHelper(urlPathHelper);
-            }
-        }
-    }
-}
-```
+  ```java
+  @Configuration(proxyBeanMethods = false)
+  public class WebConfig{
+      @Bean
+      public WebMvcConfigurer webMvcConfigurer(){
+          return new WebMvcConfigurer() {
+                          @Override
+              public void configurePathMatch(PathMatchConfigurer configurer) {
+                  UrlPathHelper urlPathHelper = new UrlPathHelper();
+                  // 不移除；后面的内容。矩阵变量功能就可以生效
+                  urlPathHelper.setRemoveSemicolonContent(false);
+                  configurer.setUrlPathHelper(urlPathHelper);
+              }
+          }
+      }
+  }
+  ```
 
-`**@MatrixVariable**`**的用例**
+@MatrixVariable 的用例
 
 ```java
 @RestController
@@ -1435,7 +1433,7 @@ public Map success(@RequestAttribute(value = "msg",required = false) String msg,
 
 接下来我们看看，`Map<String,Object> map`与`Model model`用什么参数处理器。
 
-**1）**`**Map<String,Object> map**`**参数用**`**MapMethodProcessor**`**处理：**
+**1）**`Map<String,Object> map`参数用`MapMethodProcessor` 处理：
 
 ```java
 public class MapMethodProcessor implements HandlerMethodArgumentResolver, HandlerMethodReturnValueHandler {
@@ -1494,7 +1492,7 @@ public class ModelAndViewContainer {
 }
 ```
 
-**2）**`**Model model**`**用**`**ModelMethodProcessor**`**处理：**
+**2）**`Model model`用`ModelMethodProcessor`处理：
 
 ```java
 public class ModelMethodProcessor implements HandlerMethodArgumentResolver, HandlerMethodReturnValueHandler {
@@ -1926,7 +1924,7 @@ public void afterPropertiesSet() {
 至此，这个组合模式可以理解为完成。
 
 ### 3.8.2 适配器模式
-稍后研究//TODO<font style="background:#F8CED3;color:#70000D">待办
+稍后研究
 
 ## 3.9 总结
 本节描述，一个请求发送到DispatcherServlet后的具体处理流程，也就是SpringMVC的主要原理。
