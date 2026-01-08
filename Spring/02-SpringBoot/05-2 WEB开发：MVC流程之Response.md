@@ -1641,7 +1641,7 @@ View是一个接口，然后有一个抽象方法render。接下来我们可以�
 **视图解析：**
 
 + **返回值以**`forward:` 开始：`new InternalResourceView(forwardUrl); -->  转发request.getRequestDispatcher(path).forward(request, response); `
-+ **返回值以 **`redirect:`开始： `new RedirectView() --> render` 就是重定向 
++ **返回值以**`redirect:`开始： `new RedirectView() --> render` 就是重定向 
 + **返回值是普通字符串：**`new ThymeleafView()`
 
 ## 5.2 模板引擎：thymeleaf
