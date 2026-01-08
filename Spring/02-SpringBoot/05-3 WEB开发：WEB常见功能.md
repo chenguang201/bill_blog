@@ -1,4 +1,4 @@
-**<font style="color:#DF2A3F;">笔记来源：</font>**[**<font style="color:#DF2A3F;">【尚硅谷】SpringBoot2零基础入门教程（spring boot2干货满满）</font>**](https://www.bilibili.com/video/BV19K4y1L7MT/?spm_id_from=333.337.search-card.all.click&vd_source=e8046ccbdc793e09a75eb61fe8e84a30)
+**笔记来源：**[**【尚硅谷】SpringBoot2零基础入门教程（spring boot2干货满满）**](https://www.bilibili.com/video/BV19K4y1L7MT/?spm_id_from=333.337.search-card.all.click&vd_source=e8046ccbdc793e09a75eb61fe8e84a30)
 
 # 1 拦截器
 ## 1.1 登录检查与静态资源放行
@@ -8,7 +8,7 @@
 
 1. 编写一个拦截器实现`HandlerInterceptor`接口 
 2. 拦截器注册到容器中（实现`WebMvcConfigurer`的`addInterceptors()`） 
-3. 指定拦截规则【<font style="color:red;">注意</font>，如果是拦截所有，静态资源也会被拦截】 
+3. 指定拦截规则【注意，如果是拦截所有，静态资源也会被拦截】 
 
 
 
@@ -83,32 +83,33 @@ public class AdminWebConfig implements WebMvcConfigurer{
 ## 1.2 拦截器的执行时机和原理
 1. 根据当前请求，找到`HandlerExecutionChain`（可以处理请求的handler以及handler的所有拦截器）
 
-![](images/147.png)
+   ![](images/147.png)
 
 2. 先来顺序执行所有拦截器的 `preHandle()`方法。 
 
-![](images/148.png)
+   ![](images/148.png)
 
-    - 如果当前拦截器`preHandle()`返回为`true`。则执行下一个拦截器的`preHandle()`
-    - 如果当前拦截器返回为`false`。直接倒序执行所有已经执行了的拦截器的`afterCompletion();`。
+   如果当前拦截器`preHandle()`返回为`true`。则执行下一个拦截器的`preHandle()`
 
-![](images/149.png)
+   如果当前拦截器返回为`false`。直接倒序执行所有已经执行了的拦截器的`afterCompletion();`。
+
+   ![](images/149.png)
 
 3. 如果任何一个拦截器返回`false`，直接跳出不执行目标方法。
 4. 所有拦截器都返回`true`，才执行目标方法。
 5. 倒序执行所有拦截器的`postHandle()`方法。
 
-![](images/150.png)
+   ![](images/150.png)
 
-![](images/151.png)
+   ![](images/151.png)
 
 6. 前面的步骤有任何异常都会直接倒序触发 `afterCompletion()`。
 
-![](images/152.png)
+   ![](images/152.png)
 
 7. 页面成功渲染完成以后，也会倒序触发 `afterCompletion()`。
 
-![](images/153.png)
+   ![](images/153.png)
 
 
 
@@ -317,13 +318,10 @@ public class FormTestController {
             }
         }
 
-
         return "main";
     }
 }
 ```
-
-
 
 文件上传相关的配置类：
 
@@ -369,7 +367,7 @@ spring.servlet.multipart.max-request-size=100MB
 
 而此时`processedRequest`是我们重新创建的`StandardMultipartHttpServletRequest`，而原生的`request`是`requestFacade`，所以两者并不相等，因此`multipartRequestParsed`由默认的false改为true。
 
-此时就开始进入正常的`getHandler``getHandlerAdapter``handle`等方法的调用。
+此时就开始进入正常的`getHandler` `getHandlerAdapter` `handle`等方法的调用。
 
 我们重点关注一下，在调用handle方法里面的一些上传参数的即可，其他流程均与普通的请求流程一样。
 
@@ -843,202 +841,186 @@ public final class MultipartResolutionDelegate {
 +  机器客户端，它将生成JSON响应，其中包含错误，HTTP状态和异常消息的详细信息。对于浏览器客户端，响应一个`whitelabel`错误视图，以HTML格式呈现相同的数据 
     - postman下：
 
-```json
-{
-  "timestamp": "2020-11-22T05:53:28.416+00:00",
-  "status": 404,
-  "error": "Not Found",
-  "message": "No message available",
-  "path": "/asadada"
-}
-```
+      ```json
+      {
+        "timestamp": "2020-11-22T05:53:28.416+00:00",
+        "status": 404,
+        "error": "Not Found",
+        "message": "No message available",
+        "path": "/asadada"
+      }
+      ```
 
     - 浏览器下：
 
-![](images/168.png)
+
+      ![](images/168.png)
 
 +  要对其进行自定义，添加`View`解析为`error` 
 +  要完全替换默认行为，可以实现 `ErrorController`并注册该类型的Bean定义，或添加`ErrorAttributes类型的组件`以使用现有机制但替换其内容。 
 +  `/templates/error/`下的4xx，5xx页面会被自动解析 
 
 
-
 ## 3.2 定制错误处理逻辑
 + 自定义错误页 
     - `error/404.html``error/5xx.html`有**精确的错误状态码页面就匹配精确，没有就找**`**4xx.html**`**；如果都没有就触发白页**
-+ `@ControllerAdvice`+`@ExceptionHandler`处理全局异常；底层是`**<font style="color:#DF2A3F;">ExceptionHandlerExceptionResolver</font>**` 支持的 
 
-```java
-@Slf4j
-@ControllerAdvice
-public class GlobalExceptionHandler {
++ `@ControllerAdvice`+`@ExceptionHandler`处理全局异常；底层是`**ExceptionHandlerExceptionResolver**` 支持的 
 
-    @ExceptionHandler({ArithmeticException.class,NullPointerException.class})  //处理异常
-    public String handleArithException(Exception e){
+    ```java
+    @Slf4j
+    @ControllerAdvice
+    public class GlobalExceptionHandler {
 
-        log.error("异常是：{}",e);
-        return "login"; //视图地址
-    }
-}
-```
+        @ExceptionHandler({ArithmeticException.class,NullPointerException.class})  //处理异常
+        public String handleArithException(Exception e){
 
-+ `@ResponseStatus`+自定义异常 ；底层是`**<font style="color:#DF2A3F;">ResponseStatusExceptionResolver</font>**`，把`responseStatus`注解的信息底层调用 `response.sendError(statusCode, resolvedReason)`，tomcat发送的`/error`
-
-```java
-@ResponseStatus(value= HttpStatus.FORBIDDEN,reason = "用户数量太多")
-public class UserTooManyException extends RuntimeException {
-
-    public  UserTooManyException(){
-
-    }
-    public  UserTooManyException(String message){
-        super(message);
-    }
-}
-```
-
-
-
-```java
-@Controller
-public class TableController {
-    
-	@GetMapping("/dynamic_table")
-    public String dynamic_table(@RequestParam(value="pn",defaultValue = "1") Integer pn,Model model){
-        //表格内容的遍历
-	     List<User> users = Arrays.asList(new User("zhangsan", "123456"),
-                new User("lisi", "123444"),
-                new User("haha", "aaaaa"),
-                new User("hehe ", "aaddd"));
-        model.addAttribute("users",users);
-
-        if(users.size()>3){
-            throw new UserTooManyException();//抛出自定义异常
+            log.error("异常是：{}",e);
+            return "login"; //视图地址
         }
-        return "table/dynamic_table";
     }
-    
-}
-```
+    ```
 
 
++ `@ResponseStatus`+自定义异常 ；底层是`ResponseStatusExceptionResolver`，把`responseStatus`注解的信息底层调用 `response.sendError(statusCode, resolvedReason)`，tomcat发送的`/error`
+
+  ```java
+  @ResponseStatus(value= HttpStatus.FORBIDDEN,reason = "用户数量太多")
+  public class UserTooManyException extends RuntimeException {
+
+      public  UserTooManyException(){
+
+      }
+      public  UserTooManyException(String message){
+          super(message);
+      }
+  }
+  ```
+
+  ```java
+  @Controller
+  public class TableController {
+      
+  	@GetMapping("/dynamic_table")
+      public String dynamic_table(@RequestParam(value="pn",defaultValue = "1") Integer pn,Model model){
+          //表格内容的遍历
+  	     List<User> users = Arrays.asList(new User("zhangsan", "123456"),
+                  new User("lisi", "123444"),
+                  new User("haha", "aaaaa"),
+                  new User("hehe ", "aaddd"));
+          model.addAttribute("users",users);
+
+          if(users.size()>3){
+              throw new UserTooManyException();//抛出自定义异常
+          }
+          return "table/dynamic_table";
+      }
+      
+  }
+  ```
 
 +  Spring自家异常如 `org.springframework.web.bind.MissingServletRequestParameterException`，最终是`DefaultHandlerExceptionResolver` 处理Spring自家异常。 
     - `response.sendError(HttpServletResponse.SC_BAD_REQUEST/*400*/, ex.getMessage());`
+
 +  自定义实现`HandlerExceptionResolver`处理异常；可以作为默认的全局异常处理规则 
 
-```java
-@Order(value= Ordered.HIGHEST_PRECEDENCE)  //优先级，数字越小优先级越高
-@Component
-public class CustomerHandlerExceptionResolver implements HandlerExceptionResolver {
-    @Override
-    public ModelAndView resolveException(HttpServletRequest request,
-                                         HttpServletResponse response,
-                                         Object handler, Exception ex) {
+    ```java
+    @Order(value= Ordered.HIGHEST_PRECEDENCE)  //优先级，数字越小优先级越高
+    @Component
+    public class CustomerHandlerExceptionResolver implements HandlerExceptionResolver {
+        @Override
+        public ModelAndView resolveException(HttpServletRequest request,
+                                             HttpServletResponse response,
+                                             Object handler, Exception ex) {
 
-        try {
-            response.sendError(511,"我喜欢的错误");
-        } catch (IOException e) {
-            e.printStackTrace();
+            try {
+                response.sendError(511,"我喜欢的错误");
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return new ModelAndView();
         }
-        return new ModelAndView();
     }
-}
-```
-
-
+    ```
 
 + `ErrorViewResolver`  实现自定义处理异常 
     - `response.sendError()`，error请求就会转给controller。
+
     - 你的异常没有任何人能处理，tomcat底层调用`response.sendError()`，error请求就会转给controller。
+
     - `basicErrorController`要去的页面地址是 `ErrorViewResolver`  。
 
-```java
-@Controller
-@RequestMapping("
+      ```java
+      @Controller
+      @RequestMapping("${server.error.path:${error.path:/error}}")
+      public class BasicErrorController extends AbstractErrorController {
 
-$$
+          ...
+          
+      	@RequestMapping(produces = MediaType.TEXT_HTML_VALUE)
+      	public ModelAndView errorHtml(HttpServletRequest request, HttpServletResponse response) {
+      		HttpStatus status = getStatus(request);
+      		Map<String, Object> model = Collections
+      				.unmodifiableMap(getErrorAttributes(request, getErrorAttributeOptions(request, MediaType.TEXT_HTML)));
+      		response.setStatus(status.value());
+      		ModelAndView modelAndView = resolveErrorView(request, response, status, model);
+      		return (modelAndView != null) ? modelAndView : new ModelAndView("error", model);
+      	}
+          
+          protected ModelAndView resolveErrorView(HttpServletRequest request, HttpServletResponse response, HttpStatus status,
+      			Map<String, Object> model) {
+              //这里用到ErrorViewResolver接口
+      		for (ErrorViewResolver resolver : this.errorViewResolvers) {
+      			ModelAndView modelAndView = resolver.resolveErrorView(request, status, model);
+      			if (modelAndView != null) {
+      				return modelAndView;
+      			}
+      		}
+      		return null;
+      	}
+          
+          ...
+          
+      }
+      ```
 
-$$
-
-{server.error.path:
-$$
-
-$$
-
-{error.path:/error}}")
-public class BasicErrorController extends AbstractErrorController {
-
-    ...
-    
-	@RequestMapping(produces = MediaType.TEXT_HTML_VALUE)
-	public ModelAndView errorHtml(HttpServletRequest request, HttpServletResponse response) {
-		HttpStatus status = getStatus(request);
-		Map<String, Object> model = Collections
-				.unmodifiableMap(getErrorAttributes(request, getErrorAttributeOptions(request, MediaType.TEXT_HTML)));
-		response.setStatus(status.value());
-		ModelAndView modelAndView = resolveErrorView(request, response, status, model);
-		return (modelAndView != null) ? modelAndView : new ModelAndView("error", model);
-	}
-    
-    protected ModelAndView resolveErrorView(HttpServletRequest request, HttpServletResponse response, HttpStatus status,
-			Map<String, Object> model) {
-        //这里用到ErrorViewResolver接口
-		for (ErrorViewResolver resolver : this.errorViewResolvers) {
-			ModelAndView modelAndView = resolver.resolveErrorView(request, status, model);
-			if (modelAndView != null) {
-				return modelAndView;
-			}
-		}
-		return null;
-	}
-    
-    ...
-    
-}
-```
-
-
-
-```java
-@FunctionalInterface
-public interface ErrorViewResolver {
-	ModelAndView resolveErrorView(HttpServletRequest request, HttpStatus status, Map<String, Object> model);
-}
-```
-
-
+      ```java
+      @FunctionalInterface
+      public interface ErrorViewResolver {
+      	ModelAndView resolveErrorView(HttpServletRequest request, HttpStatus status, Map<String, Object> model);
+      }
+      ```
 
 ## 3.3 异常处理自动配置原理
 `ErrorMvcAutoConfiguration` 自动配置异常处理规则
 
-    - **容器中的组件**：类型：`DefaultErrorAttributes` -> id：`errorAttributes`
-        * `public class DefaultErrorAttributes implements ErrorAttributes, HandlerExceptionResolver` 
-        * `DefaultErrorAttributes`：定义错误页面中可以包含数据（异常明细，堆栈信息等）。
-    - **容器中的组件**：类型：`BasicErrorController` --> id：`basicErrorController`（json+白页 适配响应）
-        * **处理默认 **`**/error**`** 路径的请求**，页面响应 `new ModelAndView("error", model);` 
-        * 容器中有组件 `View`->id是error；（响应默认错误页）
-        * 容器中放组件 `BeanNameViewResolver`（视图解析器）；按照返回的视图名作为组件的id去容器中找`View`对象。
-    - **容器中的组件**：类型：`DefaultErrorViewResolver` -> id：`conventionErrorViewResolver`
-        * **如果发生异常错误，会以HTTP的状态码 作为视图页地址（viewName），找到真正的页面**（主要作用）。 
-        * error/404、5xx.html
-        * 如果想要返回页面，就会找error视图（`StaticView`默认是一个白页）。
+- **容器中的组件**：类型：`DefaultErrorAttributes` -> id：`errorAttributes`
+    * `public class DefaultErrorAttributes implements ErrorAttributes, HandlerExceptionResolver` 
+    * `DefaultErrorAttributes`：定义错误页面中可以包含数据（异常明细，堆栈信息等）。
+- **容器中的组件**：类型：`BasicErrorController` --> id：`basicErrorController`（json+白页 适配响应）
+    * **处理默认 **`/error`路径的请求，页面响应 `new ModelAndView("error", model);` 
+    * 容器中有组件 `View`->id是error；（响应默认错误页）
+    * 容器中放组件 `BeanNameViewResolver`（视图解析器）；按照返回的视图名作为组件的id去容器中找`View`对象。
+- **容器中的组件**：类型：`DefaultErrorViewResolver` -> id：`conventionErrorViewResolver`
+    * **如果发生异常错误，会以HTTP的状态码 作为视图页地址（viewName），找到真正的页面**（主要作用）。 
+    * error/404、5xx.html
+    * 如果想要返回页面，就会找error视图（`StaticView`默认是一个白页）。
 
 
 
 ## 3.4 异常处理流程
 1. 执行目标方法，目标方法运行期间有任何异常都会被catch，而且标志当前请求结束；并且用赋值给**dispatchException **
-2. 进入视图解析流程（页面渲染） `processDispatchResult(processedRequest, response, mappedHandler, **mv**, **<font style="color:#F5222D;">dispatchException</font>**);`
-3. **调用**`**mv **= **processHandlerException()**`；处理`handler`发生的异常，处理完成返回`ModelAndView`；
-    1. 遍历所有的`**handlerExceptionResolvers**`**，看谁能处理当前异常【****<font style="color:#F5222D;">HandlerExceptionResolver处理器异常解析器</font>****】**
+2. 进入视图解析流程（页面渲染） `processDispatchResult(processedRequest, response, mappedHandler, mv, dispatchException);`
+3. **调用**`mv = processHandlerException()`；处理`handler`发生的异常，处理完成返回`ModelAndView`；
+    1. 遍历所有的`handlerExceptionResolvers`，看谁能处理当前异常【HandlerExceptionResolver处理器异常解析器】
     2. **系统默认的  异常解析器；**
-        1. `**DefaultErrorAttributes**`**先来处理异常。把异常信息保存到request域，并且返回null；**
-        2. `HandlerExceptionResolverComposite`调用它下面的三个异常处理器来处理，发现均不能处理，返回都都是null，所以结合上面`**DefaultErrorAttributes**`**处理器，最终返回的mav是null；**
+        1. `DefaultErrorAttributes`**先来处理异常。把异常信息保存到request域，并且返回null；**
+        2. `HandlerExceptionResolverComposite`调用它下面的三个异常处理器来处理，发现均不能处理，返回都都是null，所以结合上面`DefaultErrorAttributes`**处理器，最终返回的mav是null；**
     3. **默认没有任何人能处理异常，所以异常会被抛出**
-        1. **<font style="color:#DF2A3F;">如果没有任何人能处理最终底层就会发送</font>**`**<font style="color:#DF2A3F;">/error</font>**`**<font style="color:#DF2A3F;">请求。会被底层的</font>**`**<font style="color:#DF2A3F;">BasicErrorController</font>**`**<font style="color:#DF2A3F;">处理</font>**
-        2. **解析错误视图；遍历所有的**`**ErrorViewResolver**`**看谁能解析。**
-        3. **默认的**`**DefaultErrorViewResolver**`**,作用是把响应状态码作为错误页的地址，**`**error/500.html**`
-        4. **模板引擎最终响应这个页面**`**error/500.html**`
+        1. **如果没有任何人能处理最终底层就会发送**`/error`**请求。会被底层的**`BasicErrorController`**处理**
+        2. **解析错误视图；遍历所有的**`ErrorViewResolver`**看谁能解析。**
+        3. **默认的**`DefaultErrorViewResolver`**,作用是把响应状态码作为错误页的地址，**`error/500.html`
+        4. **模板引擎最终响应这个页面**`error/500.html`
 
 
 
@@ -1070,7 +1052,7 @@ public class HelloController {
 
 ![](images/171.png)
 
-进入到`processHandlerException`里面去，遍历所有的 **handlerExceptionResolvers，看谁能处理当前异常【****<font style="color:#F5222D;">HandlerExceptionResolver处理器异常解析器</font>****】**
+进入到`processHandlerException`里面去，遍历所有的 handlerExceptionResolvers，看谁能处理当前异常【HandlerExceptionResolver处理器异常解析器】
 
 ```java
 public interface HandlerExceptionResolver {
@@ -1099,11 +1081,11 @@ DefaultErrorAttributes先来处理异常。把异常信息保存到request域，
 
 ![](images/176.png)
 
-**<font style="color:#DF2A3F;">如果没有任何人能处理最终底层就会发送 /error 请求。会被底层的BasicErrorController处理</font>**
+**如果没有任何人能处理最终底层就会发送 /error 请求。会被底层的BasicErrorController处理**
 
 ![](images/177.png)
 
-而此次的调用handle方法里面，走到里面的`doInvoke`方法，则会进入**<font style="color:#DF2A3F;">BasicErrorController的errorHtml方法里面去</font>**
+而此次的调用handle方法里面，走到里面的`doInvoke`方法，则会进入**BasicErrorController的errorHtml方法里面去**
 
 ![](images/178.png)
 
@@ -1235,18 +1217,7 @@ public class DefaultErrorAttributes implements ErrorAttributes, HandlerException
 
 ```java
 @Controller
-@RequestMapping("
-
-$$
-
-$$
-
-{server.error.path:
-$$
-
-$$
-
-{error.path:/error}}")
+@RequestMapping("${server.error.path:${error.path:/error}}")
 public class BasicErrorController extends AbstractErrorController {
 
     @RequestMapping(produces = MediaType.TEXT_HTML_VALUE)
@@ -1559,23 +1530,21 @@ public class MyRegistConfig {
 
 1. 先创建一个Servlet
 
-![](images/184.png)
+   ![](images/184.png)
 
-属性绑定到 WebMvcProperties；对应的配置文件配置项是 **spring.mvc**
+   属性绑定到 WebMvcProperties；对应的配置文件配置项是 **spring.mvc**
 
-![](images/185.png)
+   ![](images/185.png)
 
-****
-
-![](images/186.png)
+​	![](images/186.png)
 
 2. **通过ServletRegistrationBean**<DispatcherServlet> 把 DispatcherServlet  配置进来
 
-![](images/187.png)
+   ![](images/187.png)
 
-![](images/188.png)
+   ![](images/188.png)
 
-![](images/189.png)
+   ![](images/189.png)
 
 具体的代码如下：
 
@@ -1745,7 +1714,7 @@ public class AdminWebConfig implements WebMvcConfigurer{
 }
 ```
 
-+ `@EnableWebMvc` + `WebMvcConfigurer` — `@Bean`  可以全面接管SpringMVC，**所有规则全部自己重新配置； 实现定制和扩展功能**（**<font style="color:#DF2A3F;">高级功能，初学者退避三舍</font>**），**<font style="color:#DF2A3F;">慎用</font>**。 
++ `@EnableWebMvc` + `WebMvcConfigurer` — `@Bean`  可以全面接管SpringMVC，**所有规则全部自己重新配置； 实现定制和扩展功能**（**高级功能，初学者退避三舍**），**慎用**。 
     - 原理： 
         1. `WebMvcAutoConfiguration`默认的SpringMVC的自动配置功能类，如静态资源、欢迎页等。
         2. 一旦使用`@EnableWebMvc`，会`@Import(DelegatingWebMvcConfiguration.class)`。
