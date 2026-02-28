@@ -1,6 +1,4 @@
-**<font style="color:#DF2A3F;">笔记来源：</font>**[**<font style="color:#DF2A3F;">黑马程序员 MySQL数据库入门到精通，从mysql安装到mysql高级、mysql优化全囊括</font>**](https://www.bilibili.com/video/BV1Kr4y1i7ru/?spm_id_from=333.337.search-card.all.click&vd_source=e8046ccbdc793e09a75eb61fe8e84a30)
-
-
+**笔记来源：**[**黑马程序员 MySQL数据库入门到精通，从mysql安装到mysql高级、mysql优化全囊括**](https://www.bilibili.com/video/BV1Kr4y1i7ru/?spm_id_from=333.337.search-card.all.click&vd_source=e8046ccbdc793e09a75eb61fe8e84a30)
 
 DML英文全称是Data Manipulation Language(数据操作语言)，用来对数据库中表的数据记录进行增、删、改操作。
 
@@ -25,15 +23,11 @@ insert into employee(id,workno,name,gender,age,idcard,entrydate)
 values(1,'1','Itcast','男',10,'123456789012345678','2000-01-01');
 ```
 
-
-
 插入数据完成之后，可以直接一条查询数据的SQL语句, 语句如下:
 
 ```plsql
 select * from employee;
 ```
-
-
 
 案例:
 
@@ -47,8 +41,8 @@ values(1,'1','Itcast','男',-1,'123456789012345678','2000-01-01');
 ![](images/17.png)  
 因为 employee 表的age字段类型为 tinyint，而且还是无符号的 unsigned ，所以取值只能在0-255 之间。
 
-  
- **② 给全部字段添加数据**
+
+**② 给全部字段添加数据**
 
 ```sql
 INSERT INTO 表名 VALUES (值1, 值2, ...);
@@ -64,20 +58,21 @@ insert into employee values(2,'2','张无忌','男',18,'123456789012345670','200
 
 
 **③ 批量添加数据**  
+
 部分字段：
 
 ```sql
 INSERT INTO 表名 (字段名1, 字段名2, ...) VALUES (值1, 值2, ...), (值1, 值2, ...), (值 1, 值2, ...) ;
 ```
 
-  
+
 全部字段：
 
 ```sql
 INSERT INTO 表名 VALUES (值1, 值2, ...), (值1, 值2, ...), (值1, 值2, ...) ;
 ```
 
-  
+
 案例：
 
 ```sql
