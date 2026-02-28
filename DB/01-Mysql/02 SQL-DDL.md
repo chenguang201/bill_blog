@@ -70,7 +70,7 @@ create database if not extists itcast;
 
 ![](images/9.png)
 
-**案例二：**创建一个itheima数据库，并且指定字符集
+**案例二：** 创建一个itheima数据库，并且指定字符集
 
 ```plsql
 create database itheima default charset utf8mb4;
